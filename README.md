@@ -124,13 +124,13 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
     ```
 
 ## Link to Swagger Documentation
-[Swagger Documentation](http://localhost:8080/swagger-ui)
+[Swagger Documentation](http://localhost:8080/swagger-ui/index.html)
 
 ## Link to the Hosted Project
 [Hosted Project](Not applicable yet) (if applicable)
 
 ## Database Relations
-![Database Relations](images/database-relations.png)
+![Database Relations](forum-application/images/database-relations.png)
 
 ## Contributors
 - [Alexander Slavchev](https://github.com/AlexanderSlavchev)
