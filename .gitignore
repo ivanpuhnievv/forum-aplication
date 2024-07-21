@@ -11,3 +11,6 @@ forum-application/.gradle/8.8/checksums/checksums.lock
 forum-application/.DS_Store
 .idea/vcs.xml
 .DS_Store
+forum-application/.gradle/8.8/executionHistory/executionHistory.bin
+forum-application/build/tmp/compileJava/compileTransaction/stash-dir/SecurityConfig.class.uniqueId0
+forum-application/build/tmp/compileJava/compileTransaction/stash-dir/SwaggerConfig.class.uniqueId1
