@@ -103,8 +103,8 @@ Design and implement a Forum System, where users can create posts, add comments,
 #### Example `application.properties`
 ```properties
 spring.datasource.url=jdbc:mariadb://forumsystem.cpy86y2sqlgo.eu-north-1.rds.amazonaws.com:3306/ForumSystem
-spring.datasource.username=admin
-spring.datasource.password=123456789
+spring.datasource.username=guest
+spring.datasource.password=1234
 
 # Other JPA/Hibernate settings if necessary
 spring.jpa.hibernate.ddl-auto=update
