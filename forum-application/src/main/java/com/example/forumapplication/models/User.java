@@ -30,5 +30,8 @@ public class User {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private Role role_id;
+    private Role role;
+
+
+
 }
