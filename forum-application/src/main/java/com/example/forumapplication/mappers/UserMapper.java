@@ -24,7 +24,7 @@ public class UserMapper {
         }
         User user = fromDto(dto);
         user.setUsername(repositoryUser.getUsername());
-        user.setRole(repositoryUser.getRole());
+        user.setRole_id(repositoryUser.getRole_id());
         user.setId(id);
         return user;
     }
