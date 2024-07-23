@@ -53,7 +53,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void update(Post post) {
+    public void update(Post post, User user) {
+        checkModifyPermissions(post.getId(), user);
         repository.update(post);
     }
 
@@ -69,4 +70,6 @@ public class PostServiceImpl implements PostService {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }
     }
+
+
 }
