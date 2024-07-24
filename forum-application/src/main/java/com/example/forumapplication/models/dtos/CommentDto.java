@@ -13,7 +13,5 @@ import org.springframework.security.core.userdetails.User;
 public class CommentDto {
     @NotEmpty(message = "Content cannot be empty!")
     private String content;
-    @NotNull
-    @Valid
     private User createdBy;
 }

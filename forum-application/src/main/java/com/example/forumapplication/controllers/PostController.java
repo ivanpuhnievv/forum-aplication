@@ -12,6 +12,7 @@ import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.models.dtos.PostDto;
 import com.example.forumapplication.services.contracts.PostService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@Tag(name = "Posts", description = "Operations for managing posts and add comments to posts")
 public class PostController {
 
     private final PostService postService;

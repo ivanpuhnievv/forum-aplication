@@ -1,5 +1,6 @@
 package com.example.forumapplication.models.dtos;
 
+import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.Set;
 //import org.springframework.security.core.userdetails.User;
 
 @Getter
@@ -24,5 +28,7 @@ public class PostDto {
     @NotEmpty(message = "Content cannot be empty!")
     @Size(min = 32, max = 8192 , message = "Content must be between 32 and 8192 characters long!")
     private String content;
+
+    private Set<Comment> comments;
 
 }
