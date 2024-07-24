@@ -2,8 +2,10 @@ package com.example.forumapplication.controllers;
 
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
+import com.example.forumapplication.exceptions.UnauthorizedException;
 import com.example.forumapplication.filters.enums.UserSortField;
 import com.example.forumapplication.mappers.UserMapper;
+import com.example.forumapplication.models.Role;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
 import com.example.forumapplication.models.dtos.UserFiltersDto;
@@ -17,6 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,7 +64,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     @Operation(summary = "Create user", description = "Create user")
     public User create(@Valid @RequestBody UserDto userDto, String username) {
         try {
@@ -67,6 +73,25 @@ public class UserController {
             return user;
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/admin/register")
+    @Operation(summary = "Create user with a Role", description = "Only Admin user can create user with a Role")
+    public User createAdmin(@Valid @RequestBody UserDto userDto, String username, @RequestParam String role) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth == null || !auth.isAuthenticated() || !auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
+            }
+            String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
+            User user = mapper.fromDto(userDto, username);
+            userService.createUserWithRole(user, role);
+            return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -86,7 +111,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete user", description = "Delete user")
-    public void delete(@PathVariable int id, String username) {
+    public void delete(@PathVariable int id) {
         try {
             User user = userService.findUserById(id);
             userService.deleteUser(id);
