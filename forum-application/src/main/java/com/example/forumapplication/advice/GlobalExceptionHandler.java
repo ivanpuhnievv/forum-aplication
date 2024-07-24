@@ -3,6 +3,7 @@ package com.example.forumapplication.advice;
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
+import com.example.forumapplication.exceptions.UnauthorizedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,6 +40,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public Map<String, String> handleException(EntityNotFoundException exception) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error message ", exception.getMessage());
+        return errorMap;
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public Map<String, String> handleException(UnauthorizedException exception) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("error message ", exception.getMessage());
         return errorMap;

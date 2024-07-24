@@ -79,7 +79,7 @@ public class PostServiceImpl implements PostService {
 
     private void checkDeletePermissions(int postId, User user) {
         Post post = repository.getById(postId);
-        if (!(user.getRole_id().getRole().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
+        if (!(user.getRole_id().getName().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }
     }

@@ -2,11 +2,17 @@ package com.example.forumapplication.services;
 
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
+import com.example.forumapplication.exceptions.UnauthorizedException;
+import com.example.forumapplication.models.Role;
 import com.example.forumapplication.models.User;
+import com.example.forumapplication.repositories.RoleRepository;
 import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,6 +25,12 @@ import static com.example.forumapplication.filters.specifications.UserSpecificat
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -60,11 +72,37 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    public boolean authenticateUser(String rawPassword, String storedHashedPassword) {
+        return passwordEncoder.matches(rawPassword, storedHashedPassword);
+    }
+
     @Override
     public User createUser(User user) {
         checkNameUnique(user);
         checkEmailUnique(user);
+        Role role = roleRepository.findByName("USER");
+        String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+        user.setRole_id(role);
         return userRepository.save(user);
+    }
+
+    @Override
+    public void createUserWithRole(User user, String roleString) {
+        Role role = roleRepository.findByName(roleString);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(auth.getName());
+
+        if (currentUser.getRole_id().getName().equals("ADMIN")) {
+            String rawPassword = user.getPassword();
+            String encodedPassword = passwordEncoder.encode(rawPassword);
+            user.setPassword(encodedPassword);
+            user.setRole_id(role);
+            userRepository.save(user);
+        } else {
+            throw new UnauthorizedException("Only admins can register users with specific roles.");
+        }
     }
 
     @Override
@@ -78,10 +116,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(auth.getName());
         User userToDelete = findUserById(id);
         if (userToDelete == null) {
             throw new EntityNotFoundException("User", id);
         }
+        if (currentUser.getId() != userToDelete.getId() && !currentUser.getRole_id().getName().equals("ADMIN")) {
+            throw new UnauthorizedException("You are not authorized to delete this user.");
+        }
+
         userRepository.delete(userToDelete);
     }
 
