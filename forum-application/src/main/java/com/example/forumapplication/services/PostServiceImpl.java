@@ -10,6 +10,8 @@ import com.example.forumapplication.repositories.PostRepository;
 import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,32 +21,32 @@ public class PostServiceImpl implements PostService {
 
     private static final String MODIFY_POST_ERROR_MESSAGE = "Only admin or post creator can modify a post.";
 
-    private final PostRepository repository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
 
     @Autowired
-    public PostServiceImpl(PostRepository repository, UserRepository userRepository, CommentRepository commentRepository) {
-        this.repository = repository;
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository) {
+        this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
     }
 
     @Override
     public List<Post> get() {
-        return repository.findAll();
+        return postRepository.findAll();
     }
 
     @Override
     public Post getById(int id) {
-        return repository.findById(id)
+        return postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post", id));
     }
 
     @Override
     public Post getByTitle(String title) {
-        return repository.findByTitle(title)
+        return postRepository.findByTitle(title)
                 .orElseThrow(() -> new EntityNotFoundException("Post", 0));
     }
 
@@ -52,27 +54,29 @@ public class PostServiceImpl implements PostService {
     public void create(Post post, User user) {
         checkCreatePermissions(user);
         post.setCreatedBy(user);
-        repository.save(post);
+        postRepository.save(post);
     }
 
     @Override
     public void update(Post post, User user) {
         checkModifyPermissions(post.getId(), user);
-        repository.save(post);
+        postRepository.save(post);
     }
 
     @Override
     public void delete(int id, User user) {
         checkDeletePermissions(id, user);
-        repository.deleteById(id);
+        postRepository.deleteById(id);
     }
 
     @Override
-    public void addComment(int postId, int commentId) {
-        Post post = repository.getById(postId);
-        Comment comment = commentRepository.getById(commentId);
+    public Post addComment(int postId, Comment comment) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(auth.getName());
+        Post post = postRepository.getById(postId);
+        comment.setCreatedBy(user);
         post.getComments().add(comment);
-        repository.save(post);
+        return postRepository.save(post);
     }
 
 
@@ -84,14 +88,14 @@ public class PostServiceImpl implements PostService {
     }
 
     private void checkModifyPermissions(int postId, User user) {
-        Post post = repository.getById(postId);
+        Post post = postRepository.getById(postId);
         if (!(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }
     }
 
     private void checkDeletePermissions(int postId, User user) {
-        Post post = repository.getById(postId);
+        Post post = postRepository.getById(postId);
         if (!(user.getRole_id().getName().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }

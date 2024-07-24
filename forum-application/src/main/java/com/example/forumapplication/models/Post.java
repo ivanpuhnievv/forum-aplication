@@ -21,7 +21,7 @@ public class Post {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "createdBy_id")
+    @JoinColumn(name = "created_by_id")
     private User createdBy;
 
     @JsonProperty("createdBy")

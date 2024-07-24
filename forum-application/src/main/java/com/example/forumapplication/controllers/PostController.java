@@ -4,9 +4,12 @@ import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.helpers.AuthenticationHelper;
+import com.example.forumapplication.mappers.CommentMapper;
 import com.example.forumapplication.mappers.PostMapper;
+import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
+import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.models.dtos.PostDto;
 import com.example.forumapplication.services.contracts.PostService;
 import jakarta.validation.Valid;
@@ -25,12 +28,14 @@ public class PostController {
     private final PostService postService;
     private final AuthenticationHelper authenticationHelper;
     private final PostMapper mapper;
+    private final CommentMapper commentMapper;
 
     @Autowired
-    public PostController(PostService postService,PostMapper mapper,AuthenticationHelper authenticationHelper) {
+    public PostController(PostService postService, PostMapper mapper, AuthenticationHelper authenticationHelper, CommentMapper commentMapper) {
         this.postService = postService;
         this.mapper = mapper;
         this.authenticationHelper = authenticationHelper;
+        this.commentMapper = commentMapper;
     }
 
     // Get all posts
@@ -103,6 +108,15 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+    @PostMapping("/{id}/comments")
+    public Post createComment(@PathVariable int id,@Valid @RequestBody CommentDto commentDto) {
+        try {
+            Comment comment = commentMapper.fromDto(commentDto);
+            return postService.addComment(id,comment);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 }

@@ -52,13 +52,6 @@ public class CommentController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-    @PostMapping("/{id}")
-    public Comment createComment(@PathVariable int id, @RequestBody Comment newComment) {
-        try {
-            return commentService.addComment(id,newComment);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
+
 
 }

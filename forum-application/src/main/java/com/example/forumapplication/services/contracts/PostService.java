@@ -1,5 +1,6 @@
 package com.example.forumapplication.services.contracts;
 
+import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 
@@ -19,5 +20,5 @@ public interface PostService {
 
     void delete(int id, User user);
 
-    void addComment(int postId, int commentId);
+    Post addComment(int postId, Comment comment);
 }

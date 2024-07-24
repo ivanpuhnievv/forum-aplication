@@ -37,13 +37,13 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    public Comment addComment(int postId,Comment comment) {
-        Post post = postRepository.getById(postId);
-        Comment newComment = comment;
-
-
-        return newComment;
-    }
+//    public Comment addComment(int postId,Comment comment) {
+//        Post post = postRepository.getById(postId);
+//        Comment newComment = comment;
+//
+//
+//        return newComment;
+//    }
 
     // Update an existing comment
     public Comment updateComment(int commentId, Comment updatedComment) {

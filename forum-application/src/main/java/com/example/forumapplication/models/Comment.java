@@ -19,7 +19,7 @@ public class Comment {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "createdBy_id")
+    @JoinColumn(name = "created_by_id")
     private User createdBy;
 
     @ManyToOne
