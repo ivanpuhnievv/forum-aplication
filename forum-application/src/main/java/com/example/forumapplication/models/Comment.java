@@ -13,15 +13,17 @@ import java.util.List;
 @Setter
 @Table(name = "comments")
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String content;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "createdBy_id")
     private User createdBy;
+
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     @JsonIgnore
