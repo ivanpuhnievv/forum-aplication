@@ -5,6 +5,7 @@ import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.repositories.PostRepository;
+import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ public class PostServiceImpl implements PostService {
     private static final String MODIFY_POST_ERROR_MESSAGE = "Only admin or post creator can modify a post.";
 
     private final PostRepository repository;
+    private final UserRepository userRepository;
+
 
     @Autowired
-    public PostServiceImpl(PostRepository repository) {
+    public PostServiceImpl(PostRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -30,41 +34,49 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getById(int id) {
-        Post post = repository.getById(id);
-        if (post == null) {
-            throw new EntityNotFoundException("Post", id);
-        }
-        return post;
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post", id));
     }
 
     @Override
     public Post getByTitle(String title) {
-        Post post = repository.getByTitle(title);
-        if (post == null) {
-            throw new EntityNotFoundException("Post", post.getId());
-        }
-        return post;
+        return repository.findByTitle(title)
+                .orElseThrow(() -> new EntityNotFoundException("Post", 0));
     }
 
     @Override
     public void create(Post post, User user) {
+        checkCreatePermissions(user);
         post.setCreatedBy(user);
-        repository.create(post);
+        repository.save(post);
     }
 
     @Override
     public void update(Post post, User user) {
         checkModifyPermissions(post.getId(), user);
-        repository.update(post);
+        repository.save(post);
     }
 
     @Override
     public void delete(int id, User user) {
-        checkModifyPermissions(id, user);
-        repository.delete(id);
+        checkDeletePermissions(id, user);
+        repository.deleteById(id);
+    }
+
+    private void checkCreatePermissions(User user) {
+        if ((user == null) || !(userRepository.existsById(user.getId()))) {
+            throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
+        }
     }
 
     private void checkModifyPermissions(int postId, User user) {
+        Post post = repository.getById(postId);
+        if (!(post.getCreatedBy().equals(user))) {
+            throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
+        }
+    }
+
+    private void checkDeletePermissions(int postId, User user) {
         Post post = repository.getById(postId);
         if (!(user.getRole_id().getRole().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);

@@ -7,18 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    Page<Post> findAll(Specification<User> filters, Pageable pageable);
+    Optional<Post> findByTitle(String title);
 
-    Post getById(int id);
-
-    Post getByTitle(String title);
-
-    void create(Post post);
-
-    void update(Post post);
-
-    void delete(int id);
+    Page<Post> findAll(Specification<Post> spec, Pageable pageable);
 
 }
