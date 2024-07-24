@@ -9,10 +9,8 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findByCreatedBy(Comment createdBy);
-//    List<Comment> findCommentByPost(Comment comment, Post post);
+
     Comment findCommentById(int id);
 
-//    Comment addComment(Comment newComment);
-//    List<Comment> findByPostId(Post post);
-
+    Comment addComment(Comment newComment,Post post);
 }

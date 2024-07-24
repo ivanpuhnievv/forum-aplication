@@ -9,8 +9,7 @@ import java.util.List;
 public interface CommentService {
     Comment getCommentById(int id);
     List<Comment> getComments();
-//    List<Comment> getCommentsByPostId(Post post);
-//    Comment addComment( Comment comment);
+    Comment addComment(int postId, Comment comment);
     Comment updateComment(int commentId, Comment updatedComment);
     void deleteComment(int commentId);
 }

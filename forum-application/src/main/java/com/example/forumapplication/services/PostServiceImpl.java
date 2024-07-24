@@ -2,8 +2,10 @@ package com.example.forumapplication.services;
 
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
+import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
+import com.example.forumapplication.repositories.CommentRepository;
 import com.example.forumapplication.repositories.PostRepository;
 import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.PostService;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -20,12 +21,14 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository repository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
 
     @Autowired
-    public PostServiceImpl(PostRepository repository, UserRepository userRepository) {
+    public PostServiceImpl(PostRepository repository, UserRepository userRepository, CommentRepository commentRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -63,6 +66,16 @@ public class PostServiceImpl implements PostService {
         checkDeletePermissions(id, user);
         repository.deleteById(id);
     }
+
+    @Override
+    public void addComment(int postId, int commentId) {
+        Post post = repository.getById(postId);
+        Comment comment = commentRepository.getById(commentId);
+        post.getComments().add(comment);
+        repository.save(post);
+    }
+
+
 
     private void checkCreatePermissions(User user) {
         if (!(userRepository.existsById(user.getId()))) {
