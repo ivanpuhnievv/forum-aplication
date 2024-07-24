@@ -13,9 +13,9 @@ public class UserMapper {
 
     @Autowired
     private UserRepository repository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     public User fromDto(UserDto dto, int id) {
         User repositoryUser = repository.findById(id);
@@ -31,7 +31,8 @@ public class UserMapper {
 
     public User fromDto(UserDto dto) {
         User user = new User();
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+//        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());

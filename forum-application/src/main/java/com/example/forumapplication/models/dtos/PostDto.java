@@ -1,12 +1,13 @@
 package com.example.forumapplication.models.dtos;
 
+import com.example.forumapplication.models.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.User;
 
 @Getter
 @Setter
