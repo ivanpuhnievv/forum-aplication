@@ -1,6 +1,7 @@
 package com.example.forumapplication.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -18,9 +19,15 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "createdBy_id")
     private User createdBy;
+
+    @JsonProperty("createdBy")
+    public String getCreatedByUsername() {
+        return createdBy != null ? createdBy.getUsername() : null;
+    }
 
     @NotBlank(message = "Title is mandatory")
     private String title;
@@ -28,7 +35,6 @@ public class Post {
     @NotBlank(message = "Content is mandatory")
     private String content;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Set<Comment> comments;
@@ -42,9 +48,15 @@ public class Post {
     )
     private Set<User> likes;
 
+    @JsonProperty("liked")
+    public Integer getLikes() {
+        return likes != null ? likes.size() : null;
+    }
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    @JsonIgnore
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 

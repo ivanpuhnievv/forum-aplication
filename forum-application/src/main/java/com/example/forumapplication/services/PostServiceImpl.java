@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void checkCreatePermissions(User user) {
-        if ((user == null) || !(userRepository.existsById(user.getId()))) {
+        if (!(userRepository.existsById(user.getId()))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }
     }

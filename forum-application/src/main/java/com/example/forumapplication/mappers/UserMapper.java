@@ -5,7 +5,6 @@ import com.example.forumapplication.models.dtos.UserDto;
 import com.example.forumapplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.forumapplication.models.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component

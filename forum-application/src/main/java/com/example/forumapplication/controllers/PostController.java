@@ -35,10 +35,7 @@ public class PostController {
 
     // Get all posts
     @GetMapping
-    public List<Post> findAll(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) User user){
-
+    public List<Post> findAll(){
         return postService.get();
     }
 
@@ -53,7 +50,7 @@ public class PostController {
     }
 
     // Get post by title
-    @GetMapping("/title/{title}")
+    @GetMapping("/{title}")
     public Post getPostByTitle(@PathVariable String title) {
         try {
             return postService.getByTitle(title);

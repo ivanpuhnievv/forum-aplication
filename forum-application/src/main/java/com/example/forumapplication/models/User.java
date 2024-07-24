@@ -16,7 +16,6 @@ public class User {
 
     private String username;
 
-    @JsonIgnore
     private String password;
 
     private String email;
@@ -35,7 +34,6 @@ public class User {
     @Column(name = "is_banned")
     private boolean isBanned;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role_id;
