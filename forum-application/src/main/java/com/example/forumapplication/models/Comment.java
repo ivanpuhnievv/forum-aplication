@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -29,4 +31,12 @@ public class Comment {
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> replies;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+    }
 }

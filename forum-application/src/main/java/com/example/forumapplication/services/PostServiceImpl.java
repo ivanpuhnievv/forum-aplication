@@ -20,6 +20,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private static final String MODIFY_POST_ERROR_MESSAGE = "Only admin or post creator can modify a post.";
+    private static final String DELETE_COMMENT_ERROR_MESSAGE = "Only admin or comment creator can delete a comment.";
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -79,7 +80,13 @@ public class PostServiceImpl implements PostService {
         return postRepository.save(post);
     }
 
-
+    @Override
+    public void deleteComment(int commentId, User user) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment", commentId));
+        checkDeleteCommentPermissions(comment, user);
+        commentRepository.delete(comment);
+    }
 
     private void checkCreatePermissions(User user) {
         if (!(userRepository.existsById(user.getId()))) {
@@ -98,6 +105,12 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.getById(postId);
         if (!(user.getRole_id().getName().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
+        }
+    }
+
+    private void checkDeleteCommentPermissions(Comment comment, User user) {
+        if (!user.getRole_id().getName().equals("Admin") && !comment.getCreatedBy().equals(user)) {
+            throw new AuthorizationException(DELETE_COMMENT_ERROR_MESSAGE);
         }
     }
 

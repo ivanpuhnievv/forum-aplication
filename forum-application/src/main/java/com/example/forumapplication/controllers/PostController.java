@@ -12,6 +12,7 @@ import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.models.dtos.PostDto;
 import com.example.forumapplication.services.contracts.PostService;
+import com.example.forumapplication.services.contracts.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,17 @@ public class PostController {
     private final AuthenticationHelper authenticationHelper;
     private final PostMapper mapper;
     private final CommentMapper commentMapper;
+    private final UserService userService;
 
     @Autowired
-    public PostController(PostService postService, PostMapper mapper, AuthenticationHelper authenticationHelper, CommentMapper commentMapper) {
+    public PostController(PostService postService, PostMapper mapper,
+                          AuthenticationHelper authenticationHelper, CommentMapper commentMapper,
+                          UserService userService) {
         this.postService = postService;
         this.mapper = mapper;
         this.authenticationHelper = authenticationHelper;
         this.commentMapper = commentMapper;
+        this.userService = userService;
     }
 
     // Get all posts
@@ -119,6 +124,18 @@ public class PostController {
             return postService.addComment(id,comment);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public void deleteComment(@PathVariable int id, @RequestHeader HttpHeaders headers) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            postService.deleteComment(id, user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 }
