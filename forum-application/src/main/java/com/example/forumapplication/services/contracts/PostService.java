@@ -17,4 +17,6 @@ public interface PostService {
     void update(Post post, User user);
 
     void delete(int id, User user);
+
+    List<Post> getPostsByUser(User user);
 }

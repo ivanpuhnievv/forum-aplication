@@ -17,4 +17,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Post getById(int id);
 
+    List<Post> findByCreatedBy(User user);
 }

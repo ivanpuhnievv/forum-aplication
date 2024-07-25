@@ -107,4 +107,14 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
+
+    @GetMapping("/users/{id}")
+    public List<Post> getUserPosts(@PathVariable int id) {
+        try {
+            User user = userService.findUserById(id);
+            return postService.getPostsByUser(user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

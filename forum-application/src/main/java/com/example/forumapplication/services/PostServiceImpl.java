@@ -60,6 +60,11 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
     }
 
+    @Override
+    public List<Post> getPostsByUser(User user) {
+        return  postRepository.findByCreatedBy(user);
+    }
+
     private void checkCreatePermissions(User user) {
         if (!(userRepository.existsById(user.getId()))) {
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
