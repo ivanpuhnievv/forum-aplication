@@ -76,13 +76,14 @@ After running the application, you can use a tool like Postman or curl to intera
 
 ### User Endpoints
 
-- **Get all users**
+- **Get user with filter (name/email/lastname)**
     - `GET /users`
-    - Response: List of users
+    - Request Body: name/email/lastname
+    - Response: Filtered User object
 
 - **Get user by ID**
     - `GET /users/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Response: User object
 
 - **Create a new user**
@@ -92,13 +93,13 @@ After running the application, you can use a tool like Postman or curl to intera
 
 - **Update a user**
     - `PUT /users/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Request Body: User object
     - Response: Updated User object
 
 - **Delete a user**
     - `DELETE /users/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Response: No Content
 
 ### Post Endpoints
@@ -109,7 +110,7 @@ After running the application, you can use a tool like Postman or curl to intera
 
 - **Get post by ID**
     - `GET /posts/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Response: Post object
 
 - **Create a new post**
@@ -119,13 +120,13 @@ After running the application, you can use a tool like Postman or curl to intera
 
 - **Update a post**
     - `PUT /posts/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Request Body: Post object
     - Response: Updated Post object
 
 - **Delete a post**
     - `DELETE /posts/{id}`
-    - Path Variable: `id` (Long)
+    - Path Variable: `id` (int)
     - Response: No Content
 
 ### Comment Endpoints
