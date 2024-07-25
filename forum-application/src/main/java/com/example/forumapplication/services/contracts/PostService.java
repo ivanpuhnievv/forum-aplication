@@ -19,8 +19,4 @@ public interface PostService {
     void update(Post post, User user);
 
     void delete(int id, User user);
-
-    Post addComment(int postId, Comment comment);
-
-    void deleteComment(int commentId, User user);
 }

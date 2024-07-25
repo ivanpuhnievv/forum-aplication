@@ -117,25 +117,4 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-    @PostMapping("/{id}/comments")
-    public Post createComment(@PathVariable int id,@Valid @RequestBody CommentDto commentDto) {
-        try {
-            Comment comment = commentMapper.fromDto(commentDto);
-            return postService.addComment(id,comment);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/comments/{id}")
-    public void deleteComment(@PathVariable int id, @RequestHeader HttpHeaders headers) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            postService.deleteComment(id, user);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
-    }
 }
