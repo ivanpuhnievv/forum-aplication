@@ -59,16 +59,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(int commentId, User user) {
+    public void deleteComment(int commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment", commentId));
-        checkDeleteCommentPermissions(comment, user);
         commentRepository.delete(comment);
-    }
-
-    private void checkDeleteCommentPermissions(Comment comment, User user) {
-        if (!user.getRole_id().getName().equals("Admin") && !comment.getCreatedBy().equals(user)) {
-            throw new AuthorizationException(DELETE_COMMENT_ERROR_MESSAGE);
-        }
     }
 }

@@ -71,11 +71,10 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/comments/{id}")
-    public void deleteComment(@PathVariable int id, @RequestHeader HttpHeaders headers) {
+    @DeleteMapping("/{id}")
+    public void deleteComment(@PathVariable int id) {
         try {
-            User user = authenticationHelper.tryGetUser(headers);
-            commentService.deleteComment(id, user);
+            commentService.deleteComment(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
