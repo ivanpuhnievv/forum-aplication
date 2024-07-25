@@ -1,6 +1,7 @@
 package com.example.forumapplication.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,11 @@ public class Comment {
     @JoinColumn(name = "created_by_id")
     private User createdBy;
 
+    @JsonProperty("createdBy")
+    public String getCreatedByUsername() {
+        return createdBy != null ? createdBy.getUsername() : null;
+    }
+
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     @JsonIgnore
@@ -35,8 +41,19 @@ public class Comment {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    @JsonIgnore
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedDate;
+
+
     @PrePersist
     protected void onCreate() {
         createdDate = LocalDateTime.now();
+        lastModifiedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastModifiedDate = LocalDateTime.now();
     }
 }

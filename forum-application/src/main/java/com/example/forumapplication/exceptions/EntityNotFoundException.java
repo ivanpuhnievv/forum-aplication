@@ -10,7 +10,7 @@ public class EntityNotFoundException extends RuntimeException {
         super(String.format("%s with %s %s not found.", type, attribute, value));
     }
 
-    public EntityNotFoundException(String type, int id, String value) {
-        super(String.format("%s with %d was not found in %s's wish-list.", type, id, value));
+    public EntityNotFoundException(String post, String title) {
+        super(String.format("%s with %s was not found.", post, title));
     }
 }

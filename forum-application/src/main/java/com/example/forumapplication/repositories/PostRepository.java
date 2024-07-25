@@ -15,7 +15,6 @@ import java.util.Set;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    Optional<Post> findByTitle(String title);
-
     Post getById(int id);
+
 }

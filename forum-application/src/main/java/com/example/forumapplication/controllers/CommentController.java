@@ -52,7 +52,7 @@ public class CommentController {
         }
     }
 
-    @PostMapping("/posts/{id}/comments")
+    @PostMapping("/posts/{id}")
     public Post createComment(@PathVariable int id, @Valid @RequestBody CommentDto commentDto) {
         try {
             Comment comment = commentMapper.fromDto(commentDto);
