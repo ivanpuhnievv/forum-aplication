@@ -1,96 +1,37 @@
-# Forum System
+# Forum System APi
 
-## Project Description
-Design and implement a Forum System, where users can create posts, add comments, and upvote/downvote the things they like or dislike the most. The forum will be focused on {insert your forum topic here, e.g., automotive fanbase, java technical learning, crypto trading, fashion}.
+This project is a simple Blog API built with Spring Boot. It allows for managing users, posts, and comments.
 
-## Functional Requirements
+## Table of Contents
 
-### Entities
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+    - [User Endpoints](#user-endpoints)
+    - [Post Endpoints](#post-endpoints)
+    - [Comment Endpoints](#comment-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
-#### Users
-- Each user must have a first and last name, email, username, and password.
-    - First name and last name must be between 4 and 32 symbols.
-    - Email must be a valid email and unique in the system.
+## Features
 
-#### Admins
-- Each admin must have a first and last name, email, and may have a phone number.
-    - First name and last name must be between 4 and 32 symbols.
-    - Email must be a valid email and unique in the system.
+- Create, read, update, and delete (CRUD) operations for users, posts, and comments.
+- RESTful API design.
 
-#### Posts
-- Each post must have a user who created it, a title, content, comments, and how many likes it has received.
-    - The title must be between 16 and 64 symbols.
-    - The content must be between 32 symbols and 8192 symbols.
-    - The post must have a user who created it.
-    - Other users must be able to post replies.
+## Technologies Used
 
-## Public Part
-- Accessible without authentication.
-- On the home page, anonymous users must be presented with the core features of the platform, the number of users, and the number of posts created so far.
-- Anonymous users must be able to register and log in.
-- Anonymous users should be able to see a list of the top 10 most commented posts and a list of the 10 most recently created posts.
+- Java
+- Spring Boot
+- Spring Web
+- Loombok
+- Spring Data JPA
+- Spring Security
+- MariaDB (MySQL) database
 
-## Private Part
-- Accessible only if the user is authenticated.
-- Users must be able to log in and log out.
-- Users must be able to browse posts created by other users with an option to sort and filter them.
-- Users must be able to view a single post, including its title, content, comments, likes, etc. All details and available actions (comment/like/edit) should be presented on the same page.
-- Users must be able to update their profile information, but not their username once registered. Users can upload a profile photo.
-- Users must be able to create a new post with at least a title and content.
-- Each user must be able to edit only their own posts or comments.
-- Each user must be able to view all their or any other user's posts and comments (with options to filter and sort them).
-- Each user must be able to remove one or more of their own posts, either from the details view or the post list.
-- Each user must be able to comment/reply to any other forum post.
+## Installation
 
-## Administrative Part
-- Accessible to users with administrative privileges.
-- Admins must be able to search for a user by their username, email, or first name.
-- Admins must be able to block or unblock individual users. Blocked users cannot create posts or comments.
-- Admins must be able to delete any post.
-- Admins must be able to view a list of all posts with options to filter and sort them.
-
-## Optional Features
-
-### Post Tags
-- Users can add tags to posts for easier navigation and searching.
-- Tags can be added when editing a post.
-- If a tag doesn't exist, it must be created in the database; if it exists, it should be reused.
-- All tags should be in lowercase.
-
-## REST API
-- CRUD operations for users and posts.
-- Search users by username, email, or first name.
-- Filter and sort posts by tags.
-- Admin operations for making other users admins, deleting posts, and blocking/unblocking users.
-- Documentation with Swagger.
-
-## Technical Requirements
-- Follow OOP, KISS, SOLID, DRY principles.
-- Use tiered project structure.
-- Achieve at least 80% unit test code coverage in the service layer.
-- Implement proper exception handling.
-- Normalize the database to avoid data duplication and empty data.
-
-## Database
-- Store data in a relational database.
-- Provide scripts to create and populate the database.
-
-## Git
-- Provide a complete GitHub repository with the project source code and database scripts.
-- Ensure commits reflect the project development process and contributions from all team members.
-
-## Setup and Run Instructions
-
-### Prerequisites
-1. Install [Java JDK 11+](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
-2. Install [Gradle](https://gradle.org/install/)
-3. Install [MariaDB](https://mariadb.org/download/)
-4. Install [Spring Boot](https://spring.io/projects/spring-boot)
-5. Install [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-6. Install [Spring Security](https://spring.io/projects/spring-security)
-7. Install [Lombok](https://projectlombok.org/setup/gradle)
-
-### Steps to Install
 1. Clone the repository:
     ```bash
     git clone https://github.com/forum-RAI/forum-aplication.git
@@ -113,16 +54,6 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
 ```
 
 
-3. Install dependencies and compile the project:
-    ```bash
-    mvn clean install
-    ```
-
-4. Run the application:
-    ```bash
-    mvn spring-boot:run
-    ```
-
 ## Link to Swagger Documentation
 [Swagger Documentation](http://localhost:8080/swagger-ui/index.html)
 
@@ -136,3 +67,86 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
 - [Alexander Slavchev](https://github.com/AlexanderSlavchev)
 - [Ivan Puhniev](https://github.com/ivanpuhnievv)
 - [Radoslav Stoychev](https://github.com/RAStoychev18)
+
+## Usage
+
+After running the application, you can use a tool like Postman or curl to interact with the API.
+
+## API Endpoints
+
+### User Endpoints
+
+- **Get all users**
+    - `GET /users`
+    - Response: List of users
+
+- **Get user by ID**
+    - `GET /users/{id}`
+    - Path Variable: `id` (Long)
+    - Response: User object
+
+- **Create a new user**
+    - `POST /users`
+    - Request Body: User object
+    - Response: Created User object
+
+- **Update a user**
+    - `PUT /users/{id}`
+    - Path Variable: `id` (Long)
+    - Request Body: User object
+    - Response: Updated User object
+
+- **Delete a user**
+    - `DELETE /users/{id}`
+    - Path Variable: `id` (Long)
+    - Response: No Content
+
+### Post Endpoints
+
+- **Get all posts**
+    - `GET /posts`
+    - Response: List of posts
+
+- **Get post by ID**
+    - `GET /posts/{id}`
+    - Path Variable: `id` (Long)
+    - Response: Post object
+
+- **Create a new post**
+    - `POST /posts`
+    - Request Body: Post object
+    - Response: Created Post object
+
+- **Update a post**
+    - `PUT /posts/{id}`
+    - Path Variable: `id` (Long)
+    - Request Body: Post object
+    - Response: Updated Post object
+
+- **Delete a post**
+    - `DELETE /posts/{id}`
+    - Path Variable: `id` (Long)
+    - Response: No Content
+
+### Comment Endpoints
+
+- **Get all comments**
+    - `GET /comments`
+    - Response: List of comments
+
+- **Get comment by ID**
+    - `GET /comments/{id}`
+    - Path Variable: `id` (Long)
+
+## Setup and Run Instructions
+
+### Prerequisites
+1. Install [JAVA JDK17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
+2. Install [Gradle](https://gradle.org/install/)
+3. Install [MariaDB](https://mariadb.org/download/)
+4. Install [Spring Boot](https://spring.io/projects/spring-boot)
+5. Install [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
+6. Install [Spring Security](https://spring.io/projects/spring-security)
+7. Install [Lombok](https://projectlombok.org/setup/gradle)
+
+
