@@ -61,16 +61,6 @@ public class PostController {
         }
     }
 
-    // Get post by title
-    @GetMapping("/{title}")
-    public Post getPostByTitle(@PathVariable String title) {
-        try {
-            return postService.getByTitle(title);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
-
     // Create a new post
     @PostMapping
     public Post create(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {

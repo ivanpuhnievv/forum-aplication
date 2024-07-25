@@ -42,12 +42,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getByTitle(String title) {
-        return postRepository.findByTitle(title)
-                .orElseThrow(() -> new EntityNotFoundException("Post", 0));
-    }
-
-    @Override
     public void create(Post post, User user) {
         checkCreatePermissions(user);
         post.setCreatedBy(user);
