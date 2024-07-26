@@ -25,13 +25,11 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final AuthenticationHelper authenticationHelper;
     private final CommentMapper commentMapper;
 
     @Autowired
-    public CommentController(CommentService commentService, AuthenticationHelper authenticationHelper, CommentMapper commentMapper) {
+    public CommentController(CommentService commentService, CommentMapper commentMapper) {
         this.commentService = commentService;
-        this.authenticationHelper = authenticationHelper;
         this.commentMapper = commentMapper;
     }
 
@@ -43,6 +41,7 @@ public class CommentController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
     @GetMapping("/{id}")
     public Comment getCommentById(@PathVariable int id) {
         try {

@@ -17,10 +17,6 @@ import java.util.Set;
 @Setter
 public class PostDto {
 
-    @NotNull
-    @Valid
-    private User createdBy;
-
     @NotEmpty(message = "Title cannot be empty!")
     @Size(min = 16, max = 64, message = "Title must be between 16 and 64 characters long!")
     private String title;
@@ -28,7 +24,5 @@ public class PostDto {
     @NotEmpty(message = "Content cannot be empty!")
     @Size(min = 32, max = 8192 , message = "Content must be between 32 and 8192 characters long!")
     private String content;
-
-    private Set<Comment> comments;
 
 }

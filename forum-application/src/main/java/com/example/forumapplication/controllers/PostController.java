@@ -6,10 +6,8 @@ import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.helpers.AuthenticationHelper;
 import com.example.forumapplication.mappers.CommentMapper;
 import com.example.forumapplication.mappers.PostMapper;
-import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
-import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.models.dtos.PostDto;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
@@ -31,17 +29,16 @@ public class PostController {
     private final PostService postService;
     private final AuthenticationHelper authenticationHelper;
     private final PostMapper mapper;
-    private final CommentMapper commentMapper;
     private final UserService userService;
 
     @Autowired
     public PostController(PostService postService, PostMapper mapper,
-                          AuthenticationHelper authenticationHelper, CommentMapper commentMapper,
-                          UserService userService) {
+                          AuthenticationHelper authenticationHelper,
+                          UserService userService)
+    {
         this.postService = postService;
         this.mapper = mapper;
         this.authenticationHelper = authenticationHelper;
-        this.commentMapper = commentMapper;
         this.userService = userService;
     }
 
