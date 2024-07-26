@@ -80,4 +80,14 @@ public class CommentController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
+
+    @PostMapping("/{id}")
+    public Comment createReply(@PathVariable int id, @Valid @RequestBody CommentDto commentDto) {
+        try {
+            Comment comment = commentMapper.fromDto(commentDto);
+            return commentService.addReply(id,comment);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

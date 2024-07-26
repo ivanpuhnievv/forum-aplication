@@ -7,11 +7,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommentMapper {
+
     private final CommentService commentService;
 
     public CommentMapper(CommentService commentService) {
         this.commentService = commentService;
     }
+
     public Comment fromDto(CommentDto dto) {
         Comment comment = new Comment();
         comment.setContent(dto.getContent());
