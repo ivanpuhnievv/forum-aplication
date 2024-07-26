@@ -2,10 +2,8 @@ package com.example.forumapplication.controllers;
 
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
-import com.example.forumapplication.exceptions.UnauthorizedException;
 import com.example.forumapplication.filters.enums.UserSortField;
 import com.example.forumapplication.mappers.UserMapper;
-import com.example.forumapplication.models.Role;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
 import com.example.forumapplication.models.dtos.UserFiltersDto;
@@ -66,9 +64,9 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "Create user", description = "Create user")
-    public User create(@Valid @RequestBody UserDto userDto, String username) {
+    public User create(@Valid @RequestBody UserDto userDto) {
         try {
-            User user = mapper.fromDto(userDto, username);
+            User user = mapper.fromDto(userDto);
             userService.createUser(user);
             return user;
         } catch (EntityNotFoundException e) {
@@ -78,14 +76,14 @@ public class UserController {
 
     @PostMapping("/admin/register")
     @Operation(summary = "Create user with a Role", description = "Only Admin user can create user with a Role")
-    public User createAdmin(@Valid @RequestBody UserDto userDto, String username, @RequestParam String role) {
+    public User createAdmin(@Valid @RequestBody UserDto userDto, @RequestParam String role) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth == null || !auth.isAuthenticated() || !auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
             }
             String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
-            User user = mapper.fromDto(userDto, username);
+            User user = mapper.fromDto(userDto);
             userService.createUserWithRole(user, role);
             return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
         } catch (EntityNotFoundException e) {
@@ -97,7 +95,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user", description = "Update user")
-    public User update(@PathVariable int id, @Valid @RequestBody UserDto userDto, String username) {
+    public User update(@PathVariable int id, @Valid @RequestBody UserDto userDto) {
         try {
             User user = mapper.fromDto(userDto, id);
             userService.updateUser(user);

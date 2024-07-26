@@ -30,17 +30,11 @@ public class UserMapper {
 
     public User fromDto(UserDto dto) {
         User user = new User();
-//        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
-        return user;
-    }
-
-    public User fromDto(UserDto dto, String username) {
-        User user = fromDto(dto);
-        user.setUsername(username);
         return user;
     }
 

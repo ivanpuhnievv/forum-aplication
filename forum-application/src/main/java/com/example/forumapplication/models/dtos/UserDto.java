@@ -12,6 +12,9 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 
+    @NotEmpty
+    private String username;
+
     @NotEmpty(message = "Username cannot be empty!")
     @Size(min = 4, max = 32, message = "First name must be between 4 and 32 characters long!")
     private String firstName;
