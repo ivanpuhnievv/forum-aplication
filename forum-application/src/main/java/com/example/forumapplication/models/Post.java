@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -40,7 +41,7 @@ public class Post {
     private Set<Comment> comments;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "likes",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -77,5 +78,20 @@ public class Post {
     @PreUpdate
     protected void onUpdate() {
         lastModifiedDate = LocalDateTime.now();
+    }
+
+    public void addLike(User user) {
+        if (likes == null) {
+            likes = new HashSet<>();
+        }
+        likes.add(user);
+    }
+
+    public  void removeLike(User user) {
+        if (likes != null) {
+            if(likes.contains(user)) {
+                likes.remove(user);
+            }
+        }
     }
 }

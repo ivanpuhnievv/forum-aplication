@@ -2,10 +2,8 @@ package com.example.forumapplication.services;
 
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
-import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
-import com.example.forumapplication.repositories.CommentRepository;
 import com.example.forumapplication.repositories.PostRepository;
 import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.PostService;
@@ -43,20 +41,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(Post post, User user) {
-        checkCreatePermissions(user);
         post.setCreatedBy(user);
         postRepository.save(post);
     }
 
     @Override
-    public void update(Post post, User user) {
-        checkModifyPermissions(post.getId(), user);
+    public void update(Post post) {
+        checkModifyPermissions(post.getId());
         postRepository.save(post);
     }
 
     @Override
-    public void delete(int id, User user) {
-        checkDeletePermissions(id, user);
+    public void delete(int id) {
+        checkDeletePermissions(id);
         postRepository.deleteById(id);
     }
 
@@ -65,23 +62,41 @@ public class PostServiceImpl implements PostService {
         return  postRepository.findByCreatedBy(user);
     }
 
-    private void checkCreatePermissions(User user) {
-        if (!(userRepository.existsById(user.getId()))) {
+    @Override
+    public void likePost(int id) {
+        User user = getCurrentUser();
+        Post post = postRepository.getById(id);
+        post.addLike(user);
+        postRepository.save(post);
+    }
+
+    @Override
+    public void removeLike(int id) {
+        User user = getCurrentUser();
+        Post post = postRepository.getById(id);
+        post.removeLike(user);
+        postRepository.save(post);
+    }
+
+    private void checkModifyPermissions(int postId) {
+        User currentUser = getCurrentUser();
+        Post post = postRepository.getById(postId);
+        if(!(post.getCreatedBy().equals(currentUser))){
             throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
         }
     }
 
-    private void checkModifyPermissions(int postId, User user) {
-        Post post = postRepository.getById(postId);
-        if (!(post.getCreatedBy().equals(user))) {
-            throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
-        }
+    private void checkDeletePermissions(int id) {
+       User currentUser = getCurrentUser();
+       Post post = postRepository.getById(id);
+       if(!(currentUser.getRole_id().getName().equalsIgnoreCase("ADMIN")) || !(post.getCreatedBy().equals(currentUser))){
+           throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
+       }
     }
 
-    private void checkDeletePermissions(int postId, User user) {
-        Post post = postRepository.getById(postId);
-        if (!(user.getRole_id().getName().equals("Admin")) || !(post.getCreatedBy().equals(user))) {
-            throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
-        }
+    private User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(authentication.getName());
+        return currentUser;
     }
 }

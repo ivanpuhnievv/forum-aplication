@@ -24,7 +24,7 @@ public class SecurityConfig {
                                         .requestMatchers("/myCards").authenticated()
                                         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users/").authenticated()
-                                        .requestMatchers(HttpMethod.DELETE, "/api/users").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/api/users").authenticated()
                                         .requestMatchers(HttpMethod.POST, "api/users/register").permitAll()
                                         .requestMatchers(HttpMethod.POST, "api/users/admin/register").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "api/users/admin/register/").hasRole("ADMIN")

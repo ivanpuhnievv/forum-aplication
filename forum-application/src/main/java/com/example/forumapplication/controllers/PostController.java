@@ -14,8 +14,12 @@ import com.example.forumapplication.services.contracts.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -77,11 +81,10 @@ public class PostController {
 
     // Update an existing post
     @PutMapping("/{id}")
-    public Post update(@RequestHeader HttpHeaders headers,@PathVariable int id, @Valid @RequestBody PostDto postDto) {
+    public Post update(@PathVariable int id, @Valid @RequestBody PostDto postDto) {
         try {
-            User user = authenticationHelper.tryGetUser(headers);
             Post post = mapper.fromDto(id, postDto);
-            postService.update(post, user);
+            postService.update(post);
             return post;
         }catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -94,10 +97,9 @@ public class PostController {
 
     // Delete a post
     @DeleteMapping("/{id}")
-    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+    public void delete(@PathVariable int id) {
         try {
-            User user = authenticationHelper.tryGetUser(headers);
-            postService.delete(id, user);
+            postService.delete(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
@@ -114,4 +116,23 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @PutMapping("/{id}/like")
+    public void likePost(@PathVariable int id) {
+        try {
+            postService.likePost(id);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}/like")
+    public void unlikePost(@PathVariable int id) {
+        try {
+            postService.removeLike(id);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
 }
