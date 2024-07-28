@@ -69,26 +69,65 @@ body{
     width: 400px;
 }
 /* ====== Form Image Animation ===== */
-.coin, .spring, .dots, .rocket, .nadpis, .cloud, .stars {
+.coin{
     animation: scale-down 3s ease-in-out alternate infinite;
-    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
 }
-.coin, .spring, .rocket, .nadpis, .cloud {
-    animation: left-right 3s ease-in-out alternate infinite;
+.spring{
+    animation: scale-down 3s ease-in-out alternate infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
-.dots {
+.dots{
     animation: scale-up 3s ease-in-out alternate infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
-.rocket {
+.rocket{
     animation: up-down 3s ease-in-out alternate infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+.nadpis{
+    animation: left-right 3s ease-in-out alternate infinite;
+    shape-outside: margin-box;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
-/* @keyframes for animations */
+.cloud{
+    animation: left-right 3s ease-in-out alternate infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+.stars{
+    animation: scale-down 3s ease-in-out alternate infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
 @keyframes left-right {
     to{
         transform: translateX(10px);
@@ -110,12 +149,11 @@ body{
     }
 }
 
+
 /* ====== Featured Words ===== */
 .featured-words{
     position: relative;
     margin-top: 20px;
-    width: 100%;
-    text-align: down;
     color: #fff;
     width: 300px;
 }
