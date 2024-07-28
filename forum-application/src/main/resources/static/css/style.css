@@ -11,7 +11,7 @@
 
 /* ====== Body ===== */
 body{
-    background: url("../img/1.jpg");
+    background: url("../images/1.jpg");
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -69,72 +69,26 @@ body{
     width: 400px;
 }
 /* ====== Form Image Animation ===== */
-.coin{
+.coin, .spring, .dots, .rocket, .nadpis, .cloud, .stars {
     animation: scale-down 3s ease-in-out alternate infinite;
-    position: center;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
 }
-.spring{
-    animation: scale-down 3s ease-in-out alternate infinite;
-    position: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+.coin, .spring, .rocket, .nadpis, .cloud {
+    animation: left-right 3s ease-in-out alternate infinite;
 }
-.dots{
+.dots {
     animation: scale-up 3s ease-in-out alternate infinite;
-    position: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
 }
-.rocket{
+.rocket {
     animation: up-down 3s ease-in-out alternate infinite;
-    position: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-.nadpis{
-    animation: left-right 3s ease-in-out alternate infinite;
-    position: center;
-    shape-outside: margin-box;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
 }
 
-.cloud{
-    animation: left-right 3s ease-in-out alternate infinite;
-    position: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-.stars{
-    animation: scale-down 3s ease-in-out alternate infinite;
-    position: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-
+/* @keyframes for animations */
 @keyframes left-right {
     to{
         transform: translateX(10px);
@@ -156,12 +110,11 @@ body{
     }
 }
 
-
 /* ====== Featured Words ===== */
 .featured-words{
     position: relative;
     margin-top: 20px;
-   width: 100%;
+    width: 100%;
     text-align: down;
     color: #fff;
     width: 300px;

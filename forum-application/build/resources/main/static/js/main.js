@@ -1,3 +1,4 @@
+console.log("JavaScript is loaded");
 const loginBtn = document.querySelector("#login");
 const registerBtn = document.querySelector("#register");
 const loginForm = document.querySelector(".login-form");
