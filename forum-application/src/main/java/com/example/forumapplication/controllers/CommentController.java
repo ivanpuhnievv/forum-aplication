@@ -2,22 +2,17 @@ package com.example.forumapplication.controllers;
 
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
-import com.example.forumapplication.helpers.AuthenticationHelper;
 import com.example.forumapplication.mappers.CommentMapper;
 import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
-import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.services.contracts.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
