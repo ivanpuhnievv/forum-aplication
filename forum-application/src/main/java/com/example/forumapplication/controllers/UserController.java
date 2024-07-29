@@ -24,6 +24,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.example.forumapplication.helpers.AuthenticationHelpers.checkAuthentication;
+
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "Users", description = "Operations for managing users")
@@ -84,6 +86,13 @@ public class UserController {
 
         User user = userService.findUserById(id);
         userService.deleteUser(id);
+    }
 
+    @PutMapping("/{id}/photo")
+    @Operation(summary = "Update user photo", description = "Update user photo")
+    public User updatePhoto(@PathVariable int id, @RequestParam String profilePhoto) {
+        User user = userService.findUserById(id);
+        userService.uploadPhoto(user, profilePhoto);
+        return user;
     }
 }

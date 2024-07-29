@@ -39,6 +39,9 @@ public class User {
     @Column(name = "is_banned")
     private boolean isBanned;
 
+    @Column(name = "profile_photo")
+    private String profilePhoto;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role_id;

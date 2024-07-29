@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 
 import static com.example.forumapplication.filters.specifications.UserSpecifications.*;
+import static com.example.forumapplication.helpers.AuthenticationHelpers.checkAuthentication;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -90,7 +91,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUserWithRole(User user, String roleString) {
-        Role role = roleRepository.findByName(roleString);
+            Role role = roleRepository.findByName(roleString);
+            if (role == null) {
+                throw new EntityNotFoundException("Role", "name", roleString);
+            }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByUsername(auth.getName());
 
@@ -107,6 +111,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User userToUpdate) {
+        User currentUser = userRepository.findByUsername(checkAuthentication().getName());
+        if (currentUser.getId() != userToUpdate.getId()) {
+            throw new UnauthorizedException("You are not authorized to update this user.");
+        }
         checkEmailUnique(userToUpdate);
         checkNameUnique(userToUpdate);
         userRepository.save(userToUpdate);
@@ -152,5 +160,15 @@ public class UserServiceImpl implements UserService {
         }
         user.setBlocked(false);
         return userRepository.save(user);
+    }
+
+    public void uploadPhoto(User userToUpdate, String photo) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(auth.getName());
+        if (currentUser.getId() != userToUpdate.getId()) {
+            throw new UnauthorizedException("You are not authorized to update this user.");
+        }
+        userToUpdate.setProfilePhoto(photo);
+        userRepository.save(userToUpdate);
     }
 }

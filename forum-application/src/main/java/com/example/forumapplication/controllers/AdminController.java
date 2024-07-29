@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.example.forumapplication.helpers.AuthenticationHelpers.checkAuthentication;
+
 @RestController
 @RequestMapping("/api/users")
 public class AdminController {
@@ -60,12 +62,6 @@ public class AdminController {
         return userService.unblockUser(user);
     }
 
-    private Authentication checkAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated() || !auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
-        }
-        return auth;
-    }
+
 
 }
