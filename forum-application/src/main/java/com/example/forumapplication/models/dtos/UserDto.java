@@ -1,5 +1,6 @@
 package com.example.forumapplication.models.dtos;
 
+import com.example.forumapplication.annotations.AdminPhoneNumber;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +37,10 @@ public class UserDto {
                     "no space, and " +
                     "it must be 4-12 characters long.")
     private String password;
+
+    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$",
+            message = "Phone number must be a valid phone number!")
+    private String phoneNumber;
 
 
 }

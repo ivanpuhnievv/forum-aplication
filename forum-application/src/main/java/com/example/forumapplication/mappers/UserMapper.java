@@ -35,6 +35,9 @@ public class UserMapper {
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
+        if (dto.getPhoneNumber() != null && !dto.getPhoneNumber().isEmpty()) {
+            user.setPhone(dto.getPhoneNumber());
+        }
         return user;
     }
 

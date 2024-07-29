@@ -84,6 +84,9 @@ public class UserController {
             }
             String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
             User user = mapper.fromDto(userDto);
+            if (!role.equals("ADMIN")) {
+                user.setPhone(null);
+            }
             userService.createUserWithRole(user, role);
             return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
         } catch (EntityNotFoundException e) {
