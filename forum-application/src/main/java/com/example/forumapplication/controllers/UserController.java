@@ -55,69 +55,35 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Get user by id", description = "Get user by id")
     public User findById(@PathVariable int id) {
-        try {
-            return userService.findUserById(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+
+        return userService.findUserById(id);
     }
 
     @PostMapping("/register")
     @Operation(summary = "Create user", description = "Create user")
     public User create(@Valid @RequestBody UserDto userDto) {
-        try {
-            User user = mapper.fromDto(userDto);
-            userService.createUser(user);
-            return user;
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
 
-    @PostMapping("/admin/register")
-    @Operation(summary = "Create user with a Role", description = "Only Admin user can create user with a Role")
-    public User createAdmin(@Valid @RequestBody UserDto userDto, @RequestParam String role) {
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth == null || !auth.isAuthenticated() || !auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
-            }
-            String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
-            User user = mapper.fromDto(userDto);
-            if (!role.equals("ADMIN")) {
-                user.setPhone(null);
-            }
-            userService.createUserWithRole(user, role);
-            return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        User user = mapper.fromDto(userDto);
+        userService.createUser(user);
+        return user;
+
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user", description = "Update user")
     public User update(@PathVariable int id, @Valid @RequestBody UserDto userDto) {
-        try {
-            User user = mapper.fromDto(userDto, id);
-            userService.updateUser(user);
-            return user;
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (EntityDuplicateException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        }
+
+        User user = mapper.fromDto(userDto, id);
+        userService.updateUser(user);
+        return user;
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete user", description = "Delete user")
     public void delete(@PathVariable int id) {
-        try {
-            User user = userService.findUserById(id);
-            userService.deleteUser(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+
+        User user = userService.findUserById(id);
+        userService.deleteUser(id);
+
     }
 }
