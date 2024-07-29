@@ -20,4 +20,8 @@ public interface UserService {
     void deleteUser(int id);
 
     void createUserWithRole(User user, String role);
+
+    User blockUser(User user);
+
+    User unblockUser(User user);
 }
