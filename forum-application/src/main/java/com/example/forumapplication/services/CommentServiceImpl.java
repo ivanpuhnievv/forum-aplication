@@ -31,7 +31,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentById(int id) {
-        return commentRepository.findCommentById(id);
+        Comment comment = commentRepository.findCommentById(id);
+        if(comment == null) {
+            throw new EntityNotFoundException("Comment", id);
+        }
+        return comment;
     }
 
     @Override
@@ -68,4 +72,5 @@ public class CommentServiceImpl implements CommentService {
         commentToReply.getReplies().add(comment);
         return commentRepository.save(commentToReply);
     }
+
 }

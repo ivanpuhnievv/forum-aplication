@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.services.CommentServiceImplTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2024-07-29T22:09:23" hostname="DESKTOP-H5JHPOC" time="2.066">
+  <properties/>
+  <testcase name="addReply_AddsReplyToComment()" classname="com.example.forumapplication.services.CommentServiceImplTests" time="2.066">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;java.util.Set.add(Object)&quot; because the return value of &quot;com.example.forumapplication.models.Comment.getReplies()&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;java.util.Set.add(Object)&quot; because the return value of &quot;com.example.forumapplication.models.Comment.getReplies()&quot; is null
+	at com.example.forumapplication.services.CommentServiceImpl.addReply(CommentServiceImpl.java:72)
+	at com.example.forumapplication.services.CommentServiceImplTests.addReply_AddsReplyToComment(CommentServiceImplTests.java:128)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
