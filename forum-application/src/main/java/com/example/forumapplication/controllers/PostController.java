@@ -3,8 +3,6 @@ package com.example.forumapplication.controllers;
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityDuplicateException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
-import com.example.forumapplication.helpers.AuthenticationHelper;
-import com.example.forumapplication.mappers.CommentMapper;
 import com.example.forumapplication.mappers.PostMapper;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
@@ -14,12 +12,7 @@ import com.example.forumapplication.services.contracts.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,18 +24,15 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final AuthenticationHelper authenticationHelper;
     private final PostMapper mapper;
     private final UserService userService;
 
     @Autowired
     public PostController(PostService postService, PostMapper mapper,
-                          AuthenticationHelper authenticationHelper,
                           UserService userService)
     {
         this.postService = postService;
         this.mapper = mapper;
-        this.authenticationHelper = authenticationHelper;
         this.userService = userService;
     }
 
@@ -64,11 +54,10 @@ public class PostController {
 
     // Create a new post
     @PostMapping
-    public Post create(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {
+    public Post create(@Valid @RequestBody PostDto postDto) {
         try {
-            User user = authenticationHelper.tryGetUser(headers);
             Post post = mapper.fromDto(postDto);
-            postService.create(post, user);
+            postService.create(post);
             return post;
         }catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

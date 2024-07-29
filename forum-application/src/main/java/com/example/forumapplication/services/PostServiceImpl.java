@@ -40,8 +40,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void create(Post post, User user) {
-        post.setCreatedBy(user);
+    public void create(Post post) {
+        post.setCreatedBy(getCurrentUser());
         postRepository.save(post);
     }
 
