@@ -38,7 +38,7 @@ public class AdminController {
             }
             userService.createUserWithRole(user, role);
             return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
-    }
+    } 
 
     @PutMapping("/admin/block/{id}")
     @Operation(summary = "Block user", description = "Only Admin user can block user")
