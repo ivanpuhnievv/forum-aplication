@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ludiflex | Login & Register</title>
     <!-- BOXICONS -->
-    <!-- <link href='assets/boxicons/css/boxicons.min.css' rel='stylesheet'> -->
+     <link href='/assets/boxicons/css/boxicons.min.css' rel='stylesheet'>
     <!-- STYLE -->
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -34,6 +34,10 @@
         <form id="login-form" class="login-form" th:action="@{/auth/login}" method="post">
             <div class="form-title">
                 <span>Sign In</span>
+            </div>
+            <!-- Error Message -->
+            <div th:if="${param.error}" class="error-message">
+                Invalid username or password. Please try again.
             </div>
             <div class="form-inputs">
                 <div class="input-box">
@@ -71,6 +75,15 @@
                 <div class="input-box">
                     <input type="text" id="register-email" class="input-field" name="email" placeholder="Email" required>
                     <i class="bx bx-envelope icon"></i>
+
+                </div>
+                <div class="input-box">
+                    <input type="text" id="login-firstName" class="input-field" name="firstName" placeholder="Firstname" required>
+                    <i class="bx bx-user icon"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="login-lastName" class="input-field" name="lastName" placeholder="Lastname" required>
+                    <i class="bx bx-user icon"></i>
                 </div>
                 <div class="input-box">
                     <input type="text" id="register-username" class="input-field" name="username" placeholder="Username" required>

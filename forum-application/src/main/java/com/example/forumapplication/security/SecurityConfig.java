@@ -25,6 +25,7 @@ public class SecurityConfig {
                                 authorizeRequests
                                         .requestMatchers("/myCards").authenticated()
                                         .requestMatchers("/auth/login").permitAll()
+                                        .requestMatchers("/home").authenticated()
                                         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users/").authenticated()
                                         .requestMatchers(HttpMethod.DELETE, "/api/users").authenticated()
