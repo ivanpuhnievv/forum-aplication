@@ -30,15 +30,15 @@ public class AdminController {
     @Operation(summary = "Create user with a Role", description = "Only Admin user can create user with a Role")
     public User createAdmin(@Valid @RequestBody UserDto userDto, @RequestParam String role) {
 
-            Authentication auth = checkAuthentication();
-            String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
-            User user = mapper.fromDto(userDto);
-            if (!role.equals("ADMIN")) {
-                user.setPhone(null);
-            }
-            userService.createUserWithRole(user, role);
-            return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
-    } 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nameOfUser = auth.getName();  // Получаване на потребителското име на текущия аутентикиран потребител
+        User user = mapper.fromDto(userDto);
+        if (!role.equals("ADMIN")) {
+            user.setPhone(null);
+        }
+        userService.createUserWithRole(user, role);
+        return new ResponseEntity<>(user, HttpStatus.CREATED).getBody();
+    }
 
     @PutMapping("/admin/block/{id}")
     @Operation(summary = "Block user", description = "Only Admin user can block user")
@@ -46,7 +46,7 @@ public class AdminController {
         checkAuthentication();
         User user = userService.findUserById(id);
         if (user == null) {
-            throw new EntityNotFoundException("User" , id);
+            throw new EntityNotFoundException("User", id);
         }
         return userService.blockUser(user);
     }
@@ -57,11 +57,10 @@ public class AdminController {
         checkAuthentication();
         User user = userService.findUserById(id);
         if (user == null) {
-            throw new EntityNotFoundException("User" , id);
+            throw new EntityNotFoundException("User", id);
         }
         return userService.unblockUser(user);
     }
-
 
 
 }

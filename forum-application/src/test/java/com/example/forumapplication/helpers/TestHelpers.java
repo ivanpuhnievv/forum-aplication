@@ -4,8 +4,12 @@ import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.Role;
 import com.example.forumapplication.models.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class TestHelpers {
@@ -61,6 +65,11 @@ public static Comment createMockComment(){
         }
 
         return sb.toString();
+    }
+
+    //create a method for authority list ROLE_ADMIN
+    public static List<GrantedAuthority> createAuthorityList() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
 }
