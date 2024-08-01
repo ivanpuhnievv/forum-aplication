@@ -1,6 +1,5 @@
 package com.example.forumapplication.models;
 
-import com.example.forumapplication.models.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

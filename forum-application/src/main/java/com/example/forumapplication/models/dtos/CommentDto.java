@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.security.core.userdetails.User;
 @Getter
 @Setter
-
 public class CommentDto {
     @NotEmpty(message = "Content cannot be empty!")
     private String content;
