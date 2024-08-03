@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +19,7 @@ public class Tag {
     @NotBlank(message = "tag content is mandatory")
     private String name;
 
-
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Set<Post> posts;
 }

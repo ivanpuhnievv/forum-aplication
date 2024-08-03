@@ -61,12 +61,8 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "tag_id")
     private Set<Tag> tags;
 
     @PrePersist
