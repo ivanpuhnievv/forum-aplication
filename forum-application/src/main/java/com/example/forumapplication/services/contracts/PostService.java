@@ -2,6 +2,7 @@ package com.example.forumapplication.services.contracts;
 
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
+import com.example.forumapplication.models.dtos.TagDto;
 
 import java.util.List;
 
@@ -22,4 +23,10 @@ public interface PostService {
     void likePost(int id);
 
     void removeLike(int id);
+
+    void addTag(int postId, int tagId);
+
+    void deleteTag(int postId, int tagId);
+
+    void changeTag(int postId, int tagId, TagDto tagDto);
 }

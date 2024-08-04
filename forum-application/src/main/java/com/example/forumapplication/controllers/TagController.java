@@ -72,7 +72,6 @@ public class TagController {
         }
     }
 
-    // Delete a post
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         try {

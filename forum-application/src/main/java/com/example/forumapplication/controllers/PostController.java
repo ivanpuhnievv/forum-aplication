@@ -7,6 +7,7 @@ import com.example.forumapplication.mappers.PostMapper;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.PostDto;
+import com.example.forumapplication.models.dtos.TagDto;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -121,6 +122,39 @@ public class PostController {
             postService.removeLike(id);
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PutMapping("/{postId}/tag/{tagId}")
+    public void addTagToPost(@PathVariable int postId, @PathVariable int tagId) {
+        try{
+            postService.addTag(postId,tagId);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }catch (EntityDuplicateException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{postId}/tag/{tagId}")
+    public void deleteTagFromPost(@PathVariable int postId, @PathVariable int tagId) {
+        try{
+            postService.deleteTag(postId,tagId);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }catch (EntityDuplicateException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @PutMapping("/{postId}/tagMod/{tagId}")
+    public void changeTagFromPost(@PathVariable int postId, @PathVariable int tagId, @Valid @RequestBody TagDto tagDto) {
+        try{
+            postService.changeTag(postId,tagId,tagDto);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }catch (EntityDuplicateException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
