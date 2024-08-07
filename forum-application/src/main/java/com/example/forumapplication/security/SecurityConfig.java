@@ -41,9 +41,9 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home")
                         .failureUrl("/auth/login?error=true")
                         .permitAll())
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable);
 //                .csrf(cr -> cr.disable())
-                .formLogin(withDefaults());
+//                .formLogin(withDefaults());
 //                .httpBasic(withDefaults());
         http.httpBasic(Customizer.withDefaults());
         return http.build();

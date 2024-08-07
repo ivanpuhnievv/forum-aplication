@@ -11,11 +11,8 @@
 
 /* ====== Body ===== */
 body{
-    background: url("../img/1.jpg");
-    background-position: center;
     background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    background: url("../img/1.jpg") no-repeat fixed center;
 
     display: flex;
     align-items: center;
@@ -329,5 +326,136 @@ body{
     }
     .col-2{
         width: 100%;
+    }
+}
+body {
+    /*background: linear-gradient(125deg, #47f9e6 0%, #651fff 100%);*/
+    height: 100vh;
+    overflow: hidden;
+}
+.container {
+    height: 100%;
+    border: 1px solid transparent;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.toggle__menu-open {
+    position: absolute;
+    right: 0;
+    top: 5%;
+    display: flex;
+    justify-content: flex-end;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.toggle__menu-close {
+    position: absolute;
+    right: 0;
+    bottom: 100px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.title {
+    font-size: 4rem;
+    text-align: center;
+    color: aliceblue;
+    margin-top: 200px;
+}
+
+.menu {
+    position: absolute;
+    bottom: 100px;
+    /* bottom: -10%; */
+    opacity: 0;
+    /* top: 100%; */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    /* Note: backdrop-filter has minimal browser support */
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 80%;
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-icon {
+    margin: 0 1rem;
+    height: 4rem;
+    width: 4rem;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    top: -45px;
+    background: aliceblue;
+    padding: 0.3rem 1.5rem;
+    border-radius: 3px;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: rgb(56, 56, 56);
+    opacity: 0;
+}
+
+svg {
+    cursor: pointer;
+    padding: 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.menu-icon:hover path {
+    fill: #651fff !important;
+}
+
+.menu-icon:hover svg {
+    transform: scale(1.2);
+}
+
+.menu-icon:hover {
+    border-radius: 999px;
+    background-color: white;
+}
+
+.nav-active.menu-icon path {
+    fill: #651fff !important;
+}
+.nav-active.menu-icon {
+    border-radius: 999px;
+    background-color: white;
+}
+
+.open-menu {
+    animation: 1s ease-in animateNavUp;
+}
+.close-menu {
+    animation: 1s ease-in animateNavDown;
+}
+@keyframes animateNavUp {
+    from {
+        top: 100%;
+    }
+    to {
+        bottom: 100px;
+    }
+}
+@keyframes animateNavDown {
+    from {
+        bottom: 100px;
+    }
+    to {
+        top: 100%;
     }
 }
