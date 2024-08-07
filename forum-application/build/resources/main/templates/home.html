@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Glassmorphism and Nav Animation</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
 </head>
 
 <body>
-<div class="container">
+<div class="container" >
     <!-- Toggler -->
     <div class="toggle__menu-open" onclick="toggleMenu()">
         <svg width="36" height="25" viewBox="0 0 36 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
 
     </div>
 
-    <!-- Text -->
+    <!-- Content -->
 
     <h1 class="title">Home</h1>
 
@@ -53,7 +53,7 @@
             </svg>
             <div class="tooltip" data-key="home">Home</div>
         </div>
-        <div id="about" class="menu-icon" onclick="changeMenu('about')">
+        <div th:href="@{/auth/login}" id="about" class="menu-icon" onclick="changeMenu('about')">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.229 18.3676H19.729C23.1808 18.3676 25.979 21.1658 25.979 24.6176C25.979 25.3079 25.4194 25.8676 24.729 25.8676C24.088 25.8676 23.5596 25.385 23.4874 24.7633L23.4726 24.3972C23.3628 22.5016 21.8449 20.9838 19.9493 20.8739L19.729 20.8676H7.229C5.15794 20.8676 3.479 22.5465 3.479 24.6176C3.479 25.3079 2.91936 25.8676 2.229 25.8676C1.53865 25.8676 0.979004 25.3079 0.979004 24.6176C0.979004 21.2566 3.63189 18.5153 6.95789 18.3733L7.229 18.3676ZM13.479 0.867554C17.6211 0.867554 20.979 4.22542 20.979 8.36755C20.979 12.5097 17.6211 15.8676 13.479 15.8676C9.33687 15.8676 5.979 12.5097 5.979 8.36755C5.979 4.22542 9.33687 0.867554 13.479 0.867554ZM13.479 3.36755C10.7176 3.36755 8.479 5.60613 8.479 8.36755C8.479 11.129 10.7176 13.3676 13.479 13.3676C16.2404 13.3676 18.479 11.129 18.479 8.36755C18.479 5.60613 16.2404 3.36755 13.479 3.36755Z" fill="white" />
             </svg>
@@ -79,8 +79,7 @@
         </div>
     </div>
 </div>
-
-<script src="/js/script.js"></script>
+<script src="/js/script.js" th:href="@{/js/script.js}"></script>
 </body>
 
 </html>
