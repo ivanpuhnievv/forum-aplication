@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserService {
 
     Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, Pageable pageable);
+    List<User> getAll();
     User findUserById(int id);
     User findUserByEmail(String email);
     User findUserByUsername(String username);

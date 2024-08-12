@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PostService {
 
-    List<Post> get();
+    List<Post> getAll();
 
     Post getById(int id);
 

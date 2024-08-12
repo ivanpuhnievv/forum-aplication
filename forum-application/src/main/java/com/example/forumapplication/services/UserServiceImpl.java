@@ -22,6 +22,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
+
 import static com.example.forumapplication.filters.specifications.UserSpecifications.*;
 import static com.example.forumapplication.helpers.AuthenticationHelpers.checkAuthentication;
 
@@ -176,5 +178,10 @@ public class UserServiceImpl implements UserService {
         }
         userToUpdate.setProfilePhoto(photo);
         userRepository.save(userToUpdate);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }

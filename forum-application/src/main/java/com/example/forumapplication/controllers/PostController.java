@@ -40,7 +40,7 @@ public class PostController {
     // Get all posts
     @GetMapping
     public List<Post> findAll(){
-        return postService.get();
+        return postService.getAll();
     }
 
     // Get post by ID

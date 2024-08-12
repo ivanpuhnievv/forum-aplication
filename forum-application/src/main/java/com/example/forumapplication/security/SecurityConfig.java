@@ -26,6 +26,7 @@ public class SecurityConfig {
                                         .requestMatchers("/myCards").authenticated()
                                         .requestMatchers("/auth/login").permitAll()
                                         .requestMatchers("/home").authenticated()
+                                        .requestMatchers("/").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users/").authenticated()
                                         .requestMatchers(HttpMethod.DELETE, "/api/users").authenticated()
@@ -34,7 +35,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "api/users/admin/register/").hasRole("ADMIN")
                                         .requestMatchers("/").permitAll()
                                         .requestMatchers("/contact").permitAll()
-                                        .anyRequest().authenticated()
+//                                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login")

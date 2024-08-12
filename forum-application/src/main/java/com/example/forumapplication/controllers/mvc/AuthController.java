@@ -27,20 +27,25 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "index";
+        return "sign-in";
     }
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new UserDto());
-        return "login";  // същото име на HTML файла, защото и логин и регистрация са на същата страница
+        return "sign-up";
     }
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") UserDto dto, BindingResult bindingResult, Model model) {
+        if (!userMapper.checkPassword(dto.getPassword(), dto.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", "password_error", "Passwords do not match");
+            return "redirect:/auth/register?error=true";
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", dto);
-            return bindingResult.getAllErrors().toString();
+//            return bindingResult.getAllErrors().toString();
+            return "redirect:/auth/register";
         }
 
         try {

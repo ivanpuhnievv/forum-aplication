@@ -49,4 +49,9 @@ public class UserMapper {
         userDto.setPassword(user.getPassword());
         return userDto;
     }
+
+    public boolean checkPassword(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
+    }
+
 }
