@@ -25,8 +25,10 @@ public class SecurityConfig {
                                 authorizeRequests
                                         .requestMatchers("/myCards").authenticated()
                                         .requestMatchers("/auth/login").permitAll()
-                                        .requestMatchers("/home").authenticated()
+                                        .requestMatchers("/home").permitAll()
                                         .requestMatchers("/").permitAll()
+                                        .requestMatchers("/users/**").permitAll()
+                                        .requestMatchers("/users").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/users/").authenticated()
                                         .requestMatchers(HttpMethod.DELETE, "/api/users").authenticated()
@@ -35,6 +37,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "api/users/admin/register/").hasRole("ADMIN")
                                         .requestMatchers("/").permitAll()
                                         .requestMatchers("/contact").permitAll()
+
 //                                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
@@ -42,6 +45,15 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home")
                         .failureUrl("/auth/login?error=true")
                         .permitAll())
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/auth/logout") // URL за логаут
+                                .invalidateHttpSession(true) // Изтриване на сесията
+                                .clearAuthentication(true) // Изчистване на аутентикацията
+                                .deleteCookies("JSESSIONID") // Изтриване на бисквитките, свързани със сесията
+                                .logoutSuccessUrl("/home") // Пренасочване към /home след успешен логаут
+                                .permitAll()
+                )
                 .csrf(AbstractHttpConfigurer::disable);
 //                .csrf(cr -> cr.disable())
 //                .formLogin(withDefaults());

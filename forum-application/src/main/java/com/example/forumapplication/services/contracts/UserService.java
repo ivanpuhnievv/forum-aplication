@@ -27,4 +27,6 @@ public interface UserService {
     User unblockUser(User user);
 
     void uploadPhoto(User user, String photo);
+
+    void updateUserProfilePhoto(String username, String fileName);
 }

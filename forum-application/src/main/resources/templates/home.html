@@ -5,19 +5,12 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>KAKASHAK</title>
-    <link type="text/css" href="/static/vendor/@fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />>
+    <link type="text/css" href="/static/vendor/@fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />
     <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
 </head>
 <body>
-<header class="header1" th:replace="/fragments/navbar.html :: navBarMenu"></header>
+<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
 <main>
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Dynamic Sections</title>
-        <!-- Добавете нужните CSS и JS файлове тук -->
-    </head>
-    <body>
 
     <!-- Цикъл за генериране на секции за всяка публикация -->
     <div th:each="post : ${posts}">
@@ -79,34 +72,11 @@
             </div>
         </div>
     </div>
-
-    </body>
-    </html>
-
-
 </main>
+    </body>
 
-<!-- Core -->
-<script src="/vendor/jquery/dist/jquery.min.js"></script>
-<script src="/vendor/popper.js/dist/umd/popper.min.js"></script>
-<script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/vendor/headroom.js/dist/headroom.min.js"></script>
+    <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
+    </div>
 
-<!-- Vendor JS -->
-<script src="/vendor/onscreen/dist/on-screen.umd.min.js"></script>
-<script src="/vendor/nouislider/distribute/nouislider.min.js"></script>
-<script src="/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-<script src="/vendor/jarallax/dist/jarallax.min.js"></script>
-<script src="/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-<script src="/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
-<script src="/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-<script src="/vendor/prismjs/prism.js"></script>
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-
-<!-- Neumorphism JS -->
-<script src="/assets/js/neumorphism.js"></script>
-</body>
 
 </html>

@@ -18027,6 +18027,10 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     height: 5px;
 }
 
+.gocko {
+
+}
+
 .noUi-marker-horizontal.noUi-marker-sub {
     height: 10px;
 }

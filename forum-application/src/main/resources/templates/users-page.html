@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KAKASHAK</title>
+    <link type="text/css" href="/static/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+          th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}"/>
+    <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
+</head>
+<!--<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>-->
+<body>
+<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+
+<!-- Title -->
+<div class="row">
+    <div class="col text-center">
+        <h2 class="h5 mb-7">Profile Cards</h2>
+    </div>
+</div>
+<!-- End of title-->
+<!-- Filter and sort -->
+<div class="gocko" style="margin-bottom: 70px; position: relative; z-index: 10;">
+    <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Search by username..." id="searchInput" onkeyup="filterProfiles()">
+    </div>
+    <div class="col-md-4">
+        <select class="form-control" id="filterSelect" onchange="filterProfiles()">
+            <option value="">Filter by...</option>
+            <option value="facebook">Facebook</option>
+            <option value="twitter">Twitter</option>
+            <option value="slack">Slack</option>
+            <option value="dribbble">Dribbble</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select class="form-control" id="sortSelect" onchange="sortProfiles()">
+            <option value="">Sort by...</option>
+            <option value="username">Username</option>
+            <option value="firstName">First Name</option>
+        </select>
+    </div>
+</div>
+<!-- End of filter and sort -->
+<div class="row justify-content-between" style="clear: both;">
+    <!-- Започваме Thymeleaf цикъл през списъка с потребители -->
+    <th:block th:each="user : ${users}">
+        <div class="col-12 col-md-6 col-lg-4 mb-6 mb-md-5">
+            <!-- Profile Card -->
+            <div class="profile-card mb-5" style="margin-top: 20px;">
+                <div class="card bg-primary shadow-inset border-light text-center">
+                    <div class="card-header">
+                        <div class="profile-image bg-primary shadow-inset border border-light rounded mx-auto p-3 mt-n6">
+                            <!-- Заменяме пътя на изображението с динамично съдържание -->
+                            <img th:if="${user.profilePhoto != null}"
+                                 th:src="@{/images/{img}(img=${user.profilePhoto})}"
+                                 class="card-img-top rounded"
+                                 th:alt="'Portrait of ' + ${user.username}">
+
+                            <img th:if="${user.profilePhoto == null}"
+                                 th:src="@{/assets/img/team/cover-profile-2.jpg}"
+                                 class="card-img-top rounded"
+                                 th:alt="'Default portrait'">
+                        </div>
+                    </div>
+                    <div class="card-body pb-5">
+                        <h3 class="h5 mb-2" th:text="${user.username}">Username</h3>
+                        <h2 class="h6 font-weight-normal text-gray mb-3"
+                            th:text="${user.email}">Email</h2>
+                        <span class="h6 font-weight-normal text-gray mb-3"
+                              th:text="${user.firstName}">First Name</span>
+                        <ul class="list-unstyled d-flex justify-content-center mt-3 mb-4">
+<!--                            <li>-->
+<!--                                <a href="#" target="_blank" aria-label="facebook social link"-->
+<!--                                   class="icon icon-xs icon-facebook mr-3">-->
+<!--                                    <span class="fab fa-facebook-f"></span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#" target="_blank" aria-label="twitter social link"-->
+<!--                                   class="icon icon-xs icon-twitter mr-3">-->
+<!--                                    <span class="fab fa-twitter"></span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#" target="_blank" aria-label="slack social link"-->
+<!--                                   class="icon icon-xs icon-slack mr-3">-->
+<!--                                    <span class="fab fa-slack-hash"></span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#" target="_blank" aria-label="dribbble social link"-->
+<!--                                   class="icon icon-xs icon-dribbble mr-3">-->
+<!--                                    <span class="fab fa-dribbble"></span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+                        </ul>
+                        <a class="btn btn-sm btn-primary mr-3"
+                           th:href="@{/users/{id}(id=${user.id})}">
+                            <span class="fas fa-user-plus mr-1"></span> View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Profile Card -->
+        </div>
+    </th:block>
+</div>
+<!-- End of Profile Card -->
+</body>
+<script>
+    // Функция за филтриране на профилите
+    function filterProfiles() {
+        var searchInput = document.getElementById('searchInput').value.toLowerCase();
+        var filterSelect = document.getElementById('filterSelect').value.toLowerCase();
+        var profiles = document.getElementsByClassName('profile-card');
+
+        for (var i = 0; i < profiles.length; i++) {
+            var username = profiles[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+            var firstName = profiles[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+
+            var matchSearch = username.includes(searchInput) || firstName.includes(searchInput);
+            var matchFilter = filterSelect === '' || profiles[i].innerHTML.toLowerCase().includes(filterSelect);
+
+            if (matchSearch && matchFilter) {
+                profiles[i].parentElement.style.display = '';
+            } else {
+                profiles[i].parentElement.style.display = 'none';
+            }
+        }
+    }
+
+    // Функция за сортиране на профилите
+    function sortProfiles() {
+        var sortSelect = document.getElementById('sortSelect').value;
+        var profilesContainer = document.getElementsByClassName('row justify-content-between')[0];
+        var profiles = Array.from(profilesContainer.getElementsByClassName('col-12'));
+
+        profiles.sort(function(a, b) {
+            var aValue, bValue;
+            if (sortSelect === 'username') {
+                aValue = a.getElementsByTagName('h3')[0].innerText.toLowerCase();
+                bValue = b.getElementsByTagName('h3')[0].innerText.toLowerCase();
+            } else if (sortSelect === 'firstName') {
+                aValue = a.getElementsByTagName('span')[0].innerText.toLowerCase();
+                bValue = b.getElementsByTagName('span')[0].innerText.toLowerCase();
+            } else {
+                return 0; // Ако няма избрано сортиране, не променяме реда
+            }
+
+            if (aValue < bValue) {
+                return -1;
+            }
+            if (aValue > bValue) {
+                return 1;
+            }
+            return 0;
+        });
+
+        // Пренареждане на DOM елементите според сортирания масив
+        for (var i = 0; i < profiles.length; i++) {
+            profilesContainer.appendChild(profiles[i]);
+        }
+    }
+</script>
+<div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
+</div>
+</html>

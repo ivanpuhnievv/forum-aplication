@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController extends BaseController {
 
     @Autowired
     private UserMapper userMapper;
@@ -40,11 +40,12 @@ public class AuthController {
     public String register(@Valid @ModelAttribute("user") UserDto dto, BindingResult bindingResult, Model model) {
         if (!userMapper.checkPassword(dto.getPassword(), dto.getConfirmPassword())) {
             bindingResult.rejectValue("confirmPassword", "password_error", "Passwords do not match");
-            return "redirect:/auth/register?error=true";
+            model.addAttribute("errorMessage", "Passwords do not match");
+            return "sign-up";
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", dto);
-//            return bindingResult.getAllErrors().toString();
+
             return "redirect:/auth/register";
         }
 
@@ -58,10 +59,15 @@ public class AuthController {
             } else {
                 bindingResult.rejectValue("username", "username_error", e.getMessage());
             }
-            return "Registration successful for user: " + dto.getUsername();
+            model.addAttribute("errorMessage", e.getMessage());
+            return "sign-up";
         }
 
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/home";
+    }
 
 }

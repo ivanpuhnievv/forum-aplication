@@ -8,6 +8,7 @@ import com.example.forumapplication.models.User;
 import com.example.forumapplication.repositories.RoleRepository;
 import com.example.forumapplication.repositories.UserRepository;
 import com.example.forumapplication.services.contracts.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -146,14 +147,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkEmailUnique(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new EntityDuplicateException("User", "email", user.getEmail());
         }
     }
 
     private void checkNameUnique(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new EntityNotFoundException("User", "username", user.getUsername());
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            throw new EntityDuplicateException("User", "username", user.getUsername());
         }
     }
 
@@ -183,5 +184,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public void updateUserProfilePhoto(String username, String fileName) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setProfilePhoto(fileName);
+            userRepository.save(user);
+        }
     }
 }

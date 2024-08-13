@@ -3,12 +3,16 @@ package com.example.forumapplication.security;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ForumSystemUserDetails implements UserDetailsService {
@@ -22,15 +26,14 @@ public class ForumSystemUserDetails implements UserDetailsService {
         if (user.size() == 0) {
             throw new UsernameNotFoundException("User details not found for the user : " + username);
         }
-//        return new SecurityUser(user.get(0));
         return new org.springframework.security.core.userdetails.User(
                 user.get(0).getUsername(),
                 user.get(0).getPassword(),
                 user.get(0).getAuthorities()
         );
 
+
     }
-
-
-
 }
+
+
