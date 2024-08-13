@@ -23,6 +23,7 @@ public class SecurityConfig {
                                         .requestMatchers("/myCards").authenticated()
                                         .requestMatchers("/auth/login").permitAll()
                                         .requestMatchers("/home").permitAll()
+                                        .requestMatchers("/posts").permitAll()
                                         .requestMatchers("/").permitAll()
                                         .requestMatchers("/users/**").permitAll()
                                         .requestMatchers("/users").permitAll()
@@ -50,8 +51,11 @@ public class SecurityConfig {
                                 .deleteCookies("JSESSIONID") // Изтриване на бисквитките, свързани със сесията
                                 .logoutSuccessUrl("/home") // Пренасочване към /home след успешен логаут
                                 .permitAll()
-                )
-                .csrf(AbstractHttpConfigurer::disable);
+                ).csrf().and()
+                .authorizeRequests()
+                .requestMatchers("/**").permitAll()
+                .anyRequest().authenticated();
+//                .csrf(AbstractHttpConfigurer::disable);
 //                .csrf(cr -> cr.disable())
 //                .formLogin(withDefaults());
 //                .httpBasic(withDefaults());
