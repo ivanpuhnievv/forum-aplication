@@ -126,5 +126,36 @@ public class UserMvcController extends BaseController {
         userService.updateUser(user); // Запазване на промените
         return "redirect:/users/" + user.getId(); // Пренасочване към профила след успешно записване
     }
+
+    @PostMapping("/users/setAdmin")
+    public String setAdmin(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("ADMIN")) {
+            User userToPromote = userService.findUserById(userId);
+            userService.changeRole(userToPromote, userService.getRoleByName("ADMIN"));
+        }
+        return "redirect:/users/" + userId;
+    }
+
+    @PostMapping("/users/setBan")
+    public String setBan(@RequestParam("userId") int userId, Principal principal,Model model) {
+        User user = userService.findUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        if (user.getRole_id().getName().equals("ADMIN")) {
+            User userToBan = userService.findUserById(userId);
+            userService.banUser(userToBan);
+        }
+        return "redirect:/users/" + userId;
+    }
+
+    @PostMapping("/users/setUnban")
+    public String setUnban(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("ADMIN")) {
+            User userToUnban = userService.findUserById(userId);
+            userService.unbanUser(userToUnban);
+        }
+        return "redirect:/users/" + userId;
+    }
 }
 

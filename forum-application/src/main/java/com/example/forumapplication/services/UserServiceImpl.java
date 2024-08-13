@@ -194,4 +194,23 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
+
+    public void banUser(User user) {
+        user.setBanned(true);
+        userRepository.save(user);
+    }
+
+    public void unbanUser(User user) {
+        user.setBanned(false);
+        userRepository.save(user);
+    }
+
+    public void changeRole(User user, Role role) {
+        user.setRole_id(role);
+        userRepository.save(user);
+    }
+
+    public Role getRoleByName(String name) {
+        return roleRepository.findByName(name);
+    }
 }

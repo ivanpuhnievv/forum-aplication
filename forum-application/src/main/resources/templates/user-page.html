@@ -29,6 +29,8 @@
                   <div class="shadow-inset p-4 mb-5 rounded">
                     <img th:src="@{${user.profilePhoto != null ? '/images/' + user.profilePhoto : '/assets/img/team/cover-profile-2.jpg'}}"
                          class="rounded-circle" alt="Profile Image" width="150" height="150">
+                    <h1 class="display-2 mb-3" th:if="${user.isBanned()}">Banned</h1>
+                    <h1 class="display-2 mb-3" th:if="${user.isBlocked()}">Blocked</h1>
                   </div>
                 </div>
                 <div class="col-12 col-md-8 text-center mb-5">
@@ -44,6 +46,37 @@
                     <a th:href="'mailto:' + ${user.email}" th:text="${user.email}">user@example.com</a>
                   </div>
                 </div>
+                <form th:action="@{/users/setAdmin}" method="post" th:title="${param.error}" th:unless="${user.role_id.name.equals('ADMIN')}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}"/>
+                  <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}">SET ADMIN</button>
+                </form>
+                <!-- Bann User -->
+                <form th:action="@{/users/setBan}" method="post"  th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and user.isBanned() == false}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}" />
+                  <button type="submit" class="btn btn-dark" th:if="${loggedInUser.id != user.id}">BAN USER</button>
+                </form>
+                <!-- end of Bann User -->
+                <!-- Unbann User -->
+                <form th:action="@{/users/setUnban}" method="post" th:value="false" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and user.isBanned() == true}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}"/>
+                  <button type="submit" class="btn btn-dark" th:if="${loggedInUser.id != user.id}">UNBAN USER</button>
+                </form>
+
                 <div class="col-md-4 col-lg-4 text-center" th:if="${user.role_id.name.equals('ADMIN') and user.getPhone() != null}">
                   <!-- Additional Information -->
                   <div class="icon-box mb-4">
@@ -59,23 +92,12 @@
                     </form>
                   </div>
                 </div>
-<!--                <div class="col-md-4 col-lg-4 text-center" th:if="${user.role_id.name.equals('ADMIN') and user.getPhone() != null}">-->
-<!--                  &lt;!&ndash; Additional Information &ndash;&gt;-->
-<!--                  <div class="icon-box mb-4">-->
-<!--                    <h2 class="h5 icon-box-title">Phone</h2>-->
-<!--                    <span th:text="${user.phone != null ? user.phone : 'N/A'}">phone</span>-->
-<!--                  </div>-->
-<!--                </div>-->
                 <div class="col-md-4 col-lg-4 text-center" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                   <div class="icon-box mb-4">
                     <h2 class="h5 icon-box-title">Role</h2>
                     <span th:each="authority : ${user.getAuthorities()}"
                           th:text="${#strings.replace(authority.getAuthority(), 'ROLE_', '')}">Role</span>
                   </div>
-                  <form th:action="@{/users/photo}" method="post" enctype="multipart/form-data">
-
-                    <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}">SET ADMIN</button>
-                  </form>
                 </div>
                   </div>
                   <!-- Profile Image Upload Button (Visible only if loggedInUser is the same as user) -->

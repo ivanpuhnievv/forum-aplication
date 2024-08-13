@@ -29,4 +29,12 @@ public interface UserService {
     void uploadPhoto(User user, String photo);
 
     void updateUserProfilePhoto(String username, String fileName);
+
+    void banUser(User user);
+
+    void unbanUser(User user);
+
+    void changeRole(User user, Role role);
+
+    Role getRoleByName(String name);
 }
