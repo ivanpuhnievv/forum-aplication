@@ -142,4 +142,8 @@ public class PostServiceImpl implements PostService {
         User currentUser = userRepository.findByUsername(authentication.getName());
         return currentUser;
     }
+
+    public boolean userHasPosts(User user) {
+        return !postRepository.findByCreatedBy(user).isEmpty();
+    }
 }

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,6 +38,7 @@ public class UserMvcController extends BaseController {
         this.postService = postService;
 
     }
+
     private final static String UPLOAD_DIR = "forum-application/src/main/resources/static/images/";
 
     @GetMapping("/users")
@@ -43,8 +46,8 @@ public class UserMvcController extends BaseController {
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
         model.addAttribute("user", userDto);
-            return "users-page";
-        }
+        return "users-page";
+    }
 
     @GetMapping("/users/{id}")
     public String getUser(Model model, @ModelAttribute("id") int id) {
@@ -115,6 +118,13 @@ public class UserMvcController extends BaseController {
             redirectAttributes.addFlashAttribute("error", "You are not authorized to delete this profile.");
             return "redirect:/users/" + userId;
         }
+    }
+    @PostMapping("/setPhone")
+    public String setPhone(@RequestParam("phone") String phone, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        user.setPhone(phone);
+        userService.updateUser(user); // Запазване на промените
+        return "redirect:/users/" + user.getId(); // Пренасочване към профила след успешно записване
     }
 }
 

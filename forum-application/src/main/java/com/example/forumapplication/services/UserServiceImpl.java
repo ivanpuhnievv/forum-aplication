@@ -11,12 +11,9 @@ import com.example.forumapplication.services.contracts.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.forumapplication.filters.specifications.UserSpecifications.*;
-import static com.example.forumapplication.helpers.AuthenticationHelpers.checkAuthentication;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -87,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        checkNameUnique(user);
+        checkUsernameUnique(user);
         checkEmailUnique(user);
         Role role = roleRepository.findByName("USER");
         String rawPassword = user.getPassword();
@@ -124,8 +120,12 @@ public class UserServiceImpl implements UserService {
         if (currentUser.getId() != userToUpdate.getId()) {
             throw new UnauthorizedException("You are not authorized to update this user.");
         }
+        if (!userToUpdate.getEmail().equals(currentUser.getEmail()) ||
+                !userToUpdate.getUsername().equals(currentUser.getUsername())) {
+
         checkEmailUnique(userToUpdate);
-        checkNameUnique(userToUpdate);
+        checkUsernameUnique(userToUpdate);
+        }
         userRepository.save(userToUpdate);
 
         return userToUpdate;
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void checkNameUnique(User user) {
+    private void checkUsernameUnique(User user) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new EntityDuplicateException("User", "username", user.getUsername());
         }

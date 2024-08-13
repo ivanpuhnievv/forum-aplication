@@ -29,4 +29,6 @@ public interface PostService {
     void deleteTag(int postId, int tagId);
 
     void changeTag(int postId, int tagId, TagDto tagDto);
+
+    boolean userHasPosts(User user);
 }

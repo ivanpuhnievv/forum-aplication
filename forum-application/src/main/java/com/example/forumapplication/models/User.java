@@ -50,4 +50,6 @@ public class User {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role_id.getName()));
     }
 
+
+
 }

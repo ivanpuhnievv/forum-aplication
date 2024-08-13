@@ -25,13 +25,12 @@
     <div class="col-md-6">
         <input type="text" class="form-control" placeholder="Search by username..." id="searchInput" onkeyup="filterProfiles()">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
         <select class="form-control" id="filterSelect" onchange="filterProfiles()">
             <option value="">Filter by...</option>
-            <option value="facebook">Facebook</option>
-            <option value="twitter">Twitter</option>
-            <option value="slack">Slack</option>
-            <option value="dribbble">Dribbble</option>
+            <option value="Active">Active</option>
+            <option value="Blocked">Blocked</option>
+            <option value="Banned">Banned</option>
         </select>
     </div>
     <div class="col-md-2">
@@ -48,7 +47,8 @@
     <th:block th:each="user : ${users}">
         <div class="col-12 col-md-6 col-lg-4 mb-6 mb-md-5">
             <!-- Profile Card -->
-            <div class="profile-card mb-5" style="margin-top: 20px;">
+            <div class="profile-card mb-5" style="margin-top: 20px;"
+                 th:attr="data-status=${user.isBanned() ? 'Banned' : (user.isBlocked() ? 'Blocked' : 'Active')}">
                 <div class="card bg-primary shadow-inset border-light text-center">
                     <div class="card-header">
                         <div class="profile-image bg-primary shadow-inset border border-light rounded mx-auto p-3 mt-n6">
@@ -70,32 +70,6 @@
                             th:text="${user.email}">Email</h2>
                         <span class="h6 font-weight-normal text-gray mb-3"
                               th:text="${user.firstName}">First Name</span>
-                        <ul class="list-unstyled d-flex justify-content-center mt-3 mb-4">
-<!--                            <li>-->
-<!--                                <a href="#" target="_blank" aria-label="facebook social link"-->
-<!--                                   class="icon icon-xs icon-facebook mr-3">-->
-<!--                                    <span class="fab fa-facebook-f"></span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" target="_blank" aria-label="twitter social link"-->
-<!--                                   class="icon icon-xs icon-twitter mr-3">-->
-<!--                                    <span class="fab fa-twitter"></span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" target="_blank" aria-label="slack social link"-->
-<!--                                   class="icon icon-xs icon-slack mr-3">-->
-<!--                                    <span class="fab fa-slack-hash"></span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" target="_blank" aria-label="dribbble social link"-->
-<!--                                   class="icon icon-xs icon-dribbble mr-3">-->
-<!--                                    <span class="fab fa-dribbble"></span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-                        </ul>
                         <a class="btn btn-sm btn-primary mr-3"
                            th:href="@{/users/{id}(id=${user.id})}">
                             <span class="fas fa-user-plus mr-1"></span> View Profile
@@ -109,19 +83,20 @@
 </div>
 <!-- End of Profile Card -->
 </body>
+
 <script>
     // Функция за филтриране на профилите
     function filterProfiles() {
         var searchInput = document.getElementById('searchInput').value.toLowerCase();
-        var filterSelect = document.getElementById('filterSelect').value.toLowerCase();
+        var filterValue = document.getElementById('filterSelect').value;
         var profiles = document.getElementsByClassName('profile-card');
 
         for (var i = 0; i < profiles.length; i++) {
             var username = profiles[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-            var firstName = profiles[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+            var status = profiles[i].getAttribute('data-status');
 
-            var matchSearch = username.includes(searchInput) || firstName.includes(searchInput);
-            var matchFilter = filterSelect === '' || profiles[i].innerHTML.toLowerCase().includes(filterSelect);
+            var matchSearch = username.includes(searchInput);
+            var matchFilter = (filterValue === "" || status === filterValue);
 
             if (matchSearch && matchFilter) {
                 profiles[i].parentElement.style.display = '';
