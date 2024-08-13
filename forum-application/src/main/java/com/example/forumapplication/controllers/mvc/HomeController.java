@@ -32,4 +32,9 @@ public class HomeController extends BaseController{
         model.addAttribute("post", post);
         return "home";
     }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
 }
