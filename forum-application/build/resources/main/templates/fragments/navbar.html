@@ -125,12 +125,18 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown" >
+                <li class="nav-item dropdown" th:unless="${loggedInUser != null}">
+                    <a th:href="@{/auth/login}" class="nav-link dropdown-toggle" id="navbarLogin" role="button" >
+                        <span class="nav-link-inner-text">Login</span>
+                        <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${loggedInUser != null}">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="nav-link-inner-text">Users</span>
                         <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg">
+                    <div class="dropdown-menu dropdown-menu-lg" >
                         <div class="col-auto px-0" data-dropdown-content>
                             <div class="list-group list-group-flush">
                                 <a th:href="@{/users}"  class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">

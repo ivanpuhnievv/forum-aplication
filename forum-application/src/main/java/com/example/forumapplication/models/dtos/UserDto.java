@@ -50,5 +50,4 @@ public class UserDto {
             message = "Phone number must be a valid phone number!")
     private String phoneNumber;
 
-
 }

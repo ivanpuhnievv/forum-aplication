@@ -44,7 +44,7 @@
                     <a th:href="'mailto:' + ${user.email}" th:text="${user.email}">user@example.com</a>
                   </div>
                 </div>
-                <div class="col-md-4 col-lg-4 text-center">
+                <div class="col-md-4 col-lg-4 text-center" th:if="${user.role_id.name.equals('ADMIN') and user.getPhone() != null}">
                   <!-- Additional Information -->
                   <div class="icon-box mb-4">
                     <h2 class="h5 icon-box-title">Phone</h2>
@@ -87,14 +87,12 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer px-0 mx-auto text-center">
-              <button type="button" class="btn btn-primary">Send Message</button>
+            <div class="card-footer px-0 mx-auto text-center" th:if="${userPostsSize>0}">
+              <button type="button" class="btn btn-primary">All Posts(<span th:text="${userPostsSize}"></span>)</button>
             </div>
           </div>
           <!-- End of User Profile Card -->
         </div>
-      </div>
-    </div>
   </section>
   <!-- End of section -->
 </main>

@@ -28,10 +28,7 @@
     <div class="col-md-4">
         <select class="form-control" id="filterSelect" onchange="filterProfiles()">
             <option value="">Filter by...</option>
-            <option value="facebook">Facebook</option>
-            <option value="twitter">Twitter</option>
-            <option value="slack">Slack</option>
-            <option value="dribbble">Dribbble</option>
+            <option value="Posts Created">Facebook</option>
         </select>
     </div>
     <div class="col-md-2">
@@ -110,20 +107,20 @@
 <!-- End of Profile Card -->
 </body>
 <script>
-    // Функция за филтриране на профилите
+    // Функция за филтриране на профилите - показва само тези с минимум 1 пост
     function filterProfiles() {
         var searchInput = document.getElementById('searchInput').value.toLowerCase();
-        var filterSelect = document.getElementById('filterSelect').value.toLowerCase();
         var profiles = document.getElementsByClassName('profile-card');
 
         for (var i = 0; i < profiles.length; i++) {
             var username = profiles[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
             var firstName = profiles[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+            var postCount = parseInt(profiles[i].getAttribute('data-post-count')); // Предполага се, че има атрибут 'data-post-count' за броя на постовете
 
             var matchSearch = username.includes(searchInput) || firstName.includes(searchInput);
-            var matchFilter = filterSelect === '' || profiles[i].innerHTML.toLowerCase().includes(filterSelect);
+            var hasPosts = postCount > 0;
 
-            if (matchSearch && matchFilter) {
+            if (matchSearch && hasPosts) {
                 profiles[i].parentElement.style.display = '';
             } else {
                 profiles[i].parentElement.style.display = 'none';
@@ -164,6 +161,61 @@
         }
     }
 </script>
+<!--<script>-->
+<!--    // Функция за филтриране на профилите-->
+<!--    function filterProfiles() {-->
+<!--        var searchInput = document.getElementById('searchInput').value.toLowerCase();-->
+<!--        var filterSelect = document.getElementById('filterSelect').value.toLowerCase();-->
+<!--        var profiles = document.getElementsByClassName('profile-card');-->
+
+<!--        for (var i = 0; i < profiles.length; i++) {-->
+<!--            var username = profiles[i].getElementsByTagName('h3')[0].innerText.toLowerCase();-->
+<!--            var firstName = profiles[i].getElementsByTagName('span')[0].innerText.toLowerCase();-->
+
+<!--            var matchSearch = username.includes(searchInput) || firstName.includes(searchInput);-->
+<!--            var matchFilter = filterSelect === '' || profiles[i].innerHTML.toLowerCase().includes(filterSelect);-->
+
+<!--            if (matchSearch && matchFilter) {-->
+<!--                profiles[i].parentElement.style.display = '';-->
+<!--            } else {-->
+<!--                profiles[i].parentElement.style.display = 'none';-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Функция за сортиране на профилите-->
+<!--    function sortProfiles() {-->
+<!--        var sortSelect = document.getElementById('sortSelect').value;-->
+<!--        var profilesContainer = document.getElementsByClassName('row justify-content-between')[0];-->
+<!--        var profiles = Array.from(profilesContainer.getElementsByClassName('col-12'));-->
+
+<!--        profiles.sort(function(a, b) {-->
+<!--            var aValue, bValue;-->
+<!--            if (sortSelect === 'username') {-->
+<!--                aValue = a.getElementsByTagName('h3')[0].innerText.toLowerCase();-->
+<!--                bValue = b.getElementsByTagName('h3')[0].innerText.toLowerCase();-->
+<!--            } else if (sortSelect === 'firstName') {-->
+<!--                aValue = a.getElementsByTagName('span')[0].innerText.toLowerCase();-->
+<!--                bValue = b.getElementsByTagName('span')[0].innerText.toLowerCase();-->
+<!--            } else {-->
+<!--                return 0; // Ако няма избрано сортиране, не променяме реда-->
+<!--            }-->
+
+<!--            if (aValue < bValue) {-->
+<!--                return -1;-->
+<!--            }-->
+<!--            if (aValue > bValue) {-->
+<!--                return 1;-->
+<!--            }-->
+<!--            return 0;-->
+<!--        });-->
+
+<!--        // Пренареждане на DOM елементите според сортирания масив-->
+<!--        for (var i = 0; i < profiles.length; i++) {-->
+<!--            profilesContainer.appendChild(profiles[i]);-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
 </div>
 </html>

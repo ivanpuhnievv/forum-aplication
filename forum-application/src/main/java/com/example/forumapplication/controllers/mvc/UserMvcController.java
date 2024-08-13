@@ -1,7 +1,9 @@
 package com.example.forumapplication.controllers.mvc;
 
+import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
+import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,34 +21,37 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import java.util.List;
 
 @Controller
 public class UserMvcController extends BaseController {
 
     private final UserService userService;
+    private final PostService postService;
 
 
     @Autowired
-    public UserMvcController(UserService userService) {
+    public UserMvcController(UserService userService, PostService postService) {
         this.userService = userService;
+        this.postService = postService;
 
     }
-    private static String UPLOAD_DIR = "forum-application/src/main/resources/static/images/";
+    private final static String UPLOAD_DIR = "forum-application/src/main/resources/static/images/";
 
     @GetMapping("/users")
     public String getUsers(Model model, UserDto userDto) {
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
         model.addAttribute("user", userDto);
-        return "users-page";
-    }
+            return "users-page";
+        }
 
     @GetMapping("/users/{id}")
     public String getUser(Model model, @ModelAttribute("id") int id) {
         User user = userService.findUserById(id);
         model.addAttribute("user", user);
+        List<Post> userPosts = postService.getPostsByUser(user);
+        model.addAttribute("userPostsSize", userPosts.size());
         return "user-page";
     }
 
@@ -62,7 +67,7 @@ public class UserMvcController extends BaseController {
 
         try {
             String oldPhoto = userService.findUserByUsername(loggedInUser.getUsername()).getProfilePhoto();
-            // Създайте уникално име за файла
+            // Създаваме уникално име за файла
             String fileName = loggedInUser.getUsername() + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
             // Проверете дали директорията съществува, ако не - я създайте
@@ -71,11 +76,11 @@ public class UserMvcController extends BaseController {
                 Files.createDirectories(uploadPath);
             }
 
-            // Запазете файла в директорията
+            // Запазваме файла в директорията
             Path path = uploadPath.resolve(fileName);
             Files.write(path, file.getBytes());
 
-            // Запишете адреса на файла в базата данни
+            // Записваме адреса на файла в базата данни
             userService.updateUserProfilePhoto(loggedInUser.getUsername(), fileName);
 
             if (oldPhoto != null) {

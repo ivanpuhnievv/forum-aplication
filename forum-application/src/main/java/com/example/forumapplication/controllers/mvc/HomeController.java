@@ -19,9 +19,10 @@ public class HomeController extends BaseController{
         this.postService = postService;
     }
 
+
     @GetMapping
     public String landing() {
-        return "home";
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
@@ -31,6 +32,4 @@ public class HomeController extends BaseController{
         model.addAttribute("post", post);
         return "home";
     }
-
-
 }
