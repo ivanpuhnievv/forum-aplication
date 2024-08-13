@@ -25,12 +25,13 @@
     <div class="col-md-6">
         <input type="text" class="form-control" placeholder="Search by username..." id="searchInput" onkeyup="filterProfiles()">
     </div>
-    <div class="col-md-4" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div class="col-md-4">
         <select class="form-control" id="filterSelect" onchange="filterProfiles()">
-            <option value="">Filter by...</option>
+            <option value="" th:unless="${#authorization.expression('hasRole(''ROLE_USER'')')}">Filter by...</option>
             <option value="Active">Active</option>
-            <option value="Blocked">Blocked</option>
-            <option value="Banned">Banned</option>
+            <option th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or
+                    #authorization.expression('hasRole(''ROLE_MODERATOR'')')}" value="Blocked">Blocked</option>
+            <option th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" value="Banned">Banned</option>
         </select>
     </div>
     <div class="col-md-2">
