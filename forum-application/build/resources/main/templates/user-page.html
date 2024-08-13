@@ -46,7 +46,7 @@
                     <a th:href="'mailto:' + ${user.email}" th:text="${user.email}">user@example.com</a>
                   </div>
                 </div>
-                <form th:action="@{/users/setAdmin}" method="post" th:title="${param.error}" th:unless="${user.role_id.name.equals('ADMIN')}">
+                <form th:action="@{/users/setAdmin}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                   <!-- error message -->
                   <div th:if="${errorMessage}" class="error-message">
                     <p th:text="${errorMessage}">Default error message if none is provided</p>
@@ -67,7 +67,7 @@
                 </form>
                 <!-- end of Bann User -->
                 <!-- Unbann User -->
-                <form th:action="@{/users/setUnban}" method="post" th:value="false" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and user.isBanned() == true}">
+                <form th:action="@{/users/setUnban}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and user.isBanned() == true}">
                   <!-- error message -->
                   <div th:if="${errorMessage}" class="error-message">
                     <p th:text="${errorMessage}">Default error message if none is provided</p>
@@ -76,6 +76,31 @@
                   <input type="hidden" name="userId" th:value="${user.id}"/>
                   <button type="submit" class="btn btn-dark" th:if="${loggedInUser.id != user.id}">UNBAN USER</button>
                 </form>
+                <!-- end of Unbann User -->
+
+                <!-- Block User -->
+                <form th:action="@{/users/setBlock}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')') and user.isBlocked() == false}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}"/>
+                  <button type="submit" class="btn btn-dark" th:if="${loggedInUser.id != user.id}">BLOCK USER</button>
+                </form>
+                <!-- end of Block User -->
+
+                <!-- UnBlock User -->
+                <form th:action="@{/users/setUnblock}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')') and user.isBlocked() == true}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}"/>
+                  <button type="submit" class="btn btn-dark" th:if="${loggedInUser.id != user.id}">UNBLOCK USER</button>
+                </form>
+                <!-- end of UnBlock User -->
 
                 <div class="col-md-4 col-lg-4 text-center" th:if="${user.role_id.name.equals('ADMIN') and user.getPhone() != null}">
                   <!-- Additional Information -->

@@ -157,5 +157,24 @@ public class UserMvcController extends BaseController {
         }
         return "redirect:/users/" + userId;
     }
+
+    @PostMapping("/users/setBlock")
+    public String setBlock(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("MODERATOR")) {
+            User userToBlock = userService.findUserById(userId);
+            userService.blockUser(userToBlock);
+        }
+        return "redirect:/users/" + userId;
+    }
+    @PostMapping("/users/setUnblock")
+    public String setUnblock(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("MODERATOR")) {
+            User userToUnblock = userService.findUserById(userId);
+            userService.unblockUser(userToUnblock);
+        }
+        return "redirect:/users/" + userId;
+    }
 }
 
