@@ -51,12 +51,13 @@ public class SecurityConfig {
                                 .deleteCookies("JSESSIONID") // Изтриване на бисквитките, свързани със сесията
                                 .logoutSuccessUrl("/home") // Пренасочване към /home след успешен логаут
                                 .permitAll()
-                ).csrf().and()
-                .authorizeRequests()
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated();
-//                .csrf(AbstractHttpConfigurer::disable);
-//                .csrf(cr -> cr.disable())
+                )
+                //.csrf().and()
+//                .authorizeRequests()
+//                .requestMatchers("/**").permitAll()
+//                .anyRequest().authenticated();
+                .csrf(AbstractHttpConfigurer::disable);
+//                .csrf(cr -> cr.disable());
 //                .formLogin(withDefaults());
 //                .httpBasic(withDefaults());
         return http.build();

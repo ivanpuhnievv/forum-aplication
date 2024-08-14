@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head}"></head>
 <header class="header-global">
     <nav id="navbar-main" th:fragment="navBarMenu" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light">
         <div class="container position-relative">
@@ -15,36 +17,40 @@
 
             <!-- Collapsible navbar items -->
             <div class="collapse navbar-collapse" id="navbar_global">
-                <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-auto">
-                    <li class="nav-item">
+                <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-auto ">
+                    <li class="nav-item nav-pills rounded ">
                         <a class="nav-link" th:href="@{/home}">Home</a>
                     </li>
-                    <li class="nav-item" th:if="${loggedInUser != null}">
+                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}">
                         <a class="nav-link" th:href="@{/users}">Users</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:href="@{/about}">About</a>
                     </li>
-                    <li class="nav-item" th:if="${loggedInUser != null}">
+                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}">
                         <a class="nav-link" th:href="@{/myposts}">My Posts</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:href="@{/contact}">Contacts</a>
                     </li>
 
                     <!-- User Profile dropdown, included in the collapsible navbar -->
                     <li class="nav-item dropdown" th:if="${loggedInUser != null}">
                         <a href="#" class="nav-link dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<!--                            <span class="ml-2">Profile</span>-->
                             <img th:src="${loggedInUser.profilePhoto != null ? '/images/' + loggedInUser.profilePhoto : '/assets/img/team/cover-profile-2.jpg'}"
-                                 class="rounded-circle"
-                                 style="width: 50px; height: 50px; margin-left: 10px;"
+                                 class="rounded-circle "
+                                 style="width: 40px; height: 40px; margin-left: 10px;"
                                  alt="User profile photo">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" th:href="@{/users/{id}(id=${loggedInUser.id})}">View Profile</a>
-                            <a class="dropdown-item" th:href="@{/auth/logout}">Logout</a>
+                            <a class="dropdown-item nav-pills rounded " th:href="@{/users/{id}(id=${loggedInUser.id})}">View Profile</a>
+                            <a class="dropdown-item nav-pills rounded " th:href="@{/auth/logout}">Logout</a>
                         </div>
+                    </li>
+
+                    <!-- Login button, displayed when the user is not logged in -->
+                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser == null}">
+                        <a class="nav-link" th:href="@{/auth/login}">Login</a>
                     </li>
                 </ul>
             </div>
@@ -52,22 +58,7 @@
     </nav>
 
     <!-- Bootstrap and necessary scripts -->
-    <script src="/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/vendor/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/vendor/headroom.js/dist/headroom.min.js"></script>
-    <script src="/vendor/onscreen/dist/on-screen.umd.min.js"></script>
-    <script src="/vendor/nouislider/distribute/nouislider.min.js"></script>
-    <script src="/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <script src="/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-    <script src="/vendor/jarallax/dist/jarallax.min.js"></script>
-    <script src="/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-    <script src="/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
-    <script src="/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-    <script src="/vendor/prismjs/prism.js"></script>
-
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+    <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}"></div>
     <!-- Neumorphism JS -->
     <script src="/assets/js/neumorphism.js"></script>
 </header>
