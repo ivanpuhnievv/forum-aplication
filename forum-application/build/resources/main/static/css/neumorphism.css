@@ -108,6 +108,12 @@ body {
     outline: 0 !important;
 }
 
+tabcontent1{
+    display: none;
+    background-color: #f3f7fa;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
 hr {
     box-sizing: content-box;
     height: 0;
@@ -16906,7 +16912,7 @@ a.text-slack:hover, a.text-slack:focus {
   h3 {
         page-break-after: avoid;
     }
-  @    page {
+  @page {
         size: a3;
     }
 
@@ -18050,7 +18056,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .noUi-value-vertical {
-    transform: translate(0, -50%, 0);
+    transform: translate(0, -50,0);
     padding-left: 25px;
 }
 

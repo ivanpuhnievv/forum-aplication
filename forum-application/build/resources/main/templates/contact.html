@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>KAKASHAK</title>
-    <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{/static/vendor/fortawesome/fontawesome-free/css/all.min.css}" />
-    <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+
 </head>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
@@ -21,14 +17,9 @@
                     <div class="card bg-primary shadow-soft border-light p-2 p-md-3 p-lg-5">
                         <div class="card-header">
                             <div class="row justify-content-center">
-                                <div class="col-12">
-                                    <div class="shadow-inset p-4 mb-5 rounded">
-                                        <iframe class="map rounded" id="gmap_canvas" src="https://maps.google.com/maps?q=san%20francisco&t=&z=8&ie=UTF8&iwloc=&output=embed"></iframe>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-md-8 text-center mb-5">
                                     <h1 class="display-2 mb-3">Get in touch today</h1>
-                                    <p class="lead">Have a new project in mind? Need help with an ongoing one? Drop us a line about your project needs, we answer same day.</p>
+                                    <p class="lead">Feel free to reach out to us whenever you need assistance-your satisfaction is our top priority!</p>
                                 </div>
                             </div>
                             <div class="row mb-5">
@@ -40,9 +31,9 @@
                                         </div>
                                         <h2 class="h5 icon-box-title">Visit us</h2>
                                         <span>
-                                                27 Silicon Valley
+                                                Sofia center, 1000
                                                 <br>
-                                                USA, California
+                                                Bulgaria, Sofia
                                             </span>
                                     </div>
                                     <!-- End of Visit Box -->
@@ -53,8 +44,8 @@
                                         <div class="icon icon-shape shadow-soft border-light rounded-circle mb-4">
                                             <span class="fas fa-headphones-alt"></span>
                                         </div>
-                                        <h2 class="h5 icon-box-title">Call</h2>
-                                        <span>+3912345678</span>
+                                        <h2 class="h5 icon-box-title">Call us</h2>
+                                        <span>+359 887 69 8290</span>
                                         <div class="text-small text-gray">
                                             Mon - Fri, 8am - 4pm
                                         </div>
@@ -68,11 +59,17 @@
                                             <span class="far fa-paper-plane"></span>
                                         </div>
                                         <h2 class="h5 icon-box-title">Email</h2>
-                                        <a href="#">example@company.com</a>
-                                        <br><a href="#">name@company.com</a>
+                                        <a href="#">radoslav@learn.telerik.com</a>
+                                        <br><a href="#">aleksandar@learn.telerik.com</a>
+                                        <br><a href="#">ivan@learn.telerik.com</a>
                                     </div>
                                     <!-- End of Email Box -->
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="shadow-inset p-4 mb-5 rounded">
+                                <iframe class="map rounded" id="gmap_canvas" src="https://maps.google.com/maps?q=42.697708,23.321867&t=&z=8&ie=UTF8&iwloc=&output=embed"></iframe>
                             </div>
                         </div>
                         <form class="col-12 col-md-8 mx-auto">
@@ -114,9 +111,6 @@
     </section>
     <!-- End of section -->
 </main>
-<a id="producthunt-badge" href="https://www.producthunt.com/posts/neumorphism-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-neumorphism-ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=200908&theme=dark" alt="Neumorphism UI - Neumorphism inspired UI web components, sections and pages | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
-
-
 </body>
 <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
 </div>

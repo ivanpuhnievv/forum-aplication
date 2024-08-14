@@ -37,4 +37,8 @@ public class HomeController extends BaseController{
     public String contact() {
         return "contact";
     }
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }

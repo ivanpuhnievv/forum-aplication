@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+
+</head>
+<body>
+<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+
+<main>
+    <!-- Section -->
+    <section class="section section-lg">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-12 col-lg-12 mb-5">
+                    <!-- Contact Card -->
+                    <div class="card bg-primary shadow-soft border-light p-2 p-md-3 p-lg-5">
+                        <div class="card-header">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8 text-center mb-5">
+                                    <h1 class="display-2 mb-3">About us</h1>
+                                    <p class="lead">Welcome to RAI, the ultimate forum for cinema and series enthusiasts! Whether you're a casual viewer, a die-hard cinephile, or a binge-watching TV addict, RAI is your community hub to dive deep into the world of films and television.</p>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Tab Nav -->
+                                <div class="nav-wrapper position-relative mb-4">
+                                    <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i class="fas fa-tint"></i>Our Mission</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="fas fa-bug"></i>What We Offer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i class="fas fa-user-astronaut"></i>Why Join RAI?</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- End of Tab Nav -->
+                                <!-- Tab Content -->
+                                <div class="card shadow-inset bg-primary border-light p-4 rounded">
+                                    <div class="card-body p-0">
+                                        <div class="tab-content" id="tabcontent2">
+                                            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                                <p>At RAI, our mission is to create a vibrant space where fans, critics, creators, and everyone in between can come together to share their passion for the moving image.</p>
+                                                <p>We believe that cinema and series are more than just entertainment—they're art forms that spark conversation, inspire creativity, and bring people together.</p>
+                                            </div>
+                                            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                                                <p class="lead">In-Depth Discussions: </p> <p>Engage in thought-provoking conversations about your favorite movies and series, from classic films to the latest blockbusters, from cult TV shows to the hottest streaming hits.</p>
+                                                <p class="lead">Reviews and Recommendations: </p> <p>Discover what to watch next with insights from fellow members. Share your own reviews and ratings to help others find hidden gems or avoid the duds.</p>
+                                                <p class="lead">Creative Corner: </p> <p>Are you a filmmaker, writer, or just love creating? Showcase your work, get feedback, or collaborate with others in our Creative Corner. RAI is a place where art meets community.</p>
+                                            </div>
+                                            <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+                                                <p>RAI is more than just a forum—it's a community. Here, your voice matters. Whether you're here to share your opinions, discover new content, or just enjoy the conversation, RAI is a welcoming space for everyone who loves cinema and series. </p>
+                                                <p>Connect with like-minded individuals, broaden your horizons, and most importantly, have fun!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End of Tab Content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Contact Card -->
+                </div>
+            </div>
+        </div>
+            </div>
+    </section>
+    <!-- End of section -->
+</main>
+</body>
+<div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
+</div>
+</html>
