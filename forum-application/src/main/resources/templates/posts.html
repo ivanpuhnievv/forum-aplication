@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>KAKASHAK</title>
+    <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />
+    <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
+</head>
+<body>
+<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+<main>
+    <div th:each="post : ${posts}">
+        <div class="section bg-primary text-dark section-lg">
+            <div class="container">
+                <!-- Заглавие на поста -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-5">
+                            <h3 class="font-weight-bold" th:text="${post.getTitle()}">Post Title</h3>
+                            <p class="font-weight-light" th:text="'By ' + ${post.getCreatedBy().getUsername()}">Created By</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Край на Заглавие на поста -->
+
+                <div class="row">
+                    <div class="col-md-10 col-lg-8">
+                        <!-- Съдържание на поста -->
+                        <div class="card shadow-inset bg-primary border-light p-4 rounded">
+                            <div class="card-body p-0">
+                                <p th:text="${post.content}">Post content goes here</p>
+                            </div>
+                        </div>
+                        <!-- Край на Съдържание на поста -->
+
+                        <!-- Брояч на коментари и харесвания с линк за показване -->
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <a href="javascript:void(0);" th:onclick="'toggleComments(' + ${post.id} + ')'">
+                                <i class="fas fa-comments"></i>
+                                Show Comments (<span th:text="${post.comments.size()}">0</span>)
+                            </a>
+                            <div class="d-flex align-items-center">
+                                <!-- Бутон за харесване -->
+                                <form th:action="@{/posts/{id}/like(id=${post.id})}" method="post" style="margin-right: 10px;">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                    <button type="submit" class="btn btn-link" style="padding: 0;">
+                                        <i class="fas fa-thumbs-up"></i> Like
+                                    </button>
+                                </form>
+                                <span>
+                                    <span th:text="${post.getLikes()}">0</span> Likes
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Форма за отговор на поста, скрита по подразбиране -->
+                        <div class="mt-4">
+                            <button class="btn btn-link" th:onclick="'togglePostReplyForm(' + ${post.id} + ')'" style="padding: 0;">
+                                Reply to Post
+                            </button>
+                            <div th:id="'post-reply-form-' + ${post.id}" style="display: none; margin-top: 10px;">
+                                <form th:action="@{/posts/${post.id}/comments/add}" method="post">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="comment" placeholder="Write your reply..." rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Post Reply</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Коментари, скрити по подразбиране -->
+                        <div class="comments-section mt-4" th:id="'comments-' + ${post.id}" style="display: none;">
+                            <div th:each="comment : ${post.comments}" class="comment-container mb-4 p-3 border rounded">
+                                <div class="comment">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p><strong th:text="${comment.getCreatedBy().getUsername()}">Username</strong></p>
+                                            <p th:text="${comment.getContent()}">Comment content</p>
+                                        </div>
+                                        <!-- Бутон за отговор -->
+                                        <button class="btn btn-link" th:onclick="'toggleReplyForm(' + ${comment.id} + ')'" style="padding: 0;">
+                                            Reply
+                                        </button>
+                                    </div>
+                                    <!-- Форма за отговор, скрита по подразбиране -->
+                                    <div th:id="'reply-form-' + ${comment.id}" style="display: none; margin-top: 10px;">
+                                        <form th:action="@{/comments/{id}/reply(id=${comment.id})}" method="post">
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="replyContent" placeholder="Write your reply..." rows="3"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Post Reply</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Край на Коментари -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Функция за показване/скриване на коментарите
+    function toggleComments(postId) {
+        var commentsSection = document.getElementById('comments-' + postId);
+        if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+            commentsSection.style.display = 'block';
+        } else {
+            commentsSection.style.display = 'none';
+        }
+    }
+
+    // Функция за показване/скриване на формата за отговор
+    function toggleReplyForm(commentId) {
+        var replyForm = document.getElementById('reply-form-' + commentId);
+        if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+            replyForm.style.display = 'block';
+        } else {
+            replyForm.style.display = 'none';
+        }
+    }
+
+    // Функция за показване/скриване на формата за отговор на поста
+    function togglePostReplyForm(postId) {
+        var replyForm = document.getElementById('post-reply-form-' + postId);
+        if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+            replyForm.style.display = 'block';
+        } else {
+            replyForm.style.display = 'none';
+        }
+    }
+</script>
+
+<div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
+</div>
+</body>
+</html>
