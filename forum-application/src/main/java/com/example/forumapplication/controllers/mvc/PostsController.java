@@ -12,6 +12,7 @@ import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,44 +27,69 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostsController extends BaseController {
 
-    private final PostService postService;
-    private final CommentService commentService;
+        private final PostService postService;
+        private final UserService userService;
+        private final CommentService commentService;
 
-    @Autowired
-    public PostsController(PostService postService, CommentService commentService) {
-        this.postService = postService;
-        this.commentService = commentService;
-    }
+        @Autowired
+        public PostsController(PostService postService, UserService userService, CommentService commentService) {
+            this.postService = postService;
+            this.userService = userService;
+            this.commentService = commentService;
+        }
 
     @GetMapping
-    public String showPosts(Model model) {
-        List<Post> posts = postService.getAll();
+    public String listPosts(Model model) {
+        List<Post> posts = postService.getAll();  // Пример за метод, който взима всички постове
         model.addAttribute("posts", posts);
-        return "posts"; // Уверете се, че имате Thymeleaf шаблон с име "posts.html"
+        return "posts";  // Връщане на изглед, който визуализира списъка с постове
     }
 
-    // Контролер за добавяне на нов коментар към пост
-    @PostMapping("/posts/{id}/comments/add")
-    public String addComment(@PathVariable("id") int postId,
-                             @RequestParam("comment") String commentContent,
-                             Principal principal) {
-        if (principal != null) {
-            String username = principal.getName();
-            Comment comment = new Comment();
-            comment.setContent(commentContent);
-//            comment.setCreatedBy(username);
-            commentService.addComment(postId, comment);
+        @GetMapping("/filter")
+        public String filterPosts(
+                @RequestParam(required = false) String username,
+                @RequestParam(required = false) String email,
+                @RequestParam(required = false) String title,
+                @RequestParam(required = false) String sort,
+                Model model) {
+            List<Post> posts = postService.filterAndSortPosts(username, email, title, sort);
+            model.addAttribute("posts", posts);
+            model.addAttribute("username", username);
+            model.addAttribute("email", email);
+            model.addAttribute("title", title);
+            model.addAttribute("sort", sort);
+            return "posts/list";
         }
-        return "redirect:/posts"; // Пренасочване към страницата с постовете
-    }
 
-    @PostMapping("/{id}/like")
-    public String likePost(@PathVariable("id") int postId, Principal principal,Model model) {
-        String user = principal.getName();
-        model.addAttribute("user", user);
-        // Add the logic to handle the like functionality
-        postService.likePost(postId);
-        return "redirect:/posts"; // Redirect to the posts page or wherever you want
-    }
-}
+        // Контролер за харесванията
+        @PostMapping("/{id}/like")
+        public String likePost(@PathVariable int id, Principal principal) {
+            User user = userService.findUserByUsername(principal.getName());
+            postService.likePost(id);
+            return "redirect:/posts";
+        }
 
+        // Контролер за добавяне на коментар към пост
+        @PostMapping("/{id}/comments/add")
+        public String addComment(@PathVariable int id, @RequestParam String comment, Principal principal) {
+            User user = userService.findUserByUsername(principal.getName());
+            Comment newComment = new Comment();
+            newComment.setContent(comment);
+            newComment.setCreatedBy(user);
+//            postService.addCommentToPost(id, comment, user);
+            commentService.addComment(id,newComment);
+            return "redirect:/posts";
+        }
+
+        // Контролер за отговор на коментар
+        @PostMapping("/comments/{id}/reply")
+        public String replyToComment(@PathVariable int id, @RequestParam String replyContent,Principal principal) {
+            User user = userService.findUserByUsername(principal.getName());
+            Comment reply = new Comment();
+            reply.setContent(replyContent);
+            reply.setCreatedBy(user);
+            commentService.addReply(id,reply);
+            return "redirect:/posts";
+        }
+
+    }

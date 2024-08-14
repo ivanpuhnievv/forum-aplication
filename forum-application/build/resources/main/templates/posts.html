@@ -2,16 +2,49 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>KAKASHAK</title>
     <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />
     <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
 </head>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+
+<!-- Форма за филтриране и търсене -->
+<div class="container mt-150"> <!-- Добавихме клас mt-5 за допълнително разстояние -->
+    <form th:action="@{/posts/filter}" method="get" class="form-inline">
+        <!-- Филтър по създател (username) -->
+        <div class="form-group mr-3">
+            <label for="username" class="mr-2">Filter by Username:</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" th:value="${username}">
+        </div>
+
+        <!-- Филтър по email -->
+        <div class="form-group mr-3">
+            <label for="email" class="mr-2">Filter by Email:</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" th:value="${email}">
+        </div>
+
+        <!-- Търсене по заглавие -->
+        <div class="form-group mr-3">
+            <label for="title" class="mr-2">Search by Title:</label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" th:value="${title}">
+        </div>
+
+        <!-- Сортиране -->
+        <div class="form-group mr-3">
+            <label for="sort" class="mr-2">Sort by:</label>
+            <select class="form-control" name="sort" id="sort">
+                <option value="comments" th:selected="${sort == 'comments'}">Most Comments</option>
+                <option value="likes" th:selected="${sort == 'likes'}">Most Likes</option>
+            </select>
+        </div>
+
+        <!-- Бутон за прилагане на филтрите -->
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </form>
+</div>
+<!-- Край на формата за филтриране и търсене -->
+
 <main>
     <div th:each="post : ${posts}">
         <div class="section bg-primary text-dark section-lg">
@@ -46,7 +79,6 @@
                             <div class="d-flex align-items-center">
                                 <!-- Бутон за харесване -->
                                 <form th:action="@{/posts/{id}/like(id=${post.id})}" method="post" style="margin-right: 10px;">
-                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                     <button type="submit" class="btn btn-link" style="padding: 0;">
                                         <i class="fas fa-thumbs-up"></i> Like
                                     </button>
@@ -63,7 +95,7 @@
                                 Reply to Post
                             </button>
                             <div th:id="'post-reply-form-' + ${post.id}" style="display: none; margin-top: 10px;">
-                                <form th:action="@{/posts/${post.id}/comments/add}" method="post">
+                                <form th:action="@{/posts/{id}/comments/add(id=${post.id})}" method="post">
                                     <div class="form-group">
                                         <textarea class="form-control" name="comment" placeholder="Write your reply..." rows="3"></textarea>
                                     </div>
@@ -86,6 +118,15 @@
                                             Reply
                                         </button>
                                     </div>
+
+                                    <!-- Показване на броя на отговорите -->
+                                    <div th:if="${comment.replies.size() > 0}" class="ml-3">
+                                        <a href="javascript:void(0);" th:onclick="'toggleReplies(' + ${comment.id} + ')'">
+                                            <i class="fas fa-reply"></i>
+                                            Show Replies (<span th:text="${comment.replies.size()}">0</span>)
+                                        </a>
+                                    </div>
+
                                     <!-- Форма за отговор, скрита по подразбиране -->
                                     <div th:id="'reply-form-' + ${comment.id}" style="display: none; margin-top: 10px;">
                                         <form th:action="@{/comments/{id}/reply(id=${comment.id})}" method="post">
@@ -95,6 +136,17 @@
                                             <button type="submit" class="btn btn-primary">Post Reply</button>
                                         </form>
                                     </div>
+
+                                    <!-- Секция за отговорите, скрита по подразбиране -->
+                                    <div th:id="'replies-' + ${comment.id}" style="display: none; margin-top: 10px; margin-left: 20px;">
+                                        <div th:each="reply : ${comment.replies}" class="reply-container mb-3 p-2 border rounded">
+                                            <div class="reply">
+                                                <p><strong th:text="${reply.getCreatedBy().getUsername()}">Username</strong></p>
+                                                <p th:text="${reply.getContent()}">Reply content</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -117,6 +169,15 @@
         }
     }
 
+    // Функция за показване/скриване на формата за отговор на поста
+    function togglePostReplyForm(postId) {
+        var replyForm = document.getElementById('post-reply-form-' + postId);
+        if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+            replyForm.style.display = 'block';
+        } else {
+            replyForm.style.display = 'none';
+        }
+    }
     // Функция за показване/скриване на формата за отговор
     function toggleReplyForm(commentId) {
         var replyForm = document.getElementById('reply-form-' + commentId);
@@ -127,17 +188,16 @@
         }
     }
 
-    // Функция за показване/скриване на формата за отговор на поста
-    function togglePostReplyForm(postId) {
-        var replyForm = document.getElementById('post-reply-form-' + postId);
-        if (replyForm.style.display === 'none' || replyForm.style.display === '') {
-            replyForm.style.display = 'block';
+    // Функция за показване/скриване на отговорите към коментар
+    function toggleReplies(commentId) {
+        var repliesSection = document.getElementById('replies-' + commentId);
+        if (repliesSection.style.display === 'none' || repliesSection.style.display === '') {
+            repliesSection.style.display = 'block';
         } else {
-            replyForm.style.display = 'none';
+            repliesSection.style.display = 'none';
         }
     }
 </script>
-
 <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
 </div>
 </body>

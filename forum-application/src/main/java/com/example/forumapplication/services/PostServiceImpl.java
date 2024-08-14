@@ -10,13 +10,20 @@ import com.example.forumapplication.models.dtos.TagDto;
 import com.example.forumapplication.repositories.PostRepository;
 import com.example.forumapplication.repositories.TagRepository;
 import com.example.forumapplication.repositories.UserRepository;
+import com.example.forumapplication.services.contracts.CommentService;
 import com.example.forumapplication.services.contracts.PostService;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -146,4 +153,13 @@ public class PostServiceImpl implements PostService {
     public boolean userHasPosts(User user) {
         return !postRepository.findByCreatedBy(user).isEmpty();
     }
+
+    public List<Post> filterAndSortPosts(String username, String email, String title, String sort) {
+        if ("comments".equalsIgnoreCase(sort)) {
+            return postRepository.findFilteredAndSortedByComments(username, email, title);
+        } else {
+            return postRepository.findFilteredAndSortedByLikes(username, email, title);
+        }
+    }
+
 }
