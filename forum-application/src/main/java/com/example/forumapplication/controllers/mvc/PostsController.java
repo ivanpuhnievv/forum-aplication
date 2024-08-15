@@ -45,7 +45,8 @@ public class PostsController extends BaseController {
 
     @GetMapping
     public String listPosts(Model model) {
-        List<Post> posts = postService.getAll();  // Пример за метод, който взима всички постове
+        List<Post> posts = postService.getAll();// Пример за метод, който взима всички постове
+        model.addAttribute("active", "posts");
         model.addAttribute("posts", posts);
         return "posts";  // Връщане на изглед, който визуализира списъка с постове
     }

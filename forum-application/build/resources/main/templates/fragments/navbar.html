@@ -25,10 +25,10 @@
                         <a class="nav-link" th:classappend="${active == 'users'} ? 'active' : ''" th:href="@{/users}">Users</a>
                     </li>
                     <li class="nav-item nav-pills rounded">
-                        <a class="nav-link" th:href="@{/about}">About</a>
+                        <a class="nav-link" th:classappend="${active == 'about'} ? 'active' : ''" th:href="@{/about}">About</a>
                     </li>
                     <li class="nav-item dropdown nav-pills rounded" th:if="${loggedInUser != null}">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" th:classappend="${active == 'posts'} ? 'active' : ''" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Posts
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,7 +38,7 @@
                         </div>
                     </li>
                     <li class="nav-item nav-pills rounded">
-                        <a class="nav-link" th:href="@{/contact}">Contacts</a>
+                        <a class="nav-link" th:classappend="${active == 'contact'} ? 'active' : ''" th:href="@{/contact}">Contacts</a>
                     </li>
 
                     <!-- User Profile dropdown, included in the collapsible navbar -->
