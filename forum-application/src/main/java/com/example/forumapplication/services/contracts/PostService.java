@@ -3,6 +3,8 @@ package com.example.forumapplication.services.contracts;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.TagDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -33,5 +35,5 @@ public interface PostService {
 
     boolean userHasPosts(User user);
 
-    List<Post> filterAndSortPosts(String username, String email, String title, String sort);
+    Page<Post> findAll(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable);
 }

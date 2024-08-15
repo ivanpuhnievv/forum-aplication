@@ -18,10 +18,14 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,12 +158,26 @@ public class PostServiceImpl implements PostService {
         return !postRepository.findByCreatedBy(user).isEmpty();
     }
 
-    public List<Post> filterAndSortPosts(String username, String email, String title, String sort) {
-        if ("comments".equalsIgnoreCase(sort)) {
-            return postRepository.findFilteredAndSortedByComments(username, email, title);
-        } else {
-            return postRepository.findFilteredAndSortedByLikes(username, email, title);
-        }
+    public Page<Post> findAll(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable) {
+        Specification<Post> filters = Specification.where(
+                        StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : hasUsername(usernameFilter))
+                .and(StringUtils.isEmptyOrWhitespace(emailFilter) ? null : hasEmail(emailFilter))
+                .and(StringUtils.isEmptyOrWhitespace(titleFilter) ? null : hasTitle(titleFilter));
+
+        return postRepository.findAll(filters, pageable);
     }
 
+    private Specification<Post> hasUsername(String username) {
+        return (root, query, cb) -> cb.like(cb.lower(root.get("createdBy").get("username")), "%" + username.toLowerCase() + "%");
+    }
+
+    private Specification<Post> hasEmail(String email) {
+        return (root, query, cb) -> cb.like(cb.lower(root.get("createdBy").get("email")), "%" + email.toLowerCase() + "%");
+    }
+
+    private Specification<Post> hasTitle(String title) {
+        return (root, query, cb) -> cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+    }
 }
+
+

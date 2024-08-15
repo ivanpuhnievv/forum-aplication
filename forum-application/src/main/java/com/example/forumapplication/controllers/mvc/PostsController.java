@@ -12,6 +12,9 @@ import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/posts")
@@ -45,29 +50,45 @@ public class PostsController extends BaseController {
         return "posts";  // Връщане на изглед, който визуализира списъка с постове
     }
 
-        @GetMapping("/filter")
-        public String filterPosts(
-                @RequestParam(required = false) String username,
-                @RequestParam(required = false) String email,
-                @RequestParam(required = false) String title,
-                @RequestParam(required = false) String sort,
-                Model model) {
-            List<Post> posts = postService.filterAndSortPosts(username, email, title, sort);
-            model.addAttribute("posts", posts);
-            model.addAttribute("username", username);
-            model.addAttribute("email", email);
-            model.addAttribute("title", title);
-            model.addAttribute("sort", sort);
-            return "posts/list";
+    @GetMapping("/filter")
+    public String filterPosts(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int sizePerPage,
+            @RequestParam(defaultValue = "comments") String sort,
+            @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection,
+            Model model) {
+
+        // Определяне на полето за сортиране
+        String sortField = sort.equals("likes") ? "likes" : "comments";
+
+        // Настройка на Pageable за пагинация и сортиране
+        Pageable pageable = PageRequest.of(page, sizePerPage, sortDirection, sortField);
+
+        // Извикване на услугата за търсене и филтриране
+        Page<Post> posts = postService.findAll(username, email, title, pageable);
+
+        // Обработка на пагинация
+        int totalPages = posts.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        // Контролер за харесванията
-        @PostMapping("/{id}/like")
-        public String likePost(@PathVariable int id, Principal principal) {
-            User user = userService.findUserByUsername(principal.getName());
-            postService.likePost(id);
-            return "redirect:/posts";
-        }
+        // Добавяне на атрибути към модела
+        model.addAttribute("posts", posts);
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+        model.addAttribute("title", title);
+        model.addAttribute("sort", sort);
+
+        return "posts";  // Тук задайте името на вашия изглед
+    }
+
 
         // Контролер за добавяне на коментар към пост
         @PostMapping("/{id}/comments/add")
