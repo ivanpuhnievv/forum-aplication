@@ -1,12 +1,11 @@
 package com.example.forumapplication.controllers.mvc;
 
-import com.example.forumapplication.exceptions.EntityDuplicateException;
-import com.example.forumapplication.mappers.UserMapper;
+import com.example.forumapplication.exceptions.EntityNotFoundException;
+import com.example.forumapplication.mappers.PostMapper;
 import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.PostDto;
-import com.example.forumapplication.models.dtos.UserDto;
 import com.example.forumapplication.services.contracts.CommentService;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,12 +33,14 @@ public class PostsController extends BaseController {
         private final PostService postService;
         private final UserService userService;
         private final CommentService commentService;
+        private final PostMapper postMapper;
 
         @Autowired
-        public PostsController(PostService postService, UserService userService, CommentService commentService) {
+        public PostsController(PostService postService, UserService userService, CommentService commentService, PostMapper postMapper) {
             this.postService = postService;
             this.userService = userService;
             this.commentService = commentService;
+            this.postMapper = postMapper;
         }
 
     @GetMapping
@@ -114,4 +114,29 @@ public class PostsController extends BaseController {
             return "redirect:/posts";
         }
 
+
+    @GetMapping("/create")
+    public String showPostCreatePage(Model model) {
+        model.addAttribute("post", new PostDto());
+        return "create-post-page";
     }
+
+       @PostMapping("/create")
+       public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "create-post-page";
+        }
+
+        try {
+
+            Post post = postMapper.fromDto(postDto);
+            postService.create(post);
+
+            return "redirect:/posts";
+        }catch (EntityNotFoundException e){
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "create-post-page";
+        }
+    }
+}
