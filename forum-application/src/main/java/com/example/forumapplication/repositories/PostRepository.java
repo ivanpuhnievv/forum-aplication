@@ -20,5 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Page<Post> findAll(Specification<Post> filters, Pageable pageable);
 
+    List<Post> findByCreatedBy_Id(int userId);
+
 }
 

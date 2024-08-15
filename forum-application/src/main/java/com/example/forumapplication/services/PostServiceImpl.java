@@ -178,6 +178,9 @@ public class PostServiceImpl implements PostService {
     private Specification<Post> hasTitle(String title) {
         return (root, query, cb) -> cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
     }
+    public List<Post> findByCreatedBy_Id(int userId) {
+        return postRepository.findByCreatedBy_Id(userId);
+    }
 }
 
 

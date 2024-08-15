@@ -28,6 +28,7 @@ public class HomeController extends BaseController{
     @GetMapping("/home")
     public String home(Model model, Authentication authentication, Post post) {
         List<Post> posts = postService.getAll();
+        model.addAttribute("active", "home");
         model.addAttribute("posts", posts);
         model.addAttribute("post", post);
         return "home";

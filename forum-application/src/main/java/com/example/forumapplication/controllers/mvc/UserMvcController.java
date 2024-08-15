@@ -1,5 +1,6 @@
 package com.example.forumapplication.controllers.mvc;
 
+import com.example.forumapplication.config.MyUserPrincipal;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
@@ -44,6 +45,7 @@ public class UserMvcController extends BaseController {
     @GetMapping("/users")
     public String getUsers(Model model, UserDto userDto) {
         List<User> users = userService.getAll();
+        model.addAttribute("active", "users");
         model.addAttribute("users", users);
         model.addAttribute("user", userDto);
         return "users-page";
@@ -56,6 +58,15 @@ public class UserMvcController extends BaseController {
         List<Post> userPosts = postService.getPostsByUser(user);
         model.addAttribute("userPostsSize", userPosts.size());
         return "user-page";
+    }
+
+    @GetMapping("/user/posts")
+    public String getUserPosts(Model model,Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        List<Post> posts = postService.findByCreatedBy_Id(user.getId());
+        model.addAttribute("user", user);
+        model.addAttribute("posts", posts);
+        return "posts";
     }
 
     @PostMapping("/users/photo")

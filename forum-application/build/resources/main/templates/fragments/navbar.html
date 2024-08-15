@@ -18,17 +18,24 @@
             <!-- Collapsible navbar items -->
             <div class="collapse navbar-collapse" id="navbar_global">
                 <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-auto ">
-                    <li class="nav-item nav-pills rounded ">
-                        <a class="nav-link" th:href="@{/home}">Home</a>
+                    <li class="nav-item nav-pills rounded">
+                        <a class="nav-link" th:classappend="${active == 'home'} ? 'active' : ''"  th:href="@{/home}">Home</a>
                     </li>
                     <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}">
-                        <a class="nav-link" th:href="@{/users}">Users</a>
+                        <a class="nav-link" th:classappend="${active == 'users'} ? 'active' : ''" th:href="@{/users}">Users</a>
                     </li>
                     <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:href="@{/about}">About</a>
                     </li>
-                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}">
-                        <a class="nav-link" th:href="@{/myposts}">My Posts</a>
+                    <li class="nav-item dropdown nav-pills rounded" th:if="${loggedInUser != null}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Posts
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/posts/create}">Create Post</a>
+                            <a class="dropdown-item" th:href="@{/posts}">View Posts</a>
+                            <a class="dropdown-item" th:href="@{/user/posts}">My Posts</a>
+                        </div>
                     </li>
                     <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:href="@{/contact}">Contacts</a>
@@ -56,7 +63,6 @@
             </div>
         </div>
     </nav>
-
     <!-- Bootstrap and necessary scripts -->
     <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}"></div>
     <!-- Neumorphism JS -->

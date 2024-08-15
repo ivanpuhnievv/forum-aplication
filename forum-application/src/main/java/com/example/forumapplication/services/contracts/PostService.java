@@ -36,4 +36,6 @@ public interface PostService {
     boolean userHasPosts(User user);
 
     Page<Post> findAll(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable);
+
+    List<Post> findByCreatedBy_Id(int userId);
 }
