@@ -64,7 +64,7 @@ public class CommentsController {
 //            replyComment.setPost(post);
             replyComment.setParentComment(parentComment); // Set the parent comment to establish the reply relationship
 
-            commentService.addReply(commentId, replyComment);
+            commentService.addReply(commentId, replyComment,user);
         }
         return "redirect:/posts"; // Redirect back to the posts page
     }

@@ -16,7 +16,7 @@ public interface CommentService {
 
     void deleteComment(int commentId);
 
-    Comment addReply(int id, Comment comment);
+    Comment addReply(int id, Comment comment,User currentUser);
     List<Comment> findUnreadCommentsByUserId(int userId);
     void markCommentAsRead(User user);
 }

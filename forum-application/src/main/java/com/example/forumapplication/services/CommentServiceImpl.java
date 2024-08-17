@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment getCommentById(int id) {
         Comment comment = commentRepository.findCommentById(id);
-        if(comment == null) {
+        if (comment == null) {
             throw new EntityNotFoundException("Comment", id);
         }
         return comment;
@@ -47,6 +47,7 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findByUsername(auth.getName());
         Post post = postRepository.getById(postId);
         comment.setCreatedBy(user);
+        comment.setOwner(post.getCreatedBy());
         post.getComments().add(comment);
         return postRepository.save(post);
     }
@@ -66,14 +67,33 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment addReply(int id, Comment comment) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(auth.getName());
-        Comment commentToReply = commentRepository.findCommentById(id);
-        comment.setCreatedBy(user);
-        comment.setParentComment(commentToReply);
-        commentToReply.getReplies().add(comment);
-        return commentRepository.save(commentToReply);
+    public Comment addReply(int id, Comment comment, User currentUser) {
+
+        Comment parrentComment = getCommentById(id);
+        comment.setCreatedBy(currentUser);
+        User parentCommentOwner = parrentComment.getCreatedBy();
+        comment.setOwner(parentCommentOwner); // задаваме собственика на публикацията като собственик на коментара
+
+        return commentRepository.save(comment);
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userRepository.findByUsername(auth.getName());
+//        Comment commentToReply = commentRepository.findCommentById(id);
+//        comment.setCreatedBy(user);
+//        comment.setParentComment(commentToReply);
+//        commentToReply.getReplies().add(comment);
+//        return commentRepository.save(commentToReply);
+    }
+
+    private Post findPostByCommentId(int id) {
+        Comment comment = commentRepository.findCommentById(id);
+        while (true) {
+            if (comment.getPostId() == null) {
+                comment = comment.getParentComment();
+
+            } else {
+                return comment.getPostId();
+            }
+        }
     }
 
     @Override

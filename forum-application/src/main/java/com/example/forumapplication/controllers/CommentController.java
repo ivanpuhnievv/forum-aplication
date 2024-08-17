@@ -5,14 +5,18 @@ import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.mappers.CommentMapper;
 import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
+import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.CommentDto;
 import com.example.forumapplication.services.contracts.CommentService;
+import com.example.forumapplication.services.contracts.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -21,11 +25,14 @@ public class CommentController {
 
     private final CommentService commentService;
     private final CommentMapper commentMapper;
+    private final UserService userService;
 
     @Autowired
-    public CommentController(CommentService commentService, CommentMapper commentMapper) {
+    public CommentController(CommentService commentService, CommentMapper commentMapper,
+                             UserService userService) {
         this.commentService = commentService;
         this.commentMapper = commentMapper;
+        this.userService = userService;
     }
 
     @GetMapping("/posts/{postId}")
@@ -77,10 +84,11 @@ public class CommentController {
     }
 
     @PostMapping("/{id}")
-    public Comment createReply(@PathVariable int id, @Valid @RequestBody CommentDto commentDto) {
+    public Comment createReply(@PathVariable int id, @Valid @RequestBody CommentDto commentDto, Principal principal) {
         try {
             Comment comment = commentMapper.fromDto(commentDto);
-            return commentService.addReply(id,comment);
+            User user = userService.findUserByUsername(principal.getName());
+            return commentService.addReply(id,comment,user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

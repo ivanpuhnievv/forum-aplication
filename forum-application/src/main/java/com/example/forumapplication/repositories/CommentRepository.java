@@ -16,7 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 //    @Query("SELECT c FROM Comment c WHERE c.createdBy = :user AND c.isRead = false")
 //    List<Comment> findUnreadCommentsByUserId(@Param("user") int userId);
 
-    @Query("SELECT c FROM Comment c WHERE c.createdBy = :user AND c.isRead = false")
+    @Query("SELECT c FROM Comment c WHERE c.owner = :user AND c.isRead = false")
     List<Comment> findUnreadCommentsByUser(@Param("user") User user);
 
 
