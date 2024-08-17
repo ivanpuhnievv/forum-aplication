@@ -6,6 +6,7 @@ import com.example.forumapplication.models.dtos.TagDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface PostService {
     Page<Post> findAll(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable);
 
     List<Post> findByCreatedBy_Id(int userId);
+
+    Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable);
 }

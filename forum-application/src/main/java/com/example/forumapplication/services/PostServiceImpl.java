@@ -184,6 +184,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> findByCreatedBy_Id(int userId) {
         return postRepository.findByCreatedBy_Id(userId);
     }
+    public Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable) {
+        return postRepository.findTop5ByOrderByCommentsDesc(pageable);
+    }
 }
 
 

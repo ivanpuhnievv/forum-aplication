@@ -7,6 +7,8 @@ import com.example.forumapplication.services.contracts.CommentService;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +39,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/home")
     public String home(Model model, Principal principal, Post post) {
-        List<Post> posts = postService.getAll();
+        Page<Post> posts = postService.findTop5ByOrderByCommentsDesc(PageRequest.of(0, 5));
         if (principal != null) {
             User user = userService.findUserByUsername(principal.getName());
             List<Comment> unreadComments = commentService.findUnreadCommentsByUserId(user.getId());

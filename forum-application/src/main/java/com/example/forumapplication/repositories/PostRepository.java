@@ -22,5 +22,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findByCreatedBy_Id(int userId);
 
+    @Query("SELECT p FROM Post p LEFT JOIN p.comments c GROUP BY p ORDER BY COUNT(c) DESC")
+    Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable);
 }
 
