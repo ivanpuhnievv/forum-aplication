@@ -23,7 +23,7 @@ public interface PostService {
 
     List<Post> getPostsByUser(User user);
 
-    void likePost(int id);
+    void likePost(int id,User user);
 
     void removeLike(int id);
 

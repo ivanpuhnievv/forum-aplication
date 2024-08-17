@@ -139,4 +139,12 @@ public class PostsController extends BaseController {
             return "create-post-page";
         }
     }
+
+    @PostMapping("/{id}/like")
+    public String likePost(@PathVariable int id,Principal principal) {
+            User user = userService.findUserByUsername(principal.getName());
+        postService.likePost(id,user);
+        return "redirect:/posts";
+    }
+
 }

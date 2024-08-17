@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -108,9 +109,10 @@ public class PostController {
     }
 
     @PutMapping("/{id}/like")
-    public void likePost(@PathVariable int id) {
+    public void likePost(@PathVariable int id, Principal principal) {
         try {
-            postService.likePost(id);
+            User user = userService.findUserByUsername(principal.getName());
+            postService.likePost(id,user);
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
