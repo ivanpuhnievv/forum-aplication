@@ -2,6 +2,9 @@ package com.example.forumapplication.services.contracts;
 
 import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
+import com.example.forumapplication.models.User;
+
+import java.util.List;
 
 public interface CommentService {
 
@@ -14,4 +17,6 @@ public interface CommentService {
     void deleteComment(int commentId);
 
     Comment addReply(int id, Comment comment);
+    List<Comment> findUnreadCommentsByUserId(int userId);
+    void markCommentAsRead(User user);
 }

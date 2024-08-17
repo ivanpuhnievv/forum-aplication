@@ -45,6 +45,9 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    @Column(nullable = false , name = "is_read")
+    private boolean isRead;
+
 
     @PrePersist
     protected void onCreate() {
@@ -64,5 +67,7 @@ public class Comment {
         Comment comment = (Comment) o;
         return id == comment.id;
     }
+
+
 
 }

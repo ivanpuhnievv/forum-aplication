@@ -6,7 +6,9 @@
 </head>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+
 <main>
+
 
     <!-- Цикъл за генериране на секции за всяка публикация -->
     <div th:each="post : ${posts}">

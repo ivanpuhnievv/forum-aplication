@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -71,6 +74,24 @@ public class CommentServiceImpl implements CommentService {
         comment.setParentComment(commentToReply);
         commentToReply.getReplies().add(comment);
         return commentRepository.save(commentToReply);
+    }
+
+    @Override
+    public void markCommentAsRead(User user) {
+        List<Comment> unreadComments = commentRepository.findUnreadCommentsByUser(user);
+
+        // Маркирайте коментарите като прочетени
+        for (Comment comment : unreadComments) {
+            comment.setRead(true);
+        }
+
+        // Запазете промените в базата данни
+        commentRepository.saveAll(unreadComments);
+    }
+
+    public List<Comment> findUnreadCommentsByUserId(int userId) {
+        User user = userRepository.findById(userId);
+        return commentRepository.findUnreadCommentsByUser(user);
     }
 
 }

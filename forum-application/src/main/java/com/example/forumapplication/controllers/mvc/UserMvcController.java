@@ -4,6 +4,7 @@ import com.example.forumapplication.config.MyUserPrincipal;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
+import com.example.forumapplication.services.contracts.CommentService;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,15 @@ public class UserMvcController extends BaseController {
 
     private final UserService userService;
     private final PostService postService;
+    private final CommentService commentService;
 
 
     @Autowired
-    public UserMvcController(UserService userService, PostService postService) {
+    public UserMvcController(UserService userService, PostService postService
+            , CommentService commentService) {
         this.userService = userService;
         this.postService = postService;
+        this.commentService = commentService;
 
     }
 
@@ -63,6 +67,7 @@ public class UserMvcController extends BaseController {
     @GetMapping("/user/posts")
     public String getUserPosts(Model model,Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
+        commentService.markCommentAsRead(user);
         List<Post> posts = postService.findByCreatedBy_Id(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);

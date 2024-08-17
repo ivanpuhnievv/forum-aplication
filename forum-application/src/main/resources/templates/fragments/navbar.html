@@ -10,6 +10,15 @@
                 <img class="navbar-brand-light" src="../../images/RAI-icon.png" alt="Logo dark" style="width: 100%; height: 100%; object-fit: cover;">
             </a>
 
+            <th:block th:if="${#authentication.principal != null and unreadCommentsCount > 0}">
+                <button type="button" class="btn btn-primary"
+                        th:onclick="|window.location.href='@{/user/posts}'|" >
+                    Post replies <span class="badge badge-pill badge-success" th:text="${unreadCommentsCount}">5</span>
+                    <span class="sr-only">unread messages</span>
+                </button>
+            </th:block>
+
+
             <!-- Hamburger button for smaller screens -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
