@@ -65,6 +65,7 @@ public class PostsController extends BaseController {
             @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection,
             Model model) {
 
+
         // Определяне на полето за сортиране
         String sortField = sort.equals("likes") ? "likes" : "comments";
 

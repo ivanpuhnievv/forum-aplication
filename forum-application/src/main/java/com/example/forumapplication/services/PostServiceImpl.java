@@ -187,6 +187,14 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable) {
         return postRepository.findTop5ByOrderByCommentsDesc(pageable);
     }
+    public Page<Post> findAllByUser(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable) {
+        Specification<Post> filters = Specification.where(
+                        StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : hasUsername(usernameFilter))
+                .and(StringUtils.isEmptyOrWhitespace(emailFilter) ? null : hasEmail(emailFilter))
+                .and(StringUtils.isEmptyOrWhitespace(titleFilter) ? null : hasTitle(titleFilter));
+
+        return postRepository.findAll(filters, pageable);
+    }
 }
 
 

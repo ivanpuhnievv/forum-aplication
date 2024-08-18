@@ -207,8 +207,10 @@ public class UserMvcController extends BaseController {
             @RequestParam(defaultValue = "10") int sizePerPage,
             @RequestParam(defaultValue = "comments") String sort,
             @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection,
-            Model model) {
+            Model model, Principal principal) {
 
+
+        username=principal.getName();
         // Определяне на полето за сортиране
         String sortField = sort.equals("likes") ? "likes" : "comments";
 
