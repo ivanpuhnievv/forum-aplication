@@ -7,6 +7,10 @@ import com.example.forumapplication.models.dtos.UserDto;
 import com.example.forumapplication.services.contracts.PostService;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,8 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class UserMvcController extends BaseController {
@@ -66,7 +72,7 @@ public class UserMvcController extends BaseController {
         List<Post> posts = postService.findByCreatedBy_Id(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);
-        return "posts";
+        return "myposts-page";
     }
 
     @PostMapping("/users/photo")
@@ -186,6 +192,42 @@ public class UserMvcController extends BaseController {
             userService.unblockUser(userToUnblock);
         }
         return "redirect:/users/" + userId;
+    }
+    @GetMapping("/user/posts/filter")
+    public String filterPosts(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int sizePerPage,
+            @RequestParam(defaultValue = "comments") String sort,
+            @RequestParam(defaultValue = "DESC") Sort.Direction sortDirection,
+            Model model) {
+
+        // Определяне на полето за сортиране
+        String sortField = sort.equals("likes") ? "likes" : "comments";
+
+        // Настройка на Pageable за пагинация и сортиране
+        Pageable pageable = PageRequest.of(page, sizePerPage, sortDirection, sortField);
+
+        // Извикване на услугата за търсене и филтриране
+        Page<Post> posts = postService.findAll(username, email, title, pageable);
+
+        // Обработка на пагинация
+        int totalPages = posts.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        // Добавяне на атрибути към модела
+        model.addAttribute("posts", posts);
+        model.addAttribute("title", title);
+        model.addAttribute("sort", sort);
+
+        return "myposts-page";  // Тук задайте името на вашия изглед
     }
 }
 
