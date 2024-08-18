@@ -1,78 +1,182 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+<head>
+    <title>KAKASHAK</title>
+    <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />
+    <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
 
+    <style>
+        /* Стилове за галерията */
+        .gallery-container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .post-slide {
+            display: none;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .post-slide.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .nav-buttons a {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .nav-buttons a:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
-<main>
 
-    <!-- Цикъл за генериране на секции за всяка публикация -->
-    <div th:each="post : ${posts}">
-        <div class="section bg-primary text-dark section-lg">
-            <div class="container">
-                <!-- Title  -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-5">
-                            <span class="font-weight-bold" th:text="${post.title}">Post Title</span>
+<main>
+    <div class="gallery-container">
+        <div th:each="post, stat : ${posts}" class="post-slide" th:classappend="${stat.index == 0} ? ' active' : ''">
+            <div class="section bg-primary text-dark section-lg">
+                <div class="container">
+                    <!-- Заглавие на поста -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-5">
+                                <h3 class="font-weight-bold" th:text="${post.getTitle()}">Post Title</h3>
+                                <p class="font-weight-light" th:text="'By ' + ${post.getCreatedBy().getUsername()}">Created By</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- End of Title -->
-                <div class="row">
-                    <div class="col-md-10 col-lg-8">
-                        <!-- Tab Nav -->
-                        <div class="nav-wrapper position-relative mb-4">
-                            <ul class="nav nav-pills flex-column flex-sm-row" id="tabs-text" role="tablist">
-                                <li class="nav-item mr-sm-3 mr-md-0">
-                                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-text-1-tab" data-toggle="tab" th:href="'#tabs-text-1-' + ${post.id}" role="tab" aria-controls="tabs-text-1" aria-selected="true">Tab 1</a>
-                                </li>
-                                <li class="nav-item mr-sm-3 mr-md-0">
-                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-text-2-tab" data-toggle="tab" th:href="'#tabs-text-2-' + ${post.id}" role="tab" aria-controls="tabs-text-2" aria-selected="false">Tab 2</a>
-                                </li>
-                                <li class="nav-item mr-sm-3 mr-md-0">
-                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-text-3-tab" data-toggle="tab" th:href="'#tabs-text-3-' + ${post.id}" role="tab" aria-controls="tabs-text-3" aria-selected="false">Tab 3</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- End of Tab Nav -->
-                        <!-- Tab Content -->
-                        <div class="card shadow-inset bg-primary border-light p-4 rounded">
-                            <div class="card-body p-0">
-                                <div class="tab-content" id="tabcontent1">
-                                    <div class="tab-pane fade show active" th:id="'tabs-text-1-' + ${post.id}" role="tabpanel" aria-labelledby="tabs-text-1-tab">
-                                        <p th:text="${post.getContent()}">Content for tab 1</p>
-                                    </div>
-                                    <div class="tab-pane fade" th:id="'tabs-text-2-' + ${post.id}" role="tabpanel" aria-labelledby="tabs-text-2-tab">
-                                        <p th:text="${post.getContent()}">Content for tab 2</p>
-                                    </div>
-                                    <div class="tab-pane fade" th:id="'tabs-text-3-' + ${post.id}" role="tabpanel" aria-labelledby="tabs-text-3-tab">
-                                        <p th:text="${post.getContent()}">Content for tab 3</p>
+                    <!-- Край на Заглавие на поста -->
+
+                    <div class="row">
+                        <div class="col-md-10 col-lg-8">
+                            <!-- Съдържание на поста -->
+                            <div class="card shadow-inset bg-primary border-light p-4 rounded">
+                                <div class="card-body p-0">
+                                    <p th:text="${post.content}">Post content goes here</p>
+                                </div>
+                            </div>
+                            <!-- Край на Съдържание на поста -->
+
+                            <!-- Брояч на коментари и харесвания с линк за показване -->
+                            <div class="mt-4 d-flex justify-content-between align-items-center">
+                                <a href="javascript:void(0);" th:onclick="'toggleComments(' + ${post.id} + ')'">
+                                    <i class="fas fa-comments"></i>
+                                    Show Comments (<span th:text="${post.comments.size()}">0</span>)
+                                </a>
+                                <div class="d-flex align-items-center">
+                                    <!-- Бутон за харесване -->
+                                    <span>
+                                        <span th:text="${post.getLikes()}">0</span> Likes
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Коментари, скрити по подразбиране -->
+                            <div class="comments-section mt-4" th:id="'comments-' + ${post.id}" style="display: none;">
+                                <div th:each="comment : ${post.comments}" class="comment-container mb-4 p-3 border rounded">
+                                    <div class="comment">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p><strong th:text="${comment.getCreatedBy().getUsername()}">Username</strong></p>
+                                                <p th:text="${comment.getContent()}">Comment content</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Показване на броя на отговорите -->
+                                        <div th:if="${comment.replies.size() > 0}" class="ml-3">
+                                            <a href="javascript:void(0);" th:onclick="'toggleReplies(' + ${comment.id} + ')'">
+                                                <i class="fas fa-reply"></i>
+                                                Show Replies (<span th:text="${comment.replies.size()}">0</span>)
+                                            </a>
+                                        </div>
+
+                                        <!-- Секция за отговорите, скрита по подразбиране -->
+                                        <div th:id="'replies-' + ${comment.id}" style="display: none; margin-top: 10px; margin-left: 20px;">
+                                            <div th:each="reply : ${comment.replies}" class="reply-container mb-3 p-2 border rounded">
+                                                <div class="reply">
+                                                    <p><strong th:text="${reply.getCreatedBy().getUsername()}">Username</strong></p>
+                                                    <p th:text="${reply.getContent()}">Reply content</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End of Tab Content -->
-                    </div>
-                </div>
-                <!-- Title  -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mt-5 mb-5">
+                            <!-- Край на Коментари -->
                         </div>
                     </div>
                 </div>
-                <!-- End of Section -->
             </div>
+        </div>
+
+        <!-- Бутони за навигация наляво и надясно -->
+        <div class="nav-buttons">
+            <a href="javascript:void(0);" onclick="plusSlides(-1)">&#10094;</a>
+            <a href="javascript:void(0);" onclick="plusSlides(1)">&#10095;</a>
         </div>
     </div>
 </main>
-    </body>
 
-    <div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
-    </div>
+<script>
+    let slideIndex = 0;
+    showSlides(slideIndex);
 
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
 
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("post-slide");
+        if (n >= slides.length) { slideIndex = 0; }
+        if (n < 0) { slideIndex = slides.length - 1; }
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex].style.display = "block";
+    }
+
+    // Функция за показване/скриване на коментарите
+    function toggleComments(postId) {
+        var commentsSection = document.getElementById('comments-' + postId);
+        if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+            commentsSection.style.display = 'block';
+        } else {
+            commentsSection.style.display = 'none';
+        }
+    }
+
+    // Функция за показване/скриване на отговорите към коментар
+    function toggleReplies(commentId) {
+        var repliesSection = document.getElementById('replies-' + commentId);
+        if (repliesSection.style.display === 'none' || repliesSection.style.display === '') {
+            repliesSection.style.display = 'block';
+        } else {
+            repliesSection.style.display = 'none';
+        }
+    }
+</script>
+<div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}">
+</div>
+</body>
 </html>

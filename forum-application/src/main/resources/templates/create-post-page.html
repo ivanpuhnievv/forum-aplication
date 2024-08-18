@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+
+</head>
+<body>
+<header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
+<main>
+    <!-- Centered section for creating a new post -->
+    <div class="section bg-primary text-dark section-lg d-flex justify-content-center align-items-center min-vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8 mx-auto">
+                    <div class="card shadow-inset bg-primary border-light p-4 rounded">
+                        <div class="card-body">
+                            <h2 class="mb-4 text-center">Create New Post</h2>
+                            <form th:action="@{/posts/create}" th:object="${post}" method="POST">
+                                <!-- Title -->
+                                <div class="form-group">
+                                    <label for="title" class="font-weight-bold">Title</label>
+                                    <input type="text" th:field="*{title}" class="form-control shadow-soft" id="title" name="title" placeholder="Enter post title" required>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="form-group">
+                                    <label for="content" class="font-weight-bold">Content</label>
+                                    <textarea th:field="*{content}" class="form-control shadow-soft" id="content" name="content" rows="5" placeholder="Enter post content" required></textarea>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="form-group">
+                                    <label for="tags" class="font-weight-bold">Tags</label>
+                                    <input type="text" th:field="*{tagsInput}" class="form-control shadow-soft" id="tags" placeholder="Enter tags, separated by commas">
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary shadow-soft border-light">Create Post</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="scripts" th:replace="~{/fragments/scripts.html :: scripts}"></div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.example.forumapplication.services.contracts;
 import com.example.forumapplication.models.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TagService {
 
@@ -16,5 +17,5 @@ public interface TagService {
 
     void delete(int id);
 
-
+    Set<Tag> findOrCreateTags(Set<Tag> tags);
 }

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -99,4 +100,9 @@ public class Post {
             }
         }
     }
+
+    public boolean likesContainUser(User user) {
+        return likes.contains(user);
+    }
+
 }

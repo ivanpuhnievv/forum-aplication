@@ -25,6 +25,10 @@ public class Comment {
     @JoinColumn(name = "created_by_id")
     private User createdBy;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post postId;
+
     @JsonProperty("createdBy")
     public String getCreatedByUsername() {
         return createdBy != null ? createdBy.getUsername() : null;
@@ -45,6 +49,13 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    @Column(nullable = false , name = "is_read")
+    private boolean isRead;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
 
     @PrePersist
     protected void onCreate() {
@@ -64,5 +75,7 @@ public class Comment {
         Comment comment = (Comment) o;
         return id == comment.id;
     }
+
+
 
 }
