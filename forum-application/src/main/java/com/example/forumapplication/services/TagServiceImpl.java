@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -43,5 +45,12 @@ public class TagServiceImpl implements TagService {
     @Override
     public void delete(int id) {
         tagRepository.deleteById(id);
+    }
+
+    @Override
+    public Set<Tag> findOrCreateTags(Set<Tag> tags) {
+        return tags.stream()
+                .map(tag -> tagRepository.findByName(tag.getName()).orElseGet(() -> tagRepository.save(tag)))
+                .collect(Collectors.toSet());
     }
 }

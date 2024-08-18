@@ -4,6 +4,7 @@ import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.mappers.PostMapper;
 import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
+import com.example.forumapplication.models.Tag;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.PostDto;
 import com.example.forumapplication.services.contracts.CommentService;
@@ -22,7 +23,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -121,23 +124,36 @@ public class PostsController extends BaseController {
         return "create-post-page";
     }
 
-       @PostMapping("/create")
-       public String createPost(@Valid PostDto postDto, BindingResult result,
-                                Model model,Principal principal) {
+    @PostMapping("/create")
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "create-post-page";
         }
 
+
+        postDto.setTags(convertStringToTags(postDto.getTagsInput()));
+
         try {
             Post post = postMapper.fromDto(postDto);
             postService.create(post);
-
             return "redirect:/posts";
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "create-post-page";
         }
+    }
+
+    private Set<Tag> convertStringToTags(String tagsInput) {
+        return Arrays.stream(tagsInput.split(","))
+                .map(String::trim)
+                .map(tagName -> {
+                    Tag tag = new Tag();
+                    tag.setName(tagName);
+                    // Optionally, you can look up existing tags in the database to avoid duplicates
+                    return tag;
+                })
+                .collect(Collectors.toSet());
     }
 
     @PostMapping("/{id}/like")

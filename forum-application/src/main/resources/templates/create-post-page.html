@@ -15,23 +15,23 @@
                     <div class="card shadow-inset bg-primary border-light p-4 rounded">
                         <div class="card-body">
                             <h2 class="mb-4 text-center">Create New Post</h2>
-                            <form th:action="@{/posts/create}" method="POST">
+                            <form th:action="@{/posts/create}" th:object="${post}" method="POST">
                                 <!-- Title -->
                                 <div class="form-group">
                                     <label for="title" class="font-weight-bold">Title</label>
-                                    <input type="text" class="form-control shadow-soft" id="title" name="title" placeholder="Enter post title" required>
+                                    <input type="text" th:field="*{title}" class="form-control shadow-soft" id="title" name="title" placeholder="Enter post title" required>
                                 </div>
 
                                 <!-- Content -->
                                 <div class="form-group">
                                     <label for="content" class="font-weight-bold">Content</label>
-                                    <textarea class="form-control shadow-soft" id="content" name="content" rows="5" placeholder="Enter post content" required></textarea>
+                                    <textarea th:field="*{content}" class="form-control shadow-soft" id="content" name="content" rows="5" placeholder="Enter post content" required></textarea>
                                 </div>
 
                                 <!-- Tags -->
                                 <div class="form-group">
                                     <label for="tags" class="font-weight-bold">Tags</label>
-                                    <input type="text" class="form-control shadow-soft" id="tags" name="tags" placeholder="Enter tags, separated by commas">
+                                    <input type="text" th:field="*{tagsInput}" class="form-control shadow-soft" id="tags" placeholder="Enter tags, separated by commas">
                                 </div>
 
                                 <!-- Submit Button -->
