@@ -33,18 +33,18 @@ import java.util.stream.IntStream;
 @RequestMapping("/posts")
 public class PostsController extends BaseController {
 
-        private final PostService postService;
-        private final UserService userService;
-        private final CommentService commentService;
-        private final PostMapper postMapper;
+    private final PostService postService;
+    private final UserService userService;
+    private final CommentService commentService;
+    private final PostMapper postMapper;
 
-        @Autowired
-        public PostsController(PostService postService, UserService userService, CommentService commentService, PostMapper postMapper) {
-            this.postService = postService;
-            this.userService = userService;
-            this.commentService = commentService;
-            this.postMapper = postMapper;
-        }
+    @Autowired
+    public PostsController(PostService postService, UserService userService, CommentService commentService, PostMapper postMapper) {
+        this.postService = postService;
+        this.userService = userService;
+        this.commentService = commentService;
+        this.postMapper = postMapper;
+    }
 
     @GetMapping
     public String listPosts(Model model) {
@@ -95,28 +95,28 @@ public class PostsController extends BaseController {
     }
 
 
-        // Контролер за добавяне на коментар към пост
-        @PostMapping("/{id}/comments/add")
-        public String addComment(@PathVariable int id, @RequestParam String comment, Principal principal) {
-            User user = userService.findUserByUsername(principal.getName());
-            Comment newComment = new Comment();
-            newComment.setContent(comment);
-            newComment.setCreatedBy(user);
+    // Контролер за добавяне на коментар към пост
+    @PostMapping("/{id}/comments/add")
+    public String addComment(@PathVariable int id, @RequestParam String comment, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        Comment newComment = new Comment();
+        newComment.setContent(comment);
+        newComment.setCreatedBy(user);
 //            postService.addCommentToPost(id, comment, user);
-            commentService.addComment(id,newComment);
-            return "redirect:/posts";
-        }
+        commentService.addComment(id, newComment);
+        return "redirect:/posts";
+    }
 
-        // Контролер за отговор на коментар
-        @PostMapping("/comments/{id}/reply")
-        public String replyToComment(@PathVariable int id, @RequestParam String replyContent,Principal principal) {
-            User user = userService.findUserByUsername(principal.getName());
-            Comment reply = new Comment();
-            reply.setContent(replyContent);
-            reply.setCreatedBy(user);
-            commentService.addReply(id,reply,user);
-            return "redirect:/posts";
-        }
+    // Контролер за отговор на коментар
+    @PostMapping("/comments/{id}/reply")
+    public String replyToComment(@PathVariable int id, @RequestParam String replyContent, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        Comment reply = new Comment();
+        reply.setContent(replyContent);
+        reply.setCreatedBy(user);
+        commentService.addReply(id, reply, user);
+        return "redirect:/posts";
+    }
 
 
     @GetMapping("/create")
@@ -156,12 +156,18 @@ public class PostsController extends BaseController {
                 })
                 .collect(Collectors.toSet());
     }
-
-    @PostMapping("/{id}/like")
-    public String likePost(@PathVariable int id,Principal principal) {
+    // Action for like/dislike and delete
+    @PostMapping("/{id}/action")
+    public String likePost(@PathVariable int id, Principal principal, @RequestParam("action") String action) {
+        if (action.equals("like")) {
             User user = userService.findUserByUsername(principal.getName());
-        postService.likePost(id,user);
+            postService.likePost(id, user);
+        } else if (action.equals("delete")) {
+            postService.delete(id);
+        }
+
         return "redirect:/posts";
     }
+
 
 }

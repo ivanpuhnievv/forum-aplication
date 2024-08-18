@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head ('My Posts')}">
 
 </head>
 <body>
@@ -65,14 +65,16 @@
                             </a>
                             <div class="d-flex align-items-center">
                                 <!-- Бутон за харесване -->
-                                <form th:action="@{/posts/{id}/like(id=${post.id})}" method="post" style="margin-right: 10px;">
-                                    <button type="submit" class="btn btn-link" style="padding: 0;">
+                                <form th:action="@{/posts/{id}/action(id=${post.id})}" method="post" style="margin-right: 10px;">
+                                    <button type="submit" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" name="action" value="delete" class="btn btn-danger">Delete Post</button>
+                                    <button type="submit" name="action" value="like" class="btn btn-link" style="padding: 0;">
                                         <i class="fas fa-thumbs-up"></i> Like
                                     </button>
                                 </form>
                                 <span>
                                     <span th:text="${post.getLikes()}">0</span> Likes
                                 </span>
+
                             </div>
                         </div>
 
@@ -87,6 +89,7 @@
                                         <textarea class="form-control" name="comment" placeholder="Write your reply..." rows="3"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Post Reply</button>
+
                                 </form>
                             </div>
                         </div>

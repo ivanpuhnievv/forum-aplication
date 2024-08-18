@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head ('Sign Up')}">
 
 </head>
 <body>
@@ -90,10 +90,6 @@
                                         </div>
                                         <!-- End of Form -->
                                         <div class="form-check mb-4">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck6">
-                                            <label class="form-check-label" for="defaultCheck6">
-                                                I agree to the <a href="#">terms and conditions</a>
-                                            </label>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-block btn-primary">Sign in</button>
@@ -102,10 +98,10 @@
                                     <span class="font-weight-normal">or</span>
                                 </div>
                                 <div class="btn-wrapper my-4 text-center">
-                                    <button class="btn btn-primary btn-icon-only text-facebook mr-2" type="button"
-                                            aria-label="facebook button" title="facebook button">
+                                    <button class="btn btn-primary btn-icon-only text-google mr-2" type="button"
+                                            aria-label="google button" title="google button">
                                         <img src="/images/icon.png" alt="Icon" style="width: 24px; height: 24px;">
-                                        <span aria-hidden="true" class="fab fa-facebook-f"></span>
+                                        <span aria-hidden="true" class="fab"></span>
                                     </button>
                                 </div>
                                 <div class="d-block d-sm-flex justify-content-center align-items-center mt-4">

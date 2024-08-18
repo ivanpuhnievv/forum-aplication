@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head id="main-head" th:fragment="main-head">
+<head id="main-head" th:fragment="main-head (pageTitle)" >
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Contact Us</title>
+    <title th:text="${pageTitle}">Default Title</title>
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
     <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{/vendor/fortawesome/fontawesome-free/css/all.min.css}" rel="stylesheet">
     <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
 </head>
