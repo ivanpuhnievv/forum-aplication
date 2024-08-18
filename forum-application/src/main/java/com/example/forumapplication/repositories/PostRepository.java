@@ -24,5 +24,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Query("SELECT p FROM Post p LEFT JOIN p.comments c GROUP BY p ORDER BY COUNT(c) DESC")
     Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable);
+
 }
 

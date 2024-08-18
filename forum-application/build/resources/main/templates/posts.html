@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>KAKASHAK</title>
-    <link type="text/css" href="/vendor/fortawesome/fontawesome-free/css/all.min.css" th:href="@{'/static/vendor/\@fortawesome/fontawesome-free/css/all.min.css'}" />
-    <link type="text/css" href="/static/css/neumorphism.css" th:href="@{/css/neumorphism.css}" rel="stylesheet">
-</head>
+<head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
+    <title>Posts</title>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
 
@@ -78,9 +75,11 @@
                             </a>
                             <div class="d-flex align-items-center">
                                 <!-- Бутон за харесване -->
-                                <form th:action="@{/posts/{id}/like(id=${post.id})}" method="post" style="margin-right: 10px;">
-                                    <button type="submit" class="btn btn-link" style="padding: 0;">
-                                        <i class="fas fa-thumbs-up"></i> Like
+                                <form th:action="@{/posts/{id}/action(id=${post.id})}" method="post" style="margin-right: 10px;">
+                                    <button type="submit" name="action" value="like" class="btn btn-link" style="padding: 0;">
+                                        <i class="fas"
+                                           th:classappend="${post.likesContainUser(loggedInUser)} ? 'fa-thumbs-down' : 'fa-thumbs-up'"></i>
+                                        <span th:text="${post.likesContainUser(loggedInUser)} ? 'Dislike' : 'Like'"></span>
                                     </button>
                                 </form>
                                 <span>
