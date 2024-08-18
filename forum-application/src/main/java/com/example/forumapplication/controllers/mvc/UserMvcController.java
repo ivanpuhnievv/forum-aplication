@@ -1,6 +1,5 @@
 package com.example.forumapplication.controllers.mvc;
 
-import com.example.forumapplication.config.MyUserPrincipal;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.User;
 import com.example.forumapplication.models.dtos.UserDto;
@@ -28,7 +27,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -73,7 +71,6 @@ public class UserMvcController extends BaseController {
     @GetMapping("/user/posts")
     public String getUserPosts(Model model,Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
-        commentService.markCommentAsRead(user);
         List<Post> posts = postService.findByCreatedBy_Id(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);

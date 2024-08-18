@@ -144,9 +144,12 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer px-0 mx-auto text-center" th:if="${userPostsSize>0}">
-              <button type="button" class="btn btn-primary">All Posts(<span th:text="${userPostsSize}"></span>)</button>
-            </div>
+        <div class="card-footer px-0 mx-auto text-center" th:if="${userPostsSize > 0}">
+          <button type="button" class="btn btn-primary"
+                  th:onclick="|window.location.href='@{/posts/filter(username=${user.username})}'|">
+            All Posts(<span th:text="${userPostsSize}"></span>)
+          </button>
+        </div>
           </div>
           <!-- End of User Profile Card -->
         </div>

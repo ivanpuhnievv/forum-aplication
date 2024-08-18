@@ -97,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void markCommentAsRead(User user) {
+    public void markCommentsAsRead(User user) {
         List<Comment> unreadComments = commentRepository.findUnreadCommentsByUser(user);
 
         // Маркирайте коментарите като прочетени
@@ -107,6 +107,13 @@ public class CommentServiceImpl implements CommentService {
 
         // Запазете промените в базата данни
         commentRepository.saveAll(unreadComments);
+    }
+
+    @Override
+    public void markCommentAsRead(int commentId) {
+        Comment comment = commentRepository.findCommentById(commentId);
+        comment.setRead(true);
+        commentRepository.save(comment);
     }
 
     public List<Comment> findUnreadCommentsByUserId(int userId) {

@@ -11,12 +11,27 @@
             </a>
 
             <th:block th:if="${#authentication.principal != null and unreadCommentsCount > 0}">
-                <button type="button" class="btn btn-primary"
-                        th:onclick="|window.location.href='@{/user/posts}'|" >
-                    Post replies <span class="badge badge-pill badge-success" th:text="${unreadCommentsCount}">5</span>
-                    <span class="sr-only">unread messages</span>
-                </button>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="unreadMessagesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Post replies <span class="badge badge-pill badge-success" th:text="${unreadCommentsCount}">5</span>
+                        <span class="sr-only">unread messages</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="unreadMessagesDropdown">
+                        <th:block th:each="comment : ${unreadComments}">
+                            <a class="dropdown-item" th:href="@{/posts/{postId}(postId=${comment.postId.getId}, commentId=${comment.id})}">
+                                <span th:text="${comment.content}">Sample comment</span>
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
             </th:block>
+<!--            <th:block th:if="${#authentication.principal != null and unreadCommentsCount > 0}">-->
+<!--                <button type="button" class="btn btn-primary"-->
+<!--                        th:onclick="|window.location.href='@{/user/posts}'|" >-->
+<!--                    Post replies <span class="badge badge-pill badge-success" th:text="${unreadCommentsCount}">5</span>-->
+<!--                    <span class="sr-only">unread messages</span>-->
+<!--                </button>-->
+<!--            </th:block>-->
 
 
             <!-- Hamburger button for smaller screens -->

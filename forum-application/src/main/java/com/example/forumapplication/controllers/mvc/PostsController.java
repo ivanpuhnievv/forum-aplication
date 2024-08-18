@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -167,6 +168,19 @@ public class PostsController extends BaseController {
         }
 
         return "redirect:/posts";
+    }
+
+    @GetMapping("/{id}")
+    public String showPostDetails(@PathVariable("id") int postId,
+                                  @RequestParam("commentId") int commentId,
+                                  Model model) {
+        Post post = postService.getById(postId);
+        commentService.markCommentAsRead(commentId);
+        List<Post> posts = new ArrayList<>();
+        posts.add(post);
+        model.addAttribute("post", post);
+        model.addAttribute("posts", posts);
+        return "myposts-page";
     }
 
 

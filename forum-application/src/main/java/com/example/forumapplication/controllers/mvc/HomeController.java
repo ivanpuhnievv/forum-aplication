@@ -44,6 +44,7 @@ public class HomeController extends BaseController{
             User user = userService.findUserByUsername(principal.getName());
             List<Comment> unreadComments = commentService.findUnreadCommentsByUserId(user.getId());
             model.addAttribute("unreadCommentsCount", unreadComments.size());
+            model.addAttribute("unreadComments", unreadComments);
         }
         model.addAttribute("active", "home");
         model.addAttribute("posts", posts);
