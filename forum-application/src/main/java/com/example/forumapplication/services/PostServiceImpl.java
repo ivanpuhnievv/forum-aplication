@@ -83,10 +83,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void likePost(int id) {
-        User user = getCurrentUser();
+    public void likePost(int id,User user) {
         Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post", id));
-        post.addLike(user);
+        if (post.likesContainUser(user)) {
+            post.removeLike(user);
+        } else {
+            post.addLike(user);
+        }
         postRepository.save(post);
     }
 
@@ -180,6 +183,9 @@ public class PostServiceImpl implements PostService {
     }
     public List<Post> findByCreatedBy_Id(int userId) {
         return postRepository.findByCreatedBy_Id(userId);
+    }
+    public Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable) {
+        return postRepository.findTop5ByOrderByCommentsDesc(pageable);
     }
 }
 

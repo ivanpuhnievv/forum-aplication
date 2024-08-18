@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head class="main-head" th:replace="~{/fragments/head.html :: main-head}">
-    <!-- Neumorphism UI CSS -->
-    <link href="https://cdn.jsdelivr.net/gh/themesberg/neumorphism-ui@1.0.0/dist/neumorphism-ui.css" rel="stylesheet">
+
 </head>
 <body>
 <header class="header1" th:replace="~{/fragments/navbar.html :: navBarMenu}"></header>
@@ -16,7 +15,7 @@
                     <div class="card shadow-inset bg-primary border-light p-4 rounded">
                         <div class="card-body">
                             <h2 class="mb-4 text-center">Create New Post</h2>
-                            <form action="/posts" method="POST">
+                            <form th:action="@{/posts/create}" method="POST">
                                 <!-- Title -->
                                 <div class="form-group">
                                     <label for="title" class="font-weight-bold">Title</label>

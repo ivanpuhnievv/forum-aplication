@@ -110,7 +110,7 @@ public class PostsController extends BaseController {
             Comment reply = new Comment();
             reply.setContent(replyContent);
             reply.setCreatedBy(user);
-            commentService.addReply(id,reply);
+            commentService.addReply(id,reply,user);
             return "redirect:/posts";
         }
 
@@ -122,13 +122,13 @@ public class PostsController extends BaseController {
     }
 
        @PostMapping("/create")
-       public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
+       public String createPost(@Valid PostDto postDto, BindingResult result,
+                                Model model,Principal principal) {
         if (result.hasErrors()) {
             return "create-post-page";
         }
 
         try {
-
             Post post = postMapper.fromDto(postDto);
             postService.create(post);
 
@@ -139,4 +139,12 @@ public class PostsController extends BaseController {
             return "create-post-page";
         }
     }
+
+    @PostMapping("/{id}/like")
+    public String likePost(@PathVariable int id,Principal principal) {
+            User user = userService.findUserByUsername(principal.getName());
+        postService.likePost(id,user);
+        return "redirect:/posts";
+    }
+
 }
