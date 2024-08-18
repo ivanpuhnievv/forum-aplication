@@ -66,9 +66,10 @@
                             <div class="d-flex align-items-center">
                                 <!-- Бутон за харесване -->
                                 <form th:action="@{/posts/{id}/action(id=${post.id})}" method="post" style="margin-right: 10px;">
-                                    <button type="submit" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" name="action" value="delete" class="btn btn-danger">Delete Post</button>
                                     <button type="submit" name="action" value="like" class="btn btn-link" style="padding: 0;">
-                                        <i class="fas fa-thumbs-up"></i> Like
+                                        <i class="fas"
+                                           th:classappend="${post.likesContainUser(loggedInUser)} ? 'fa-thumbs-down' : 'fa-thumbs-up'"></i>
+                                        <span th:text="${post.likesContainUser(loggedInUser)} ? 'Dislike' : 'Like'"></span>
                                     </button>
                                 </form>
                                 <span>
