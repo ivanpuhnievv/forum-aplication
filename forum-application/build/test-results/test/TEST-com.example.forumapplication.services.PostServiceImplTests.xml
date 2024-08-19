@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.services.PostServiceImplTests" tests="11" skipped="0" failures="0" errors="0" timestamp="2024-08-19T10:57:37" hostname="AlexanderMacbooks-MacBook-Air.local" time="0.667">
+  <properties/>
+  <testcase name="getById_Should_ReturnPost_WhenPostExists()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.63"/>
+  <testcase name="update_Should_SavePost_WhenUserIsAuthorized()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.005"/>
+  <testcase name="likePost_Should_RemoveLike_WhenAlreadyLiked()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.002"/>
+  <testcase name="removeLike_Should_RemoveLikeFromPost()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="getById_Should_ThrowEntityNotFoundException_WhenPostDoesNotExist()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="likePost_Should_AddLike_WhenNotAlreadyLiked()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="getAll_Should_ReturnAllPosts()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.002"/>
+  <testcase name="delete_Should_DeletePost_WhenUserIsAdmin()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.002"/>
+  <testcase name="create_Should_SetCurrentUserAsCreator()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.002"/>
+  <testcase name="update_Should_ThrowAuthorizationException_WhenUserIsNotAuthorized()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

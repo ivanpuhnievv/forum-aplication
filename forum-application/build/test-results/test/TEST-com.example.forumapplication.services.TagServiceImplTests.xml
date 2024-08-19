@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.services.TagServiceImplTests" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-08-19T10:57:44" hostname="AlexanderMacbooks-MacBook-Air.local" time="0.004">
+  <properties/>
+  <testcase name="create()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.0"/>
+  <testcase name="delete()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.001"/>
+  <testcase name="update()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.0"/>
+  <testcase name="getById_NotFound()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.001"/>
+  <testcase name="getById()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.0"/>
+  <testcase name="get()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.0"/>
+  <testcase name="findOrCreateTags()" classname="com.example.forumapplication.services.TagServiceImplTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
