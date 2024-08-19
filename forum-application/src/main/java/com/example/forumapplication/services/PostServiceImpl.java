@@ -135,7 +135,7 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
-    private void checkUserPermissions(int postId) {
+    public void checkUserPermissions(int postId) {
         User currentUser = getCurrentUser();
         Post post = postRepository.getById(postId);
         if(!(post.getCreatedBy().equals(currentUser))){
@@ -143,7 +143,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    private void checkAdminUserPermissions(int id) {
+    public void checkAdminUserPermissions(int id) {
        User currentUser = getCurrentUser();
        Post post = postRepository.getById(id);
        if(!(currentUser.getRole_id().getName().equalsIgnoreCase("ADMIN")) || !(post.getCreatedBy().equals(currentUser))){
@@ -151,7 +151,7 @@ public class PostServiceImpl implements PostService {
        }
     }
 
-    private User getCurrentUser(){
+    public User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByUsername(authentication.getName());
         return currentUser;
@@ -181,12 +181,15 @@ public class PostServiceImpl implements PostService {
     private Specification<Post> hasTitle(String title) {
         return (root, query, cb) -> cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
     }
+
     public List<Post> findByCreatedBy_Id(int userId) {
         return postRepository.findByCreatedBy_Id(userId);
     }
+
     public Page<Post> findTop5ByOrderByCommentsDesc(Pageable pageable) {
         return postRepository.findTop5ByOrderByCommentsDesc(pageable);
     }
+
     public Page<Post> findAllByUser(String usernameFilter, String emailFilter, String titleFilter, Pageable pageable) {
         Specification<Post> filters = Specification.where(
                         StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : hasUsername(usernameFilter))
