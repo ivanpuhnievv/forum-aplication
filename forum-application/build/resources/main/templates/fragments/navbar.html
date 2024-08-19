@@ -40,18 +40,15 @@
             </button>
 
             <!-- Collapsible navbar items -->
-            <div class="collapse navbar-collapse" id="navbar_global">
+            <div class="collapse navbar-collapse" id="navbar_global" >
                 <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-auto ">
                     <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:classappend="${active == 'home'} ? 'active' : ''"  th:href="@{/home}">Home</a>
                     </li>
-                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}">
+                    <li class="nav-item nav-pills rounded" th:if="${loggedInUser != null}" th:unless="${loggedInUser.isBanned == true}">
                         <a class="nav-link" th:classappend="${active == 'users'} ? 'active' : ''" th:href="@{/users}">Users</a>
                     </li>
-                    <li class="nav-item nav-pills rounded">
-                        <a class="nav-link" th:classappend="${active == 'about'} ? 'active' : ''" th:href="@{/about}">About</a>
-                    </li>
-                    <li class="nav-item dropdown nav-pills rounded" th:if="${loggedInUser != null}">
+                    <li class="nav-item dropdown nav-pills rounded" th:if="${loggedInUser != null}" th:unless="${loggedInUser.isBanned == true}">
                         <a class="nav-link dropdown-toggle" th:classappend="${active == 'posts'} ? 'active' : ''" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Posts
                         </a>
@@ -61,12 +58,16 @@
                             <a class="dropdown-item" th:href="@{/user/posts}">My Posts</a>
                         </div>
                     </li>
+
+                    <li class="nav-item nav-pills rounded">
+                        <a class="nav-link" th:classappend="${active == 'about'} ? 'active' : ''" th:href="@{/about}">About</a>
+                    </li>
                     <li class="nav-item nav-pills rounded">
                         <a class="nav-link" th:classappend="${active == 'contact'} ? 'active' : ''" th:href="@{/contact}">Contacts</a>
                     </li>
 
                     <!-- User Profile dropdown, included in the collapsible navbar -->
-                    <li class="nav-item dropdown" th:if="${loggedInUser != null}">
+                    <li class="nav-item dropdown" th:if="${loggedInUser != null}" >
                         <a href="#" class="nav-link dropdown-toggle" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img th:src="${loggedInUser.profilePhoto != null ? '/images/' + loggedInUser.profilePhoto : '/assets/img/team/cover-profile-2.jpg'}"
                                  class="rounded-circle "
@@ -85,6 +86,12 @@
                     </li>
                 </ul>
             </div>
+            <p th:if="${loggedInUser != null and loggedInUser.isBlocked == true}" style="color: red; font-size: 20px;">
+                You are blocked!
+            </p>
+            <p th:if="${loggedInUser != null and loggedInUser.isBanned == true}" style="color: red; font-size: 20px;">
+                You are banned!
+            </p>
         </div>
     </nav>
     <!-- Bootstrap and necessary scripts -->

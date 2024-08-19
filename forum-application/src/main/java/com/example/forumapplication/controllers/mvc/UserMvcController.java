@@ -156,6 +156,26 @@ public class UserMvcController extends BaseController {
         return "redirect:/users/" + userId;
     }
 
+    @PostMapping("/users/setModerator")
+    public String setModerator(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("ADMIN")) {
+            User userToPromote = userService.findUserById(userId);
+            userService.changeRole(userToPromote, userService.getRoleByName("MODERATOR"));
+        }
+        return "redirect:/users/" + userId;
+    }
+
+    @PostMapping("/users/setUser")
+    public String setUser(@RequestParam("userId") int userId, Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        if (user.getRole_id().getName().equals("ADMIN")) {
+            User userToPromote = userService.findUserById(userId);
+            userService.changeRole(userToPromote, userService.getRoleByName("USER"));
+        }
+        return "redirect:/users/" + userId;
+    }
+
     @PostMapping("/users/setBan")
     public String setBan(@RequestParam("userId") int userId, Principal principal,Model model) {
         User user = userService.findUserByUsername(principal.getName());
