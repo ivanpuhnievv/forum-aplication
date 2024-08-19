@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public class TestHelpers {
+
 public static User createMockUser(){
     var user = new User();
     user.setId(1);
