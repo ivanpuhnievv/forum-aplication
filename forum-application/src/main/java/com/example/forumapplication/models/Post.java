@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -105,4 +106,9 @@ public class Post {
         return likes.contains(user);
     }
 
+    public String getTagsAsString() {
+        return tags.stream()
+                .map(tag -> "#" + tag.getName())  // Добавяме хаштаг пред всяко име на таг
+                .collect(Collectors.joining(", "));
+    }
 }
