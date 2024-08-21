@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.services.PostServiceImplTests" tests="14" skipped="0" failures="5" errors="0" timestamp="2024-08-19T09:26:11" hostname="DESKTOP-JAFIPNM" time="1.331">
+  <properties/>
+  <testcase name="getById_Should_ReturnPost_WhenPostExists()" classname="com.example.forumapplication.services.PostServiceImplTests" time="1.229"/>
+  <testcase name="update_Should_SavePost_WhenUserIsAuthorized()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.011"/>
+  <testcase name="likePost_Should_RemoveLike_WhenAlreadyLiked()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.009"/>
+  <testcase name="removeLike_Should_RemoveLikeFromPost()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.005"/>
+  <testcase name="addTag_Should_AddTagToPost()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.012">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null
+	at com.example.forumapplication.services.PostServiceImpl.getCurrentUser(PostServiceImpl.java:156)
+	at com.example.forumapplication.services.PostServiceImpl.checkAdminUserPermissions(PostServiceImpl.java:147)
+	at com.example.forumapplication.services.PostServiceImpl.addTag(PostServiceImpl.java:107)
+	at com.example.forumapplication.services.PostServiceImplTests.addTag_Should_AddTagToPost(PostServiceImplTests.java:252)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="getById_Should_ThrowEntityNotFoundException_WhenPostDoesNotExist()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.007"/>
+  <testcase name="likePost_Should_AddLike_WhenNotAlreadyLiked()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.006"/>
+  <testcase name="changeTag_Should_UpdateTagOnPost()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.01">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null
+	at com.example.forumapplication.services.PostServiceImpl.getCurrentUser(PostServiceImpl.java:156)
+	at com.example.forumapplication.services.PostServiceImpl.checkAdminUserPermissions(PostServiceImpl.java:147)
+	at com.example.forumapplication.services.PostServiceImpl.changeTag(PostServiceImpl.java:131)
+	at com.example.forumapplication.services.PostServiceImplTests.changeTag_Should_UpdateTagOnPost(PostServiceImplTests.java:296)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="getAll_Should_ReturnAllPosts()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="deleteTag_Should_RemoveTagFromPost()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.005">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;java.util.Set.add(Object)&quot; because the return value of &quot;com.example.forumapplication.models.Tag.getPosts()&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;java.util.Set.add(Object)&quot; because the return value of &quot;com.example.forumapplication.models.Tag.getPosts()&quot; is null
+	at com.example.forumapplication.services.PostServiceImplTests.deleteTag_Should_RemoveTagFromPost(PostServiceImplTests.java:268)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="delete_Should_DeletePost_WhenUserIsAdmin()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.007">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null
+	at com.example.forumapplication.services.PostServiceImplTests.delete_Should_DeletePost_WhenUserIsAdmin(PostServiceImplTests.java:173)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="create_Should_SetCurrentUserAsCreator()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.003"/>
+  <testcase name="delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.002">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null
+	at com.example.forumapplication.services.PostServiceImplTests.delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin(PostServiceImplTests.java:156)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="update_Should_ThrowAuthorizationException_WhenUserIsNotAuthorized()" classname="com.example.forumapplication.services.PostServiceImplTests" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
