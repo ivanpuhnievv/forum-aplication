@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">14</div>
+<div class="counter">61</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">5</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.313s</div>
+<div class="counter">0.965s</div>
 <p>duration</p>
 </div>
 </td>
@@ -48,7 +48,7 @@
 </td>
 <td>
 <div class="infoBox failures" id="successRate">
-<div class="percent">64%</div>
+<div class="percent">95%</div>
 <p>successful</p>
 </div>
 </td>
@@ -71,24 +71,16 @@
 <h2>Failed tests</h2>
 <ul class="linkList">
 <li>
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">PostServiceImplTests</a>.
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html#addTag_Should_AddTagToPost()">addTag_Should_AddTagToPost()</a>
+<a href="classes/com.example.forumapplication.services.CommentServiceImplTests.html">CommentServiceImplTests</a>.
+<a href="classes/com.example.forumapplication.services.CommentServiceImplTests.html#addReply_AddsReplyToComment()">addReply_AddsReplyToComment()</a>
 </li>
 <li>
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">PostServiceImplTests</a>.
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html#changeTag_Should_UpdateTagOnPost()">changeTag_Should_UpdateTagOnPost()</a>
+<a href="classes/com.example.forumapplication.services.UserServiceImplTests.html">UserServiceImplTests</a>.
+<a href="classes/com.example.forumapplication.services.UserServiceImplTests.html#createUser_EncodesPasswordAndSetsRole()">createUser_EncodesPasswordAndSetsRole()</a>
 </li>
 <li>
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">PostServiceImplTests</a>.
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html#deleteTag_Should_RemoveTagFromPost()">deleteTag_Should_RemoveTagFromPost()</a>
-</li>
-<li>
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">PostServiceImplTests</a>.
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html#delete_Should_DeletePost_WhenUserIsAdmin()">delete_Should_DeletePost_WhenUserIsAdmin()</a>
-</li>
-<li>
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">PostServiceImplTests</a>.
-<a href="classes/com.example.forumapplication.services.PostServiceImplTests.html#delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()">delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()</a>
+<a href="classes/com.example.forumapplication.services.UserServiceImplTests.html">UserServiceImplTests</a>.
+<a href="classes/com.example.forumapplication.services.UserServiceImplTests.html#updateUser_UpdatesUser_WhenUserIsAuthorized()">updateUser_UpdatesUser_WhenUserIsAuthorized()</a>
 </li>
 </ul>
 </div>
@@ -107,14 +99,34 @@
 </thead>
 <tbody>
 <tr>
+<td class="success">
+<a href="packages/com.example.forumapplication.html">com.example.forumapplication</a>
+</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.012s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="packages/com.example.forumapplication.controllers.html">com.example.forumapplication.controllers</a>
+</td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+<td>0.095s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
 <td class="failures">
 <a href="packages/com.example.forumapplication.services.html">com.example.forumapplication.services</a>
 </td>
-<td>14</td>
-<td>5</td>
+<td>48</td>
+<td>3</td>
 <td>0</td>
-<td>1.313s</td>
-<td class="failures">64%</td>
+<td>0.858s</td>
+<td class="failures">93%</td>
 </tr>
 </tbody>
 </table>
@@ -134,14 +146,74 @@
 </thead>
 <tbody>
 <tr>
+<td class="success">
+<a href="classes/com.example.forumapplication.ForumApplicationTests.html">com.example.forumapplication.ForumApplicationTests</a>
+</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.012s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.forumapplication.controllers.AdminControllerTests.html">com.example.forumapplication.controllers.AdminControllerTests</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.086s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.forumapplication.controllers.UserControllerTests.html">com.example.forumapplication.controllers.UserControllerTests</a>
+</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0.009s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
 <td class="failures">
+<a href="classes/com.example.forumapplication.services.CommentServiceImplTests.html">com.example.forumapplication.services.CommentServiceImplTests</a>
+</td>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>0.056s</td>
+<td class="failures">85%</td>
+</tr>
+<tr>
+<td class="success">
 <a href="classes/com.example.forumapplication.services.PostServiceImplTests.html">com.example.forumapplication.services.PostServiceImplTests</a>
 </td>
-<td>14</td>
-<td>5</td>
+<td>11</td>
 <td>0</td>
-<td>1.313s</td>
-<td class="failures">64%</td>
+<td>0</td>
+<td>0.658s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.example.forumapplication.services.TagServiceImplTests.html">com.example.forumapplication.services.TagServiceImplTests</a>
+</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0.003s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/com.example.forumapplication.services.UserServiceImplTests.html">com.example.forumapplication.services.UserServiceImplTests</a>
+</td>
+<td>23</td>
+<td>2</td>
+<td>0</td>
+<td>0.141s</td>
+<td class="failures">91%</td>
 </tr>
 </tbody>
 </table>
@@ -154,7 +226,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.8</a> at Aug 19, 2024, 12:26:13 PM</p>
+<a href="http://www.gradle.org">Gradle 8.8</a> at Aug 19, 2024, 1:57:44 PM</p>
 </div>
 </div>
 </body>

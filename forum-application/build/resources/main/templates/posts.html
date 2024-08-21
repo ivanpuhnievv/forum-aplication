@@ -97,7 +97,7 @@
 
                         <!-- Форма за отговор на поста, скрита по подразбиране -->
                         <div class="mt-4">
-                            <button class="btn btn-link" th:onclick="'togglePostReplyForm(' + ${post.id} + ')'" style="padding: 0;">
+                            <button class="btn btn-link" th:unless="${loggedInUser.isBlocked == true}" th:onclick="'togglePostReplyForm(' + ${post.id} + ')'" style="padding: 0;">
                                 Reply to Post
                             </button>
                             <div th:id="'post-reply-form-' + ${post.id}" style="display: none; margin-top: 10px;">
@@ -120,7 +120,7 @@
                                             <p th:text="${comment.getContent()}">Comment content</p>
                                         </div>
                                         <!-- Бутон за отговор -->
-                                        <button class="btn btn-link" th:onclick="'toggleReplyForm(' + ${comment.id} + ')'" style="padding: 0;">
+                                        <button class="btn btn-link" th:unless="${loggedInUser.isBlocked == true}" th:onclick="'toggleReplyForm(' + ${comment.id} + ')'" style="padding: 0;">
                                             Reply
                                         </button>
                                     </div>

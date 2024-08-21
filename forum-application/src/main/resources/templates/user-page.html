@@ -48,7 +48,25 @@
                   </div>
                   <!-- end of error message -->
                   <input type="hidden" name="userId" th:value="${user.id}"/>
-                  <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}">SET ADMIN</button>
+                  <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}" th:unless="${user.role_id.name.equals('ADMIN')}">SET ADMIN</button>
+                </form>
+                <form th:action="@{/users/setModerator}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                <input type="hidden" name="userId" th:value="${user.id}"/>
+                <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}" th:unless="${user.role_id.name.equals('MODERATOR')}">SET MODERATOR</button>
+                </form>
+                <form th:action="@{/users/setUser}" method="post" th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                  <!-- error message -->
+                  <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}">Default error message if none is provided</p>
+                  </div>
+                  <!-- end of error message -->
+                  <input type="hidden" name="userId" th:value="${user.id}"/>
+                  <button type="submit" class="btn btn-primary" th:if="${loggedInUser.id != user.id}" th:unless="${user.role_id.name.equals('USER')}">SET USER</button>
                 </form>
                 <!-- Bann User -->
                 <form th:action="@{/users/setBan}" method="post"  th:title="${param.error}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and user.isBanned() == false}">

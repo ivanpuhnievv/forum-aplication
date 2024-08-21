@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.ForumApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-19T10:57:44" hostname="AlexanderMacbooks-MacBook-Air.local" time="0.012">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.forumapplication.ForumApplicationTests" time="0.012"/>
+  <system-out><![CDATA[13:57:38.678 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.forumapplication.ForumApplicationTests]: ForumApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:57:38.756 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.forumapplication.ForumApplication for test class com.example.forumapplication.ForumApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.2)
+
+2024-08-19T13:57:38.950+03:00  INFO 42730 --- [forum-application] [    Test worker] c.e.f.ForumApplicationTests              : Starting ForumApplicationTests using Java 17.0.11 with PID 42730 (started by alexandermacbook in /Users/alexandermacbook/Documents/GitHub/forum-aplication/forum-application)
+2024-08-19T13:57:38.950+03:00  INFO 42730 --- [forum-application] [    Test worker] c.e.f.ForumApplicationTests              : No active profile set, falling back to 1 default profile: "default"
+2024-08-19T13:57:39.441+03:00  INFO 42730 --- [forum-application] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-19T13:57:39.475+03:00  INFO 42730 --- [forum-application] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 5 JPA repository interfaces.
+2024-08-19T13:57:39.744+03:00  INFO 42730 --- [forum-application] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-19T13:57:39.771+03:00  INFO 42730 --- [forum-application] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-08-19T13:57:39.789+03:00  INFO 42730 --- [forum-application] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-19T13:57:39.838+03:00  INFO 42730 --- [forum-application] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-19T13:57:39.849+03:00  INFO 42730 --- [forum-application] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-19T13:57:40.287+03:00  INFO 42730 --- [forum-application] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@7e2e0b8a
+2024-08-19T13:57:40.289+03:00  INFO 42730 --- [forum-application] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-19T13:57:40.365+03:00  WARN 42730 --- [forum-application] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-08-19T13:57:40.819+03:00  INFO 42730 --- [forum-application] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-19T13:57:42.965+03:00  INFO 42730 --- [forum-application] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-19T13:57:43.269+03:00  INFO 42730 --- [forum-application] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-08-19T13:57:43.559+03:00  WARN 42730 --- [forum-application] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-19T13:57:43.577+03:00  INFO 42730 --- [forum-application] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name forumSystemUserDetails
+2024-08-19T13:57:43.669+03:00  INFO 42730 --- [forum-application] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-08-19T13:57:44.047+03:00  WARN 42730 --- [forum-application] [    Test worker] o.thymeleaf.templatemode.TemplateMode    : [THYMELEAF][Test worker] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2024-08-19T13:57:44.217+03:00  INFO 42730 --- [forum-application] [    Test worker] c.e.f.ForumApplicationTests              : Started ForumApplicationTests in 5.342 seconds (process running for 6.715)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

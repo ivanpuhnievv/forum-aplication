@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.forumapplication.services.UserServiceImplTests" tests="23" skipped="0" failures="2" errors="0" timestamp="2024-08-19T10:57:44" hostname="AlexanderMacbooks-MacBook-Air.local" time="0.145">
+  <properties/>
+  <testcase name="findUserById_ThrowsEntityNotFoundException_WhenUserDoesNotExist()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.042"/>
+  <testcase name="updateUser_ThrowsUnauthorizedException_WhenUserIsNotAuthorized()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.002"/>
+  <testcase name="createUser_EncodesPasswordAndSetsRole()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.005">
+    <failure message="org.mockito.exceptions.misusing.UnnecessaryStubbingException: &#10;Unnecessary stubbings detected.&#10;Clean &amp; maintainable test code requires zero unnecessary code.&#10;Following stubbings are unnecessary (click to navigate to relevant line of code):&#10;  1. -&gt; at com.example.forumapplication.services.UserServiceImplTests.createUser_EncodesPasswordAndSetsRole(UserServiceImplTests.java:83)&#10;  2. -&gt; at com.example.forumapplication.services.UserServiceImplTests.createUser_EncodesPasswordAndSetsRole(UserServiceImplTests.java:84)&#10;Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class." type="org.mockito.exceptions.misusing.UnnecessaryStubbingException">org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+Unnecessary stubbings detected.
+Clean &amp; maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -&gt; at com.example.forumapplication.services.UserServiceImplTests.createUser_EncodesPasswordAndSetsRole(UserServiceImplTests.java:83)
+  2. -&gt; at com.example.forumapplication.services.UserServiceImplTests.createUser_EncodesPasswordAndSetsRole(UserServiceImplTests.java:84)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at app//org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base@17.0.11/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.11/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="findUserByUsername_ThrowsEntityNotFoundException_WhenUserDoesNotExist()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="updateUser_UpdatesUser_WhenUserIsAuthorized()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001">
+    <failure message="org.mockito.exceptions.misusing.UnnecessaryStubbingException: &#10;Unnecessary stubbings detected.&#10;Clean &amp; maintainable test code requires zero unnecessary code.&#10;Following stubbings are unnecessary (click to navigate to relevant line of code):&#10;  1. -&gt; at com.example.forumapplication.services.UserServiceImplTests.updateUser_UpdatesUser_WhenUserIsAuthorized(UserServiceImplTests.java:295)&#10;  2. -&gt; at com.example.forumapplication.services.UserServiceImplTests.updateUser_UpdatesUser_WhenUserIsAuthorized(UserServiceImplTests.java:296)&#10;Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class." type="org.mockito.exceptions.misusing.UnnecessaryStubbingException">org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+Unnecessary stubbings detected.
+Clean &amp; maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -&gt; at com.example.forumapplication.services.UserServiceImplTests.updateUser_UpdatesUser_WhenUserIsAuthorized(UserServiceImplTests.java:295)
+  2. -&gt; at com.example.forumapplication.services.UserServiceImplTests.updateUser_UpdatesUser_WhenUserIsAuthorized(UserServiceImplTests.java:296)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at app//org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base@17.0.11/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.11/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="deleteUser_ThrowsEntityNotFoundException_WhenUserDoesNotExist()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="createUserWithRole_ThrowsEntityNotFoundException_WhenRoleDoesNotExist()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="authenticateUser_ReturnsTrue_WhenPasswordMatches()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="uploadPhoto_UpdatesUserPhoto_WhenUserIsAuthorized()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="createUserWithRole_ThrowsUnauthorizedException_WhenUserIsNotAdmin()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="deleteUser_DeletesUser_WhenUserIsAdmin()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="uploadPhoto_ThrowsUnauthorizedException_WhenUserIsNotAuthorized()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="unblockUser_ThrowsUnauthorizedException_WhenUserIsNotBlocked()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="blockUser_BlocksUser()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="findAll_ReturnsPageOfUsers()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.073"/>
+  <testcase name="findUserByEmail_ReturnsUser_WhenUserExists()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="authenticateUser_ReturnsFalse_WhenPasswordDoesNotMatch()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="deleteUser_ThrowsUnauthorizedException_WhenUserIsNotAuthorized()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="findUserByUsername_ReturnsUser_WhenUserExists()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="findUserByEmail_ThrowsEntityNotFoundException_WhenUserDoesNotExist()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="findUserById_ReturnsUser_WhenUserExists()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="unblockUser_UnblocksUser()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <testcase name="createUserWithRole_CreatesUser_WhenUserIsAdmin()" classname="com.example.forumapplication.services.UserServiceImplTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

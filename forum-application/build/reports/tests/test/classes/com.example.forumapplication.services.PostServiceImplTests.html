@@ -23,13 +23,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">14</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">5</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.313s</div>
+<div class="counter">0.658s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">64%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,82 +61,10 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
-</li>
-<li>
-<a href="#tab1">Tests</a>
+<a href="#tab0">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="addTag_Should_AddTagToPost()"></a>
-<h3 class="failures">addTag_Should_AddTagToPost()</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null
-	at com.example.forumapplication.services.PostServiceImpl.getCurrentUser(PostServiceImpl.java:156)
-	at com.example.forumapplication.services.PostServiceImpl.checkAdminUserPermissions(PostServiceImpl.java:147)
-	at com.example.forumapplication.services.PostServiceImpl.addTag(PostServiceImpl.java:107)
-	at com.example.forumapplication.services.PostServiceImplTests.addTag_Should_AddTagToPost(PostServiceImplTests.java:252)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="changeTag_Should_UpdateTagOnPost()"></a>
-<h3 class="failures">changeTag_Should_UpdateTagOnPost()</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Cannot invoke &quot;org.springframework.security.core.Authentication.getName()&quot; because &quot;authentication&quot; is null
-	at com.example.forumapplication.services.PostServiceImpl.getCurrentUser(PostServiceImpl.java:156)
-	at com.example.forumapplication.services.PostServiceImpl.checkAdminUserPermissions(PostServiceImpl.java:147)
-	at com.example.forumapplication.services.PostServiceImpl.changeTag(PostServiceImpl.java:131)
-	at com.example.forumapplication.services.PostServiceImplTests.changeTag_Should_UpdateTagOnPost(PostServiceImplTests.java:296)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="deleteTag_Should_RemoveTagFromPost()"></a>
-<h3 class="failures">deleteTag_Should_RemoveTagFromPost()</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Cannot invoke &quot;java.util.Set.add(Object)&quot; because the return value of &quot;com.example.forumapplication.models.Tag.getPosts()&quot; is null
-	at com.example.forumapplication.services.PostServiceImplTests.deleteTag_Should_RemoveTagFromPost(PostServiceImplTests.java:268)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="delete_Should_DeletePost_WhenUserIsAdmin()"></a>
-<h3 class="failures">delete_Should_DeletePost_WhenUserIsAdmin()</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null
-	at com.example.forumapplication.services.PostServiceImplTests.delete_Should_DeletePost_WhenUserIsAdmin(PostServiceImplTests.java:173)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()"></a>
-<h3 class="failures">delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()</h3>
-<span class="code">
-<pre>java.lang.NullPointerException: Cannot invoke &quot;com.example.forumapplication.models.Role.setName(String)&quot; because the return value of &quot;com.example.forumapplication.models.User.getRole_id()&quot; is null
-	at com.example.forumapplication.services.PostServiceImplTests.delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin(PostServiceImplTests.java:156)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -147,73 +75,58 @@
 </tr>
 </thead>
 <tr>
-<td class="failures">addTag_Should_AddTagToPost()</td>
-<td class="failures">0.012s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">changeTag_Should_UpdateTagOnPost()</td>
-<td class="failures">0.010s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
 <td class="success">create_Should_SetCurrentUserAsCreator()</td>
 <td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">deleteTag_Should_RemoveTagFromPost()</td>
-<td class="failures">0.005s</td>
-<td class="failures">failed</td>
+<td class="success">delete_Should_DeletePost_WhenUserIsAdmin()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">delete_Should_DeletePost_WhenUserIsAdmin()</td>
-<td class="failures">0.007s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()</td>
-<td class="failures">0.002s</td>
-<td class="failures">failed</td>
+<td class="success">delete_Should_ThrowAuthorizationException_WhenUserIsNotAdmin()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAll_Should_ReturnAllPosts()</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getById_Should_ReturnPost_WhenPostExists()</td>
-<td class="success">1.229s</td>
+<td class="success">0.630s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getById_Should_ThrowEntityNotFoundException_WhenPostDoesNotExist()</td>
-<td class="success">0.007s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">likePost_Should_AddLike_WhenNotAlreadyLiked()</td>
-<td class="success">0.006s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">likePost_Should_RemoveLike_WhenAlreadyLiked()</td>
-<td class="success">0.009s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">removeLike_Should_RemoveLikeFromPost()</td>
-<td class="success">0.005s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">update_Should_SavePost_WhenUserIsAuthorized()</td>
-<td class="success">0.011s</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">update_Should_ThrowAuthorizationException_WhenUserIsNotAuthorized()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -226,7 +139,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.8</a> at Aug 19, 2024, 12:26:13 PM</p>
+<a href="http://www.gradle.org">Gradle 8.8</a> at Aug 19, 2024, 1:57:44 PM</p>
 </div>
 </div>
 </body>
