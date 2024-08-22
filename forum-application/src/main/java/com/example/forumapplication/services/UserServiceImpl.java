@@ -20,7 +20,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.example.forumapplication.filters.specifications.UserSpecifications.*;
 
@@ -75,6 +77,35 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User", "username", username);
         }
         return user;
+    }
+
+    public void processOAuthPostLogin(String email, String username) {
+        User existUser = userRepository.findByEmail(email);
+
+        if (existUser == null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setUsername(username);
+           try {
+               checkUsernameUnique(newUser);
+           } catch (EntityDuplicateException e) {
+             String uniqueUsername = setUserNameUnique(username);
+               newUser.setUsername(uniqueUsername);
+           }
+            Role role = roleRepository.findByName("USER");
+            newUser.setRole_id(role);
+            userRepository.save(newUser);
+        }
+    }
+
+    private String setUserNameUnique(String username) {
+        String newUsername = username;
+        int i = 1;
+        while (userRepository.findByUsername(newUsername) != null) {
+            newUsername = username + i;
+            i++;
+        }
+        return newUsername;
     }
 
     public boolean authenticateUser(String rawPassword, String storedHashedPassword) {

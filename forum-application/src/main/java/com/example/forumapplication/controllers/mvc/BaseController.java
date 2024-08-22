@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -19,8 +20,14 @@ public class BaseController {
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return convertToUser(userDetails);
+            if (authentication.getPrincipal() instanceof OAuth2User) {
+                String email = ((OAuth2User) authentication.getPrincipal()).getAttribute("email");
+                return userService.findUserByEmail(email);
+
+            } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+                String username = userDetails.getUsername();
+                return convertToUser(userDetails);
+            }
         }
         return null;
     }
