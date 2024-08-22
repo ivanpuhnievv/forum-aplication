@@ -43,6 +43,11 @@
                             <h3 class="font-weight-bold" th:text="${post.getTitle()}">Post Title</h3>
                             <p class="font-weight-light" th:text="'By ' + ${post.getCreatedBy().getUsername()}">Created By</p>
                         </div>
+                        <form th:action="@{/posts/{id}/action(id=${post.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                            <button type="submit" name="action" value="delete" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Delete Post
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <!-- Край на Заглавие на поста -->

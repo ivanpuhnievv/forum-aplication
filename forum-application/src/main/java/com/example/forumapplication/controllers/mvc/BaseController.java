@@ -1,6 +1,7 @@
 package com.example.forumapplication.controllers.mvc;
 
 import com.example.forumapplication.models.User;
+import com.example.forumapplication.security.CustomOAuth2User;
 import com.example.forumapplication.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,13 +21,11 @@ public class BaseController {
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            if (authentication.getPrincipal() instanceof OAuth2User) {
-                String email = ((OAuth2User) authentication.getPrincipal()).getAttribute("email");
-                return userService.findUserByEmail(email);
-
-            } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-                String username = userDetails.getUsername();
-                return convertToUser(userDetails);
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                return convertToUser((UserDetails) authentication.getPrincipal());
+            } else if (authentication.getPrincipal() instanceof OAuth2User) {
+               ((OAuth2User) authentication.getPrincipal()).getName();
+                return convertToUser(((OAuth2User) authentication.getPrincipal()).getAttribute("email").toString());
             }
         }
         return null;
@@ -40,4 +39,14 @@ public class BaseController {
         // Добавете другите полета, които са необходими
         return user;
     }
+
+    private User convertToUser(String email) {
+        // Създайте нов User и задайте необходимите полета на базата на UserDetails
+        User user = new User();
+        user = userService.findUserByEmail(email);
+
+        // Добавете другите полета, които са необходими
+        return user;
+    }
+
 }

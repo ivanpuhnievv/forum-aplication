@@ -159,7 +159,7 @@ public class PostsController extends BaseController {
     }
     // Action for like/dislike and delete
     @PostMapping("/{id}/action")
-    public String likePost(@PathVariable int id, Principal principal, @RequestParam("action") String action) {
+    public String likeOrDeletePost(@PathVariable int id, Principal principal, @RequestParam("action") String action) {
         if (action.equals("like")) {
             User user = userService.findUserByUsername(principal.getName());
             postService.likePost(id, user);
@@ -174,7 +174,12 @@ public class PostsController extends BaseController {
     public String showPostDetails(@PathVariable("id") int postId,
                                   @RequestParam("commentId") int commentId,
                                   Model model) {
-        Post post = postService.getById(postId);
+        Post post = new Post();
+        if (postId == -1){
+            post = commentService.findPostByCommentId(commentId);
+        } else{
+            post = postService.getById(postId);
+        }
         commentService.markCommentAsRead(commentId);
         List<Post> posts = new ArrayList<>();
         posts.add(post);

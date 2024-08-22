@@ -3,6 +3,7 @@ package com.example.forumapplication.services;
 import com.example.forumapplication.exceptions.AuthorizationException;
 import com.example.forumapplication.exceptions.EntityNotFoundException;
 import com.example.forumapplication.mappers.TagMapper;
+import com.example.forumapplication.models.Comment;
 import com.example.forumapplication.models.Post;
 import com.example.forumapplication.models.Tag;
 import com.example.forumapplication.models.User;
@@ -145,8 +146,10 @@ public class PostServiceImpl implements PostService {
 
     public void checkAdminUserPermissions(int id) {
        User currentUser = getCurrentUser();
-       Post post = postRepository.getById(id);
-       if(!(currentUser.getRole_id().getName().equalsIgnoreCase("ADMIN")) || !(post.getCreatedBy().equals(currentUser))){
+       Post post = postRepository.getPostById(id);
+       int postId = post.getCreatedBy().getId();
+       int currentUserId = currentUser.getId();
+       if(postId != currentUserId && !currentUser.getRole_id().getName().equals("ADMIN")){
            throw new AuthorizationException(MODIFY_POST_ERROR_MESSAGE);
        }
     }
@@ -198,6 +201,7 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.findAll(filters, pageable);
     }
+
 }
 
 

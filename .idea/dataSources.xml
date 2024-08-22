@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="ForumSystem@forumsystem.cpy86y2sqlgo.eu-north-1.rds.amazonaws.com" uuid="c46e330e-5d1c-41cc-8f78-15e1e5057906">
+    <data-source source="LOCAL" name="ForumSystem@forumsystem.cpy86y2sqlgo.eu-north-1.rds.amazonaws.com" uuid="bba8eab8-be15-4b52-9e28-da1d7a6d6469">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

@@ -20,4 +20,5 @@ public interface CommentService {
     List<Comment> findUnreadCommentsByUserId(int userId);
     void markCommentsAsRead(User user);
     public void markCommentAsRead(int commentId);
+    Post findPostByCommentId(int id);
 }

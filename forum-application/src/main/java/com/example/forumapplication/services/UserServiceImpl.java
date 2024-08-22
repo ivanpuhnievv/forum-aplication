@@ -86,6 +86,8 @@ public class UserServiceImpl implements UserService {
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setUsername(username);
+            newUser.setBanned(false);
+            newUser.setBlocked(false);
            try {
                checkUsernameUnique(newUser);
            } catch (EntityDuplicateException e) {
