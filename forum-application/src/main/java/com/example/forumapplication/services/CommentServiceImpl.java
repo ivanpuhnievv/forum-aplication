@@ -84,7 +84,7 @@ public class CommentServiceImpl implements CommentService {
 //        return commentRepository.save(commentToReply);
     }
 
-    private Post findPostByCommentId(int id) {
+    public Post findPostByCommentId(int id) {
         Comment comment = commentRepository.findCommentById(id);
         while (true) {
             if (comment.getPostId() == null) {

@@ -18,7 +18,8 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="unreadMessagesDropdown">
                         <th:block th:each="comment : ${unreadComments}">
-                            <a class="dropdown-item" th:href="@{/posts/{postId}(postId=${comment.postId.getId}, commentId=${comment.id})}">
+                            <a class="dropdown-item"
+                               th:href="@{/posts/{postId}(postId=${comment.postId != null ? comment.postId.getId() : -1}, commentId=${comment.id})}">
                                 <span th:text="${comment.content}">Sample comment</span>
                             </a>
                         </th:block>

@@ -37,4 +37,6 @@ public interface UserService {
     void changeRole(User user, Role role);
 
     Role getRoleByName(String name);
+
+    void processOAuthPostLogin(String email,String Username);
 }

@@ -79,8 +79,9 @@ public class UserMvcController extends BaseController {
 
     @PostMapping("/users/photo")
     public String uploadProfilePhoto(@RequestParam("profilePhoto") MultipartFile file,
-                                     @AuthenticationPrincipal UserDetails loggedInUser,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes,Principal principal) {
+
+        User loggedInUser = userService.findUserByUsername(principal.getName());
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
