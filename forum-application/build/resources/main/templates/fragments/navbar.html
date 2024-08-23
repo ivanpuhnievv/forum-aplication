@@ -6,8 +6,8 @@
     <nav id="navbar-main" th:fragment="navBarMenu" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light">
         <div class="container position-relative">
             <a class="navbar-brand shadow-soft rounded border border-light mr-lg-4" th:href="@{/home}" style="display: flex; justify-content: center; align-items: center; padding: 0; width: 50px; height: 50px; overflow: hidden;">
-                <img class="navbar-brand-dark" th:src="@{/images/RAI-icon.pn}" alt="Logo light" style="width: 100%; height: 100%; object-fit: cover;">
-                <img class="navbar-brand-light" th:src="@{/images/RAI-icon.pn}" alt="Logo dark" style="width: 100%; height: 100%; object-fit: cover;">
+                <img class="navbar-brand-dark" th:src="@{/images/RAI-icon.png}" alt="Logo light" style="width: 100%; height: 100%; object-fit: cover;">
+                <img class="navbar-brand-light" th:src="@{/images/RAI-icon.png}" alt="Logo dark" style="width: 100%; height: 100%; object-fit: cover;">
             </a>
 
             <th:block th:if="${#authentication.principal != null and unreadCommentsCount > 0}">

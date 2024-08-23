@@ -126,14 +126,22 @@ public class UserMvcController extends BaseController {
     @PostMapping("/users/delete")
     public String deleteUser(@RequestParam("userId") int userId,
                              @AuthenticationPrincipal UserDetails loggedInUser,
-                             RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes,Principal principal) {
         User user = userService.findUserById(userId);
-        User currentUser = userService.findUserByUsername(loggedInUser.getUsername());
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("error", "User not found.");
+            return "redirect:/home";
+        }
 
+        User currentUser = userService.findUserByUsername(principal.getName());
+        if (currentUser == null) {
+            redirectAttributes.addFlashAttribute("error", "Current user not found.");
+            return "redirect:/home";
+        }
         if (currentUser.getId() == user.getId() || currentUser.getRole_id().getName().equals("ADMIN")) {
             userService.deleteUser(userId);
             redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
-            return "redirect:/home";
+            return "redirect:/auth/logout";
         } else {
             redirectAttributes.addFlashAttribute("error", "You are not authorized to delete this profile.");
             return "redirect:/users/" + userId;
